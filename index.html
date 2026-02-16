@@ -205,16 +205,17 @@
             background: #e0f0e0;
         }
 
-        /* footer bar – 4 boxes, no icons */
+        /* ===== FOOTER BAR – transparent, inline, with small icons ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
-            background: #1c4b2d;
+            align-items: center;
+            background: transparent;        /* fully transparent */
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
-            border-radius: 0 0 24px 24px;
+            border-top: 1px solid #1c4b2d;  /* subtle separation */
             gap: 0.3rem;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;              /* force single line */
         }
         .footer-item {
             display: flex;
@@ -223,11 +224,19 @@
             cursor: pointer;
             padding: 0.3rem 0.5rem;
             min-width: 70px;
-            color: white;
+            color: #1c4b2d;                  /* dark green text */
             border-radius: 12px;
             font-weight: 600;
+            transition: background 0.1s;
         }
-        .footer-item:hover { background: #316f44; }
+        .footer-item i {
+            font-size: 1.2rem;               /* small icon */
+            margin-bottom: 2px;
+            color: #1c4b2d;
+        }
+        .footer-item:hover {
+            background: rgba(28, 75, 45, 0.1); /* subtle hover */
+        }
 
         /* animated welcome overlay */
         .animation-overlay {
@@ -262,7 +271,7 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
-        /* ===== 7‑box layout for HD, PQ, COURSES ===== */
+        /* 7‑box layout for HD, PQ, COURSES */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
@@ -297,15 +306,6 @@
         }
         .price-box:nth-child(even) {
             background: #f0faf0;
-        }
-
-        /* empty page (no longer used for courses, but kept for reference) */
-        .empty-page {
-            min-height: 200px;
-            background: #ffffff;
-            border: 2px dashed #1c4b2d;
-            border-radius: 30px;
-            margin: 1rem 0;
         }
     </style>
 </head>
@@ -390,12 +390,24 @@
     <!-- message area -->
     <div id="authMessage" class="message"></div>
 
-    <!-- FOOTER BAR (no icons) -->
+    <!-- FOOTER BAR – transparent, inline, with small icons -->
     <div class="footer-bar">
-        <div class="footer-item" onclick="handleFooterClick('dashboard')">DASHBOARD</div>
-        <div class="footer-item" onclick="handleFooterClick('hd')">HD</div>
-        <div class="footer-item" onclick="handleFooterClick('pq')">PQ</div>
-        <div class="footer-item" onclick="handleFooterClick('courses')">COURSES</div>
+        <div class="footer-item" onclick="handleFooterClick('dashboard')">
+            <i class="fa-solid fa-book-open"></i>
+            <span>DASHBOARD</span>
+        </div>
+        <div class="footer-item" onclick="handleFooterClick('hd')">
+            <i class="fa-solid fa-book"></i>
+            <span>HD</span>
+        </div>
+        <div class="footer-item" onclick="handleFooterClick('pq')">
+            <i class="fa-solid fa-bookmark"></i>
+            <span>PQ</span>
+        </div>
+        <div class="footer-item" onclick="handleFooterClick('courses')">
+            <i class="fa-solid fa-books"></i>
+            <span>COURSES</span>
+        </div>
     </div>
 </div>
 
@@ -480,7 +492,6 @@
                 dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
                 renderDashboardRecords();
                 clearMessage();
-                // hide any dynamic page
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
             }, 1500);
@@ -579,7 +590,7 @@
             dynamicContainer.innerHTML = '';
         };
 
-        // Helper to generate 7 boxes (like price ladder)
+        // Helper to generate 7 boxes
         function renderSevenBoxes(title) {
             const boxes = [];
             for (let i = 1; i <= 7; i++) {
@@ -606,13 +617,11 @@
                 showMessage('🔒 Please log in first', false);
                 return;
             }
-            // Hide dashboard and show dynamic container
             dashboardPanel.classList.remove('active-panel');
             tabContainer.style.display = 'none';
             dynamicContainer.style.display = 'block';
 
             if (section === 'dashboard') {
-                // Show dashboard
                 dashboardPanel.classList.add('active-panel');
                 dynamicContainer.style.display = 'none';
                 globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
@@ -623,7 +632,6 @@
                 dynamicContainer.innerHTML = renderSevenBoxes('PQ');
                 globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes';
             } else if (section === 'courses') {
-                // COURSES now also shows 7 boxes
                 dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
                 globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes';
             }
