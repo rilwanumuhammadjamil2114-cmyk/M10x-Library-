@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-library · white & dark green</title>
-    <!-- Font Awesome 6 (free) for the library icon -->
+    <title>M10x-liabrary · signup & storage</title>
+    <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -20,50 +20,47 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(145deg, #e9f3e6 0%, #c8dbc1 100%);
-            /* soft green background to complement dark green & white theme */
             padding: 1rem;
         }
 
-        /* main white card with subtle dark green accents */
-        .login-card {
+        /* main white card */
+        .signup-card {
             background-color: #ffffff;
             width: 100%;
-            max-width: 420px;
-            padding: 2.5rem 2rem 2.8rem 2rem;
+            max-width: 480px;
+            padding: 2.2rem 2rem 2.5rem 2rem;
             border-radius: 36px;
-            box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35),
-                        0 2px 0 0 #e1f0da inset; /* very faint inner light */
-            border: 1px solid #c0ddb5; /* soft green border */
+            box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35);
+            border: 1px solid #c0ddb5;
             transition: transform 0.2s ease;
         }
 
-        .login-card:hover {
-            transform: scale(1.01);
+        .signup-card:hover {
+            transform: scale(1.005);
             box-shadow: 0 30px 45px -10px #1e4a2e55;
         }
 
-        /* ----- library icon + name (M10x-liabrary) ----- */
+        /* ----- library icon + M10x-liabrary ----- */
         .library-header {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 2rem;
-            color: #1c4b2d; /* dark green for text */
+            margin-bottom: 1.8rem;
+            color: #1c4b2d;
         }
 
         .icon-circle {
-            background-color: #1c4b2d; /* dark green background */
+            background-color: #1c4b2d;
             width: 80px;
             height: 80px;
-            border-radius: 30px 30px 30px 10px; /* soft library / book-like shape */
+            border-radius: 30px 30px 30px 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 12px;
             box-shadow: 0 12px 16px -8px #1c4b2d80;
             border: 2px solid #e6ffe6;
-            transition: 0.2s;
         }
 
         .icon-circle i {
@@ -72,12 +69,10 @@
             filter: drop-shadow(2px 4px 4px #0f2b1a);
         }
 
-        /* stylised "M10x-liabrary" – notice the intentional spelling (liabrary) as requested */
         .library-header h1 {
             font-size: 2.1rem;
             font-weight: 600;
             letter-spacing: -0.5px;
-            word-break: break-word;
             text-align: center;
             background: linear-gradient(130deg, #154f26, #246b3b);
             -webkit-background-clip: text;
@@ -90,21 +85,19 @@
             padding-bottom: 0.2rem;
         }
 
-        /* hint text */
         .header-hint {
             font-size: 0.95rem;
             color: #347a45;
             margin-top: 6px;
-            font-weight: 400;
             background: #f0f9ec;
-            padding: 0.2rem 1rem;
+            padding: 0.2rem 1.2rem;
             border-radius: 40px;
             display: inline-block;
         }
 
-        /* form elements */
+        /* form labels */
         .input-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.4rem;
         }
 
         .input-label {
@@ -112,10 +105,9 @@
             align-items: center;
             gap: 8px;
             font-weight: 500;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             color: #0f3b1e;
             font-size: 1rem;
-            letter-spacing: 0.3px;
         }
 
         .input-label i {
@@ -124,19 +116,18 @@
             font-size: 1.1rem;
         }
 
-        /* white fields with dark green border & subtle shadow */
         .input-field {
             width: 100%;
-            padding: 0.9rem 1.2rem;
+            padding: 0.85rem 1.2rem;
             background-color: white;
             border: 2px solid #9fc0a5;
             border-radius: 28px;
-            font-size: 1.05rem;
+            font-size: 1rem;
             outline: none;
             transition: all 0.15s;
             color: #1a3a24;
             font-weight: 500;
-            box-shadow: inset 0 3px 8px #f1f9ee, 0 2px 3px #cce3d1;
+            box-shadow: inset 0 3px 8px #f1f9ee;
         }
 
         .input-field:focus {
@@ -147,158 +138,350 @@
         .input-field::placeholder {
             color: #83a78b;
             font-weight: 300;
-            font-size: 0.95rem;
         }
 
-        /* passkey hint (optional) */
         .hint-text {
             text-align: right;
             font-size: 0.8rem;
-            margin-top: 6px;
+            margin-top: 4px;
             color: #4f8b5e;
-            opacity: 0.8;
         }
 
-        /* action button — dark green, white text */
-        .login-btn {
+        /* row for admission + extra field (if needed) */
+        .double-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .double-row .input-group {
+            flex: 1 1 160px;
+        }
+
+        /* signup button — dark green */
+        .signup-btn {
             background-color: #1d542d;
             color: white;
             width: 100%;
             padding: 1rem;
             border: none;
             border-radius: 40px;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin: 2.2rem 0 1rem 0;
+            margin: 1.2rem 0 0.8rem 0;
             cursor: pointer;
             box-shadow: 0 14px 18px -8px #1b4f29;
             transition: 0.15s;
             border: 1px solid #c4e6c4;
-            letter-spacing: 1px;
         }
 
-        .login-btn i {
-            font-size: 1.2rem;
-            transition: transform 0.2s;
-        }
-
-        .login-btn:hover {
+        .signup-btn:hover {
             background-color: #0f421f;
             box-shadow: 0 18px 22px -8px #143f1f;
             transform: translateY(-3px);
         }
 
-        .login-btn:hover i {
-            transform: translateX(5px);
-        }
-
-        .login-btn:active {
+        .signup-btn:active {
             background-color: #0a3117;
             transform: translateY(2px);
             box-shadow: 0 6px 12px -6px #0c2f15;
         }
 
-        /* additional link / footer (optional but fits design) */
+        /* table / record section */
+        .records-section {
+            margin-top: 2.2rem;
+            background: #f4faf2;
+            border-radius: 28px;
+            padding: 1.3rem 1.2rem 1rem 1.2rem;
+            border: 1px solid #b1d3b6;
+        }
+
+        .records-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+            color: #1b562b;
+            font-weight: 600;
+            font-size: 1.15rem;
+        }
+        .records-header i {
+            background: #1c4b2d;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.1s;
+            border: 1px solid white;
+        }
+        .records-header i:hover {
+            background: #0f381d;
+        }
+
+        .record-item {
+            background: white;
+            border-radius: 40px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 10px;
+            border-left: 6px solid #1c4b2d;
+            box-shadow: 0 3px 8px #d0e4d0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            word-break: break-word;
+        }
+
+        .record-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            color: #1f4429;
+        }
+        .record-info strong {
+            color: #0b4a1f;
+            min-width: 70px;
+        }
+        .delete-icon {
+            color: #a54836;
+            background: #ffe6e1;
+            padding: 8px 10px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.1s;
+            font-size: 0.9rem;
+            border: 1px solid #f3bfb0;
+        }
+        .delete-icon:hover {
+            background: #d32f2f;
+            color: white;
+            border-color: #b71c1c;
+        }
+
+        .no-records {
+            color: #6a9072;
+            font-style: italic;
+            padding: 0.5rem 0.5rem 0.3rem 0.5rem;
+            text-align: center;
+        }
+
         .footer-links {
             display: flex;
             justify-content: space-between;
-            margin-top: 1.8rem;
+            margin-top: 1.2rem;
             font-size: 0.9rem;
-            color: #347545;
-            border-top: 1px dashed #bcd5c0;
-            padding-top: 1rem;
         }
-
         .footer-links a {
             color: #1c5e2d;
             text-decoration: none;
             font-weight: 500;
             background: #e2f0de;
-            padding: 0.4rem 0.9rem;
+            padding: 0.4rem 1rem;
             border-radius: 50px;
-            transition: 0.1s;
             border: 1px solid #b1d7b8;
         }
-
         .footer-links a:hover {
             background: #cae9d1;
-            color: #0d381b;
-            border-color: #529465;
         }
 
-        /* tiny extra: admission number icon / note */
-        .demo-note {
+        .small-note {
             background: #eef9ea;
             color: #266339;
             border-radius: 30px;
             padding: 0.3rem 1rem;
             text-align: center;
             font-size: 0.85rem;
-            margin-top: 1rem;
+            margin: 1rem 0 0 0;
             border: 1px solid #a6d4b2;
-        }
-
-        /* ensure dark green elements pop */
-        i.fa-solid, i.fa-regular {
-            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <!-- Library icon + "M10x-liabrary" (spelling exactly as requested) -->
+    <div class="signup-card">
+        <!-- library icon + M10x-liabrary (exact spelling) -->
         <div class="library-header">
             <div class="icon-circle">
-                <i class="fas fa-landmark"></i> <!-- library / landmark icon -->
+                <i class="fas fa-landmark"></i>
             </div>
             <h1>M10x-liabrary</h1>
-            <span class="header-hint"><i class="fa-regular fa-bookmark"></i> digital reading · secure access</span>
+            <span class="header-hint"><i class="fa-regular fa-pen-to-square"></i> create account · data stored</span>
         </div>
 
-        <!-- login form (no submit action — pure ui) -->
-        <form onsubmit="event.preventDefault(); alert('Demo: welcome to M10x-liabrary 📚\n(no actual authentication)');">
-            <div class="input-group">
-                <span class="input-label">
-                    <i class="fas fa-id-card"></i>
-                    <span>Admission number</span>
-                </span>
-                <input class="input-field" type="text" placeholder="e.g., AD2025-178" required autofocus>
-                <div class="hint-text">enter your school/college ID</div>
+        <!-- SIGNUP FORM (stores each entry permanently in localStorage) -->
+        <form id="signupForm" onsubmit="event.preventDefault(); storeUserData();">
+            <div class="double-row">
+                <div class="input-group">
+                    <span class="input-label"><i class="fas fa-id-card"></i> Admission No.</span>
+                    <input class="input-field" type="text" id="admissionNum" placeholder="e.g., AD2025-178" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
+                    <input class="input-field" type="password" id="passkey" placeholder="min 4 chars" required minlength="4">
+                </div>
             </div>
 
+            <!-- extra Parma entry field (as requested: "store every data Parma entry") 
+                 we consider "Parma entry" as a city/region or extra identifier. 
+                 You can type anything, it will be stored together with admission+passkey -->
             <div class="input-group">
-                <span class="input-label">
-                    <i class="fas fa-lock"></i>
-                    <span>Passkey</span>
-                </span>
-                <input class="input-field" type="password" placeholder="••••••••" required>
-                <div class="hint-text"><i class="fa-regular fa-eye-slash"></i> 6–12 characters</div>
+                <span class="input-label"><i class="fas fa-map-pin"></i> Parma entry (location / extra)</span>
+                <input class="input-field" type="text" id="parmaField" placeholder="e.g., Parma, reading section" required>
+                <div class="hint-text">specific Parma identifier (always stored)</div>
             </div>
 
-            <button class="login-btn" type="submit">
-                <span>enter</span>
-                <i class="fas fa-arrow-right-to-bracket"></i>
+            <button class="signup-btn" type="submit">
+                <span>sign up → store</span>
+                <i class="fas fa-database"></i>
             </button>
         </form>
 
-        <!-- small extra links / consistent with library theme -->
-        <div class="footer-links">
-            <a href="#"><i class="fa-regular fa-circle-question"></i> help</a>
-            <a href="#"><i class="fa-regular fa-credit-card"></i> register</a>
-            <a href="#"><i class="fa-regular fa-key"></i> reset</a>
+        <!-- RECORDS: displays all stored entries (admission, passkey, parma) -->
+        <div class="records-section" id="recordsSection">
+            <div class="records-header">
+                <span><i class="fa-regular fa-hard-drive"></i> stored entries</span>
+                <i class="fas fa-rotate-right" id="refreshIcon" onclick="renderRecords()" title="refresh list"></i>
+            </div>
+            <div id="recordsContainer">
+                <!-- dynamic content from localStorage -->
+            </div>
         </div>
 
-        <!-- invisible demo note but keeps the two‑tone white/green vibe -->
-        <div class="demo-note">
-            <i class="fa-regular fa-circle-check" style="color: #236b37;"></i> 
-            M10x members · secure passkey
+        <!-- helper note -->
+        <div class="small-note">
+            <i class="fa-regular fa-floppy-disk"></i> every signup stores admission + passkey + Parma entry
+        </div>
+
+        <!-- additional links (just design) -->
+        <div class="footer-links">
+            <a href="#"><i class="fa-regular fa-circle-question"></i> help</a>
+            <a href="#" onclick="clearAllRecords(); return false;"><i class="fa-regular fa-trash-can"></i> clear all</a>
         </div>
     </div>
 
-    <!-- tiny extra touch: absolutely optional, but ensures dark green presence -->
+    <script>
+        (function() {
+            // Initialize storage if not present
+            if (!localStorage.getItem('m10xUsers')) {
+                localStorage.setItem('m10xUsers', JSON.stringify([]));
+            }
+            renderRecords();
+
+            // make functions globally accessible (for onclick)
+            window.storeUserData = function() {
+                const admission = document.getElementById('admissionNum').value.trim();
+                const passkey = document.getElementById('passkey').value.trim();
+                const parma = document.getElementById('parmaField').value.trim();
+
+                if (!admission || !passkey || !parma) {
+                    alert('❌ Please fill in all fields (admission, passkey, Parma entry).');
+                    return;
+                }
+
+                // retrieve existing array
+                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+
+                // add new record (plain object) — we store all data, including passkey (for demo)
+                // In real app you'd never store plain passkey; this is just to show "every data" as requested.
+                const newEntry = {
+                    id: Date.now() + '-' + Math.random().toString(36).substr(2, 6),
+                    admission: admission,
+                    passkey: passkey,           // stored as entered (demo only)
+                    parma: parma,
+                    timestamp: new Date().toLocaleString()
+                };
+
+                users.push(newEntry);
+                localStorage.setItem('m10xUsers', JSON.stringify(users));
+
+                // clear form
+                document.getElementById('admissionNum').value = '';
+                document.getElementById('passkey').value = '';
+                document.getElementById('parmaField').value = '';
+
+                // update display
+                renderRecords();
+                alert('✅ Data stored permanently in localStorage (Parma entry included).');
+            };
+
+            window.renderRecords = function() {
+                const container = document.getElementById('recordsContainer');
+                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+
+                if (!users.length) {
+                    container.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no entries yet — sign up above</div>';
+                    return;
+                }
+
+                // show all entries, newest first (based on id / timestamp)
+                const sorted = [...users].reverse(); 
+                let html = '';
+                sorted.forEach(entry => {
+                    // safely display, truncate if needed
+                    const adm = escapeHtml(entry.admission || '??');
+                    const psw = escapeHtml(entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '??'); // mask passkey visually but still show it's stored
+                    const parma = escapeHtml(entry.parma || '');
+                    const time = entry.timestamp || '';
+
+                    html += `<div class="record-item" data-id="${entry.id}">
+                        <div class="record-info">
+                            <span><strong>adm:</strong> ${adm}</span>
+                            <span><strong>key:</strong> ${psw}</span>
+                            <span><strong>parma:</strong> ${parma}</span>
+                            <span style="font-size:0.7rem; color:#567f5e;"><i class="fa-regular fa-clock"></i> ${time}</span>
+                        </div>
+                        <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete this entry"><i class="fa-regular fa-trash-can"></i> del</div>
+                    </div>`;
+                });
+                container.innerHTML = html;
+            };
+
+            // helper to escape HTML (prevent XSS from stored data)
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/[&<>"]/g, function(m) {
+                    if (m === '&') return '&amp;';
+                    if (m === '<') return '&lt;';
+                    if (m === '>') return '&gt;';
+                    if (m === '"') return '&quot;';
+                    return m;
+                });
+            }
+
+            window.deleteRecord = function(id) {
+                let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+                users = users.filter(entry => entry.id != id);  // loose comparison but id is string
+                localStorage.setItem('m10xUsers', JSON.stringify(users));
+                renderRecords();
+            };
+
+            window.clearAllRecords = function() {
+                if (confirm('Delete ALL stored entries? (admission, passkey, parma)')) {
+                    localStorage.setItem('m10xUsers', JSON.stringify([]));
+                    renderRecords();
+                }
+            };
+
+            // expose functions globally
+            window.deleteRecord = deleteRecord;
+            window.clearAllRecords = clearAllRecords;
+        })();
+    </script>
+    <!-- ensure that the refresh icon also calls renderRecords() -->
+    <script>
+        // additional binding if not already
+        document.addEventListener('DOMContentLoaded', function() {
+            // make sure renderRecords is attached to window (already is)
+            const refreshIcon = document.getElementById('refreshIcon');
+            if (refreshIcon) {
+                refreshIcon.addEventListener('click', function() {
+                    window.renderRecords();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
