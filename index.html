@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-liabrary · signup + login</title>
+    <title>M10x-liabrary · signup + login (no Parma)</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -336,7 +336,7 @@
         <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
     </div>
 
-    <!-- SIGNUP PANEL (with Parma entry) -->
+    <!-- SIGNUP PANEL (only admission + passkey - NO PARMA) -->
     <div id="signupPanel" class="form-panel active-panel">
         <form id="signupForm" onsubmit="event.preventDefault(); signupUser();">
             <div class="double-row">
@@ -349,10 +349,7 @@
                     <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
                 </div>
             </div>
-            <div class="input-group">
-                <span class="input-label"><i class="fas fa-map-pin"></i> Parma entry (extra)</span>
-                <input class="input-field" type="text" id="signupParma" placeholder="e.g., Parma, section B" required>
-            </div>
+            <!-- Parma field completely removed -->
             <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account → store</button>
         </form>
     </div>
@@ -375,7 +372,7 @@
     <!-- message area (success/error) -->
     <div id="authMessage" class="message"></div>
 
-    <!-- RECORDS: shows all stored entries (admission + passkey + parma) -->
+    <!-- RECORDS: shows all stored entries (admission + passkey only) -->
     <div class="records-section">
         <div class="records-header">
             <span><i class="fa-regular fa-hard-drive"></i> stored users</span>
@@ -391,7 +388,7 @@
         <span onclick="clearAllRecords()"><i class="fa-regular fa-trash-can"></i> delete all</span>
     </div>
     <div class="small-note">
-        <i class="fa-regular fa-circle-check"></i> signup stores admission + passkey + parma · login verifies
+        <i class="fa-regular fa-circle-check"></i> signup stores admission + passkey · login verifies
     </div>
 </div>
 
@@ -435,14 +432,13 @@
             authMessage.className = isSuccess ? 'message success-msg' : 'message error-msg';
         }
 
-        // --- SIGNUP function (stores admission, passkey, parma) ---
+        // --- SIGNUP function (stores only admission + passkey) ---
         window.signupUser = function() {
             const admission = document.getElementById('signupAdmission').value.trim();
             const passkey = document.getElementById('signupPasskey').value.trim();
-            const parma = document.getElementById('signupParma').value.trim();
 
-            if (!admission || !passkey || !parma) {
-                showMessage('❌ All fields (admission, passkey, Parma) required.', false);
+            if (!admission || !passkey) {
+                showMessage('❌ Both admission number and passkey are required.', false);
                 return;
             }
             if (passkey.length < 4) {
@@ -452,14 +448,10 @@
 
             const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
 
-            // optional: check duplicate admission? we allow multiple same admission for demo, but we can warn.
-            // but for clarity, we allow duplicates, just push.
-
             const newEntry = {
                 id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
                 admission: admission,
                 passkey: passkey,      // stored plain (demo only)
-                parma: parma,
                 timestamp: new Date().toLocaleString()
             };
 
@@ -469,7 +461,6 @@
             // clear signup fields
             document.getElementById('signupAdmission').value = '';
             document.getElementById('signupPasskey').value = '';
-            document.getElementById('signupParma').value = '';
 
             renderRecords();
             showMessage('✅ Signup successful! Data stored.', true);
@@ -486,11 +477,11 @@
             }
 
             const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            // Find match (case-sensitive, but can adjust)
+            // Find match (case-sensitive)
             const matchedUser = users.find(user => user.admission === admission && user.passkey === passkey);
 
             if (matchedUser) {
-                showMessage(`✅ Login successful! Welcome, ${matchedUser.admission} (Parma: ${matchedUser.parma})`, true);
+                showMessage(`✅ Login successful! Welcome, ${matchedUser.admission}`, true);
                 // optional: clear login fields
                 document.getElementById('loginAdmission').value = '';
                 document.getElementById('loginPasskey').value = '';
@@ -514,15 +505,13 @@
             let html = '';
             sorted.forEach(entry => {
                 const adm = escapeHtml(entry.admission || '');
-                // show masked passkey (still indicates stored)
+                // show masked passkey (indicates stored)
                 const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
-                const parma = escapeHtml(entry.parma || '');
                 const time = entry.timestamp || '';
                 html += `<div class="record-item" data-id="${entry.id}">
                     <div class="record-info">
                         <span><strong>adm:</strong> ${adm}</span>
                         <span><strong>key:</strong> ${maskedPass}</span>
-                        <span><strong>parma:</strong> ${parma}</span>
                         <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
                     </div>
                     <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
@@ -551,7 +540,7 @@
         };
 
         window.clearAllRecords = function() {
-            if (confirm('Delete ALL stored users? (admission, passkey, parma)')) {
+            if (confirm('Delete ALL stored users? (admission + passkey)')) {
                 localStorage.setItem('m10xUsers', JSON.stringify([]));
                 renderRecords();
                 clearMessage();
