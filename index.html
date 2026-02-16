@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · iOS‑style footer</title>
+    <title>CMP library · admin view</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -17,6 +17,7 @@
         body {
             min-height: 100vh;
             display: flex;
+            flex-direction: column;  /* allow footer credit to sit below card */
             align-items: center;
             justify-content: center;
             background: #c8dbc1;
@@ -139,7 +140,7 @@
         .welcome-card {
             background: #e0f0e0;
             border-radius: 24px;
-            padding: 1.5rem;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
             margin-bottom: 1.5rem;
             border: 2px solid #1c4b2d;
         }
@@ -164,19 +165,22 @@
         }
         .stat-box i { font-size: 1.8rem; color: #1c4b2d; }
 
-        /* records */
+        /* records – only visible to admin */
         .records-section {
             background: #f0f8f0;
             border-radius: 20px;
             padding: 1rem;
             border: 1px solid #1c4b2d;
+            margin-top: 1rem;
         }
         .records-header {
             display: flex;
+            align-items: center;
             justify-content: space-between;
             margin-bottom: 0.8rem;
-            color: #1c4b2d;
+            color: #1b562b;
             font-weight: 600;
+            font-size: 1.1rem;
         }
         .records-header i {
             background: #1c4b2d;
@@ -194,12 +198,34 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 0.9rem;
+        }
+        .record-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            color: #1f4429;
+        }
+        .record-info strong {
+            color: #0b4a1f;
+            min-width: 70px;
         }
         .delete-icon {
+            color: #a54836;
             background: #ffe6e1;
             padding: 5px 8px;
             border-radius: 30px;
             cursor: pointer;
+        }
+        .delete-icon:hover {
+            background: #d32f2f;
+            color: white;
+        }
+        .no-records {
+            color: #6a9072;
+            font-style: italic;
+            padding: 0.5rem;
+            text-align: center;
         }
 
         /* message area */
@@ -211,17 +237,15 @@
             background: #e0f0e0;
         }
 
-        /* ===== FOOTER BAR – iOS‑style transparency with blur ===== */
+        /* ===== FOOTER BAR – solid black (blur removed) ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: rgba(0, 0, 0, 0.4);        /* semi‑transparent */
-            backdrop-filter: blur(10px);            /* frosted glass */
-            -webkit-backdrop-filter: blur(10px);    /* Safari support */
+            background: black;                  /* solid black, no blur */
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid #333;
             gap: 0.3rem;
             flex-wrap: nowrap;
         }
@@ -243,12 +267,11 @@
             font-size: 1.2rem;
             margin-bottom: 2px;
             color: white;
-            transition: all 0.2s;
         }
         .footer-item:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: #333;
         }
-        /* loading state inside footer item */
+        /* loading state */
         .footer-item.loading {
             pointer-events: none;
             opacity: 0.7;
@@ -486,6 +509,15 @@
             background: #e0f0e0;
         }
 
+        /* credit line below footer */
+        .footer-credit {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #1c4b2d;
+            font-weight: 500;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -547,7 +579,7 @@
             </form>
         </div>
 
-        <!-- DASHBOARD -->
+        <!-- DASHBOARD (records only for admin) -->
         <div id="dashboardPanel" class="dashboard-panel">
             <div class="welcome-card">
                 <div class="personal-welcome" id="personalWelcome">
@@ -567,12 +599,16 @@
                 </div>
                 <button class="action-btn logout-btn" onclick="logout()" style="background:#c94f4f;"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
             </div>
-            <div id="dashboardHome" class="records-section">
-                <div class="records-header">
-                    <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
-                    <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
+
+            <!-- Admin-only records section (hidden for normal users) -->
+            <div id="adminRecordsSection" style="display: none;">
+                <div class="records-section">
+                    <div class="records-header">
+                        <span><i class="fa-regular fa-hard-drive"></i> Admin Panel · all registered users</span>
+                        <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
+                    </div>
+                    <div id="dashboardRecordsContainer"></div>
                 </div>
-                <div id="dashboardRecordsContainer"></div>
             </div>
         </div>
 
@@ -582,7 +618,7 @@
         <!-- message area -->
         <div id="authMessage" class="message"></div>
 
-        <!-- FOOTER BAR – iOS‑style transparent with blur -->
+        <!-- FOOTER BAR – solid black (blur removed) -->
         <div class="footer-bar">
             <div class="footer-item" onclick="handleFooterClickWithDelay('dashboard')">
                 <i class="fa-solid fa-book-open"></i>
@@ -603,6 +639,11 @@
         </div>
     </div>
 
+    <!-- Credit line below footer -->
+    <div class="footer-credit">
+        powered by tech by me (Muhammad Jamil)
+    </div>
+
     <!-- Guide overlay -->
     <div id="guideOverlay" class="guide-overlay" style="display: none;">
         <div class="guide-card">
@@ -619,6 +660,9 @@
     <script>
         (function() {
             let currentUser = null;
+            // Hardcoded admin admission number
+            const ADMIN_ADMISSION = "ADMIN001";
+
             if (!localStorage.getItem('m10xUsers')) {
                 localStorage.setItem('m10xUsers', JSON.stringify([]));
             }
@@ -626,7 +670,7 @@
             // Guide data
             const guideSlides = [
                 { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
-                { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
+                { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and (if you are admin) all registered users.' },
                 { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains boxes with course codes and dropdowns.' },
                 { icon: 'fa-solid fa-books', title: 'Courses', text: 'Now with semester tabs and a simple course list.' },
                 { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
@@ -638,6 +682,7 @@
             const signupPanel = document.getElementById('signupPanel');
             const loginPanel = document.getElementById('loginPanel');
             const dashboardPanel = document.getElementById('dashboardPanel');
+            const adminRecordsSection = document.getElementById('adminRecordsSection');
             const tabSignup = document.getElementById('tabSignup');
             const tabLogin = document.getElementById('tabLogin');
             const authMessage = document.getElementById('authMessage');
@@ -671,8 +716,9 @@
                 return String(str).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
             }
 
+            // Render dashboard records (only for admin)
             window.renderDashboardRecords = function() {
-                if (!currentUser) return;
+                if (!currentUser || currentUser.admission !== ADMIN_ADMISSION) return;
                 const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
                 if (!users.length) {
                     dashboardRecordsContainer.innerHTML = '<div class="no-records">no users yet</div>';
@@ -685,11 +731,14 @@
                     const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
                     const time = entry.timestamp || '';
                     const isCurrent = currentUser && entry.id === currentUser.id;
-                    const style = isCurrent ? 'background:#d9f0da;' : '';
-                    html += `<div class="record-item" style="${style}">
-                        <div><strong>adm:</strong> ${adm} ${isCurrent ? '(you)' : ''}<br><span style="font-size:0.7rem;">${time}</span></div>
-                        <div><span style="font-size:0.8rem;">key: ${maskedPass}</span></div>
-                        <div class="delete-icon" onclick="deleteRecord('${entry.id}')"><i class="fa-regular fa-trash-can"></i></div>
+                    const highlightStyle = isCurrent ? 'background:#d9f0da; border-left-color: #0b4a1f;' : '';
+                    html += `<div class="record-item" style="${highlightStyle}">
+                        <div class="record-info">
+                            <span><strong>adm:</strong> ${adm} ${isCurrent ? ' (you)' : ''}</span>
+                            <span><strong>key:</strong> ${maskedPass}</span>
+                            <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
+                        </div>
+                        <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
                     </div>`;
                 });
                 dashboardRecordsContainer.innerHTML = html;
@@ -743,7 +792,15 @@
                 welcomeAdmission.textContent = currentUser.admission;
                 dashboardAdmission.textContent = currentUser.admission;
                 dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
-                renderDashboardRecords();
+
+                // Show admin records section only if user is admin
+                if (currentUser.admission === ADMIN_ADMISSION) {
+                    adminRecordsSection.style.display = 'block';
+                    renderDashboardRecords();
+                } else {
+                    adminRecordsSection.style.display = 'none';
+                }
+
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
             };
@@ -774,6 +831,7 @@
                     dynamicContainer.style.display = 'none';
                     dynamicContainer.innerHTML = '';
                     guideOverlay.style.display = 'none';
+                    adminRecordsSection.style.display = 'none';
                 }
             }
 
@@ -822,7 +880,7 @@
                 let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
                 const userToDelete = users.find(u => u.id == id);
                 if (currentUser && userToDelete && userToDelete.id === currentUser.id) {
-                    if (!confirm('Delete your own account?')) return;
+                    if (!confirm('Delete your own account? (You are admin)')) return;
                     users = users.filter(e => e.id != id);
                     localStorage.setItem('m10xUsers', JSON.stringify(users));
                     currentUser = null;
@@ -835,8 +893,11 @@
                 if (currentUser) {
                     const stillExists = users.find(u => u.id === currentUser.id);
                     if (!stillExists) { currentUser = null; updateUIForUser(); }
-                    else renderDashboardRecords();
+                    else if (currentUser.admission === ADMIN_ADMISSION) {
+                        renderDashboardRecords();
+                    }
                 }
+                clearMessage();
             };
 
             window.switchPanel = function(panel) {
@@ -995,7 +1056,6 @@
                 if (clickTimer) {
                     clearTimeout(clickTimer);
                     clickTimer = null;
-                    // Also remove loading class from any footer item
                     document.querySelectorAll('.footer-item').forEach(el => el.classList.remove('loading'));
                 }
 
@@ -1014,7 +1074,6 @@
 
                 // Set timer to perform navigation after 1.5s
                 clickTimer = setTimeout(() => {
-                    // Remove loading class from all footer items
                     document.querySelectorAll('.footer-item').forEach(el => el.classList.remove('loading'));
                     performNavigation(section);
                     clickTimer = null;
