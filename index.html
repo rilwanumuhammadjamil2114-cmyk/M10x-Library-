@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · dropdown in boxes</title>
+    <title>CMP library · course boxes</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -245,7 +245,7 @@
             background: #333;
         }
 
-        /* ===== 7‑box layout with dropdown inside each box ===== */
+        /* ===== Box layout – 6 boxes with dropdowns ===== */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
@@ -274,7 +274,8 @@
         .box-label {
             font-weight: 600;
             color: #1c4b2d;
-            min-width: 60px;
+            min-width: 100px;
+            font-size: 1rem;
         }
         .box-select {
             flex: 1;
@@ -556,8 +557,8 @@
             const guideSlides = [
                 { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
                 { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
-                { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 boxes with dropdown menus. Explore them!' },
-                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with dropdowns. Use the footer to switch pages.' },
+                { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains boxes with course codes and dropdowns.' },
+                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features the same set of course boxes. Use the footer to switch pages.' },
                 { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
             ];
             let currentSlide = 0;
@@ -786,12 +787,19 @@
                 dynamicContainer.innerHTML = '';
             };
 
-            // Helper to generate 7 boxes, each with a dropdown (replacing the number)
-            function renderSevenBoxes(title) {
-                const boxes = [];
-                for (let i = 1; i <= 7; i++) {
-                    // Create a select with 6 options (placeholder + 5 real links)
-                    const selectId = `select-${title}-${i}`;
+            // List of course codes (exactly as provided)
+            const courseLabels = [
+                "CMP 201",
+                "CMP 209",
+                "ucsc 201",
+                "SEN 201",
+                "GST 211",
+                "MTH 201"
+            ];
+
+            // Helper to generate boxes with course codes and dropdowns
+            function renderCourseBoxes() {
+                const boxes = courseLabels.map((label, index) => {
                     const options = [
                         '<option value="" disabled selected>— choose link —</option>',
                         '<option value="https://example.com/1">Documentation</option>',
@@ -801,19 +809,19 @@
                         '<option value="https://example.com/5">Updates</option>',
                         '<option value="https://example.com/6">Feedback</option>'
                     ].join('');
-                    boxes.push(`
+                    return `
                         <div class="price-box">
-                            <span class="box-label">${title} ${i}</span>
+                            <span class="box-label">${label}</span>
                             <select class="box-select" onchange="window.open(this.value, '_blank')">
                                 ${options}
                             </select>
                         </div>
-                    `);
-                }
+                    `;
+                }).join('');
                 return `
                     <div class="box-page">
                         <div class="box-list">
-                            ${boxes.join('')}
+                            ${boxes}
                         </div>
                     </div>
                 `;
@@ -834,14 +842,14 @@
                     dynamicContainer.style.display = 'none';
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
-                    dynamicContainer.innerHTML = renderSevenBoxes('HD');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes with dropdowns';
+                    dynamicContainer.innerHTML = renderCourseBoxes();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · course boxes';
                 } else if (section === 'pq') {
-                    dynamicContainer.innerHTML = renderSevenBoxes('PQ');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes with dropdowns';
+                    dynamicContainer.innerHTML = renderCourseBoxes();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · course boxes';
                 } else if (section === 'courses') {
-                    dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes with dropdowns';
+                    dynamicContainer.innerHTML = renderCourseBoxes();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · course boxes';
                 }
             };
 
