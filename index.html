@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · 7‑box pages</title>
+    <title>CMP library · user guide</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -210,12 +210,12 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: transparent;        /* fully transparent */
+            background: transparent;
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
-            border-top: 1px solid #1c4b2d;  /* subtle separation */
+            border-top: 1px solid #1c4b2d;
             gap: 0.3rem;
-            flex-wrap: nowrap;              /* force single line */
+            flex-wrap: nowrap;
         }
         .footer-item {
             display: flex;
@@ -224,55 +224,107 @@
             cursor: pointer;
             padding: 0.3rem 0.5rem;
             min-width: 70px;
-            color: #1c4b2d;                  /* dark green text */
+            color: #1c4b2d;
             border-radius: 12px;
             font-weight: 600;
             transition: background 0.1s;
             text-align: center;
         }
         .footer-item i {
-            font-size: 1.2rem;               /* small icon */
+            font-size: 1.2rem;
             margin-bottom: 2px;
             color: #1c4b2d;
         }
         .footer-item:hover {
-            background: rgba(28, 75, 45, 0.1); /* subtle hover */
+            background: rgba(28, 75, 45, 0.1);
         }
 
-        /* animated welcome overlay */
-        .animation-overlay {
+        /* ===== USER GUIDE OVERLAY (slides) ===== */
+        .guide-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(28, 75, 45, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
-            animation: fadeIn 0.8s;
+            z-index: 2000;
+            animation: fadeIn 0.5s;
         }
-        .animation-box {
+        .guide-card {
             background: white;
-            padding: 2rem 3rem;
-            border-radius: 50px;
-            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 30px;
+            padding: 2rem 1.5rem 1.5rem;
             border: 4px solid #b5e6b5;
             box-shadow: 0 0 30px #a5d6a5;
-            animation: pop 0.5s ease-out;
         }
-        .animation-box i {
-            font-size: 4rem;
+        .guide-slide {
+            text-align: center;
+        }
+        .guide-slide h2 {
             color: #1c4b2d;
             margin-bottom: 1rem;
+            font-size: 1.8rem;
         }
-        .animation-box p {
-            font-size: 2rem;
+        .guide-slide p {
             color: #1c4b2d;
-            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 1rem 0;
+            line-height: 1.5;
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
+        .guide-slide i {
+            font-size: 3.5rem;
+            color: #1c4b2d;
+            margin: 1rem 0;
+        }
+        .guide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #b0d0b0;
+            cursor: pointer;
+        }
+        .dot.active {
+            background: #1c4b2d;
+        }
+        .guide-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .guide-btn {
+            background: #1c4b2d;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+        }
+        .guide-btn.outline {
+            background: transparent;
+            border: 2px solid #1c4b2d;
+            color: #1c4b2d;
+        }
+        .guide-btn:hover {
+            background: #0f381d;
+            color: white;
+        }
+        .guide-btn.outline:hover {
+            background: #e0f0e0;
+        }
 
-        /* 7‑box layout for HD, PQ, COURSES */
+        /* 7‑box layout */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
@@ -307,6 +359,11 @@
         }
         .price-box:nth-child(even) {
             background: #f0faf0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
@@ -412,12 +469,37 @@
     </div>
 </div>
 
+<!-- Guide overlay (hidden by default) -->
+<div id="guideOverlay" class="guide-overlay" style="display: none;">
+    <div class="guide-card">
+        <div id="guideSlideContainer" class="guide-slide">
+            <!-- slides injected via JS -->
+        </div>
+        <div class="guide-dots" id="guideDots"></div>
+        <div class="guide-buttons">
+            <button class="guide-btn outline" id="guidePrevBtn" onclick="guidePrev()">Previous</button>
+            <button class="guide-btn" id="guideNextBtn" onclick="guideNext()">Next</button>
+            <button class="guide-btn" id="guideFinishBtn" onclick="guideFinish()" style="display: none;">Go to Dashboard</button>
+        </div>
+    </div>
+</div>
+
 <script>
     (function() {
         let currentUser = null;
         if (!localStorage.getItem('m10xUsers')) {
             localStorage.setItem('m10xUsers', JSON.stringify([]));
         }
+
+        // Guide data
+        const guideSlides = [
+            { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
+            { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
+            { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 data boxes – like a price ladder. Explore them!' },
+            { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with sample data. Use the footer to switch pages.' },
+            { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
+        ];
+        let currentSlide = 0;
 
         // DOM
         const tabContainer = document.getElementById('tabContainer');
@@ -429,6 +511,12 @@
         const authMessage = document.getElementById('authMessage');
         const globalHint = document.getElementById('globalHint');
         const dynamicContainer = document.getElementById('dynamicPageContainer');
+        const guideOverlay = document.getElementById('guideOverlay');
+        const guideSlideContainer = document.getElementById('guideSlideContainer');
+        const guideDots = document.getElementById('guideDots');
+        const guidePrevBtn = document.getElementById('guidePrevBtn');
+        const guideNextBtn = document.getElementById('guideNextBtn');
+        const guideFinishBtn = document.getElementById('guideFinishBtn');
 
         const welcomeAdmission = document.getElementById('welcomeAdmission');
         const dashboardAdmission = document.getElementById('dashboardAdmission');
@@ -469,38 +557,82 @@
             dashboardRecordsContainer.innerHTML = html;
         };
 
-        // animated login page
-        function showAnimationAndDashboard() {
-            const overlay = document.createElement('div');
-            overlay.className = 'animation-overlay';
-            overlay.innerHTML = `
-                <div class="animation-box">
-                    <i class="fa-regular fa-circle-check"></i>
-                    <p>Welcome back!</p>
-                    <small style="color:#1c4b2d;">loading your dashboard...</small>
-                </div>
+        // Guide functions
+        function updateGuide() {
+            const slide = guideSlides[currentSlide];
+            guideSlideContainer.innerHTML = `
+                <i class="${slide.icon}"></i>
+                <h2>${slide.title}</h2>
+                <p>${slide.text}</p>
             `;
-            document.body.appendChild(overlay);
-            setTimeout(() => {
-                overlay.remove();
-                tabContainer.style.display = 'none';
-                signupPanel.classList.remove('active-panel');
-                loginPanel.classList.remove('active-panel');
-                dashboardPanel.classList.add('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
-                welcomeAdmission.textContent = currentUser.admission;
-                dashboardAdmission.textContent = currentUser.admission;
-                dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
-                renderDashboardRecords();
-                clearMessage();
-                dynamicContainer.style.display = 'none';
-                dynamicContainer.innerHTML = '';
-            }, 1500);
+            // Dots
+            let dotsHtml = '';
+            guideSlides.forEach((_, index) => {
+                dotsHtml += `<span class="dot ${index === currentSlide ? 'active' : ''}" onclick="guideJumpTo(${index})"></span>`;
+            });
+            guideDots.innerHTML = dotsHtml;
+
+            // Buttons
+            guidePrevBtn.style.display = currentSlide === 0 ? 'none' : 'inline-block';
+            guideNextBtn.style.display = currentSlide === guideSlides.length - 1 ? 'none' : 'inline-block';
+            guideFinishBtn.style.display = currentSlide === guideSlides.length - 1 ? 'inline-block' : 'none';
+        }
+
+        window.guideNext = function() {
+            if (currentSlide < guideSlides.length - 1) {
+                currentSlide++;
+                updateGuide();
+            }
+        };
+
+        window.guidePrev = function() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateGuide();
+            }
+        };
+
+        window.guideJumpTo = function(index) {
+            currentSlide = index;
+            updateGuide();
+        };
+
+        window.guideFinish = function() {
+            guideOverlay.style.display = 'none';
+            // Show dashboard
+            tabContainer.style.display = 'none';
+            signupPanel.classList.remove('active-panel');
+            loginPanel.classList.remove('active-panel');
+            dashboardPanel.classList.add('active-panel');
+            globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+            welcomeAdmission.textContent = currentUser.admission;
+            dashboardAdmission.textContent = currentUser.admission;
+            dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
+            renderDashboardRecords();
+            dynamicContainer.style.display = 'none';
+            dynamicContainer.innerHTML = '';
+        };
+
+        // Modified login flow: after successful login, show guide overlay
+        function showGuideAndThenDashboard() {
+            currentSlide = 0;
+            updateGuide();
+            guideOverlay.style.display = 'flex';
         }
 
         function updateUIForUser() {
             if (currentUser) {
-                showAnimationAndDashboard();
+                // Hide tabs and dashboard initially, show guide
+                tabContainer.style.display = 'none';
+                signupPanel.classList.remove('active-panel');
+                loginPanel.classList.remove('active-panel');
+                dashboardPanel.classList.remove('active-panel');
+                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> welcome · new user guide';
+                dynamicContainer.style.display = 'none';
+                dynamicContainer.innerHTML = '';
+
+                showGuideAndThenDashboard();
+                clearMessage();
             } else {
                 tabContainer.style.display = 'flex';
                 dashboardPanel.classList.remove('active-panel');
@@ -508,6 +640,7 @@
                 switchPanel('signup');
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
+                guideOverlay.style.display = 'none';
             }
         }
 
