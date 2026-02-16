@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · HD & PQ boxes</title>
+    <title>CMP library · semester tabs</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -245,7 +245,7 @@
             background: #333;
         }
 
-        /* ===== Box layout – 6 boxes with dropdowns ===== */
+        /* ===== Box layout for HD/PQ (with dropdowns) ===== */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
@@ -291,6 +291,60 @@
         }
         .box-select:hover {
             background: #f0faf0;
+        }
+
+        /* ===== Semester tabs for COURSES page ===== */
+        .semester-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            background: #d0e8d0;
+            padding: 0.4rem;
+            border-radius: 40px;
+        }
+        .semester-tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem 0;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #1c4b2d;
+            border: 1px solid transparent;
+            background: transparent;
+        }
+        .semester-tab.active {
+            background: white;
+            border: 1px solid #1c4b2d;
+            font-weight: 700;
+        }
+
+        /* Simple course list (no dropdowns) */
+        .course-list {
+            background: #f5fff5;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 2px solid #1c4b2d;
+        }
+        .course-item {
+            background: white;
+            border: 1px solid #1c4b2d;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: #1c4b2d;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .course-item i {
+            color: #1c4b2d;
+            font-size: 1.2rem;
+        }
+        .course-item:last-child {
+            margin-bottom: 0;
         }
 
         /* animated splash */
@@ -558,7 +612,7 @@
                 { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
                 { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
                 { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains boxes with course codes and dropdowns.' },
-                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features the same set of course boxes. Use the footer to switch pages.' },
+                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Now with semester tabs and a simple course list.' },
                 { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
             ];
             let currentSlide = 0;
@@ -806,8 +860,8 @@
                 "MTH PQ 201"
             ];
 
-            // Helper to generate boxes with given labels
-            function renderCourseBoxes(labels) {
+            // Helper to generate boxes with dropdowns (for HD and PQ)
+            function renderCourseBoxesWithDropdown(labels) {
                 const boxes = labels.map(label => {
                     const options = [
                         '<option value="" disabled selected>— choose link —</option>',
@@ -836,6 +890,48 @@
                 `;
             }
 
+            // COURSES page: semester tabs and simple course list (no dropdowns)
+            function renderCoursesPage() {
+                // Two semester tabs (1st and 2nd), both show the same list for now (can be extended)
+                const semesterTabs = `
+                    <div class="semester-tabs">
+                        <div class="semester-tab active" onclick="switchSemester(1)">1st Semester</div>
+                        <div class="semester-tab" onclick="switchSemester(2)">2nd Semester</div>
+                    </div>
+                `;
+                // Base course list (same as HD but without dropdowns)
+                const courseItems = hdCourseLabels.map(label => `
+                    <div class="course-item">
+                        <i class="fa-regular fa-bookmark"></i>
+                        ${label}
+                    </div>
+                `).join('');
+                const courseList = `
+                    <div class="course-list" id="courseListContainer">
+                        ${courseItems}
+                    </div>
+                `;
+                return `
+                    <div class="box-page" style="border: none; background: transparent; padding: 0;">
+                        ${semesterTabs}
+                        ${courseList}
+                    </div>
+                `;
+            }
+
+            // Semester switching function (simple; could be extended with different lists)
+            window.switchSemester = function(semester) {
+                const tabs = document.querySelectorAll('.semester-tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                if (semester === 1) {
+                    tabs[0].classList.add('active');
+                    // For now, keep same list. In future, could change content.
+                } else {
+                    tabs[1].classList.add('active');
+                    // Same list for demo
+                }
+            };
+
             // footer click handler
             window.handleFooterClick = function(section) {
                 if (!currentUser) {
@@ -851,14 +947,14 @@
                     dynamicContainer.style.display = 'none';
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
-                    dynamicContainer.innerHTML = renderCourseBoxes(hdCourseLabels);
+                    dynamicContainer.innerHTML = renderCourseBoxesWithDropdown(hdCourseLabels);
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · course boxes';
                 } else if (section === 'pq') {
-                    dynamicContainer.innerHTML = renderCourseBoxes(pqCourseLabels);
+                    dynamicContainer.innerHTML = renderCourseBoxesWithDropdown(pqCourseLabels);
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · custom boxes';
                 } else if (section === 'courses') {
-                    dynamicContainer.innerHTML = renderCourseBoxes(hdCourseLabels);
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · course boxes';
+                    dynamicContainer.innerHTML = renderCoursesPage();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · semester tabs';
                 }
             };
 
