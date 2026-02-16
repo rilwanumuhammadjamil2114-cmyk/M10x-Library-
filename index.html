@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · user guide</title>
+    <title>CMP library · black footer & dropdowns</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -31,6 +31,12 @@
             padding: 2rem 2rem 1rem 2rem;
             border-radius: 24px;
             border: 2px solid #1c4b2d;
+            opacity: 0;
+            transform: scale(0.95);
+            animation: cardAppear 0.5s ease-out 2.5s forwards;
+        }
+        @keyframes cardAppear {
+            to { opacity: 1; transform: scale(1); }
         }
 
         /* header */
@@ -205,15 +211,15 @@
             background: #e0f0e0;
         }
 
-        /* ===== FOOTER BAR – transparent, inline, with small icons ===== */
+        /* ===== FOOTER BAR – black background, white text, inline ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: transparent;
+            background: black;           /* changed to black */
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
-            border-top: 1px solid #1c4b2d;
+            border-top: 1px solid #333;
             gap: 0.3rem;
             flex-wrap: nowrap;
         }
@@ -224,7 +230,7 @@
             cursor: pointer;
             padding: 0.3rem 0.5rem;
             min-width: 70px;
-            color: #1c4b2d;
+            color: white;                /* white text on black */
             border-radius: 12px;
             font-weight: 600;
             transition: background 0.1s;
@@ -233,13 +239,109 @@
         .footer-item i {
             font-size: 1.2rem;
             margin-bottom: 2px;
-            color: #1c4b2d;
+            color: white;
         }
         .footer-item:hover {
-            background: rgba(28, 75, 45, 0.1);
+            background: #333;             /* dark grey hover */
         }
 
-        /* ===== USER GUIDE OVERLAY (slides) ===== */
+        /* ===== DROPDOWN (select) under the 7 boxes ===== */
+        .dropdown-section {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+        .dropdown-section select {
+            width: 80%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #1c4b2d;
+            border-radius: 40px;
+            background: white;
+            font-size: 1rem;
+            color: #1c4b2d;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+        .dropdown-section select:hover {
+            background: #f0faf0;
+        }
+
+        /* 7‑box layout */
+        .box-page {
+            background: #f5fff5;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 2px solid #1c4b2d;
+            margin: 1rem 0;
+            height: auto;                /* let it expand for dropdown */
+            overflow-y: visible;
+        }
+        .box-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .price-box {
+            background: white;
+            border: 1px solid #1c4b2d;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1c4b2d;
+            box-shadow: 0 2px 6px rgba(0,40,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 55px;
+        }
+        .price-box span {
+            color: #2b6e3b;
+            font-weight: 400;
+        }
+        .price-box:nth-child(even) {
+            background: #f0faf0;
+        }
+
+        /* animated splash */
+        .splash-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #1c4b2d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            animation: splashFadeOut 0.8s ease-in-out 2.2s forwards;
+        }
+        .splash-content {
+            text-align: center;
+            color: white;
+            animation: splashPop 1.2s infinite alternate ease-in-out;
+        }
+        .splash-content i {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px #b5e6b5);
+        }
+        .splash-content h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+        .splash-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        @keyframes splashPop {
+            0% { transform: scale(1); opacity: 0.9; }
+            100% { transform: scale(1.08); opacity: 1; }
+        }
+        @keyframes splashFadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* user guide overlay */
         .guide-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -324,43 +426,6 @@
             background: #e0f0e0;
         }
 
-        /* 7‑box layout */
-        .box-page {
-            background: #f5fff5;
-            border-radius: 20px;
-            padding: 1rem;
-            border: 2px solid #1c4b2d;
-            margin: 1rem 0;
-            height: 450px;
-            overflow-y: auto;
-        }
-        .box-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-        .price-box {
-            background: white;
-            border: 1px solid #1c4b2d;
-            border-radius: 16px;
-            padding: 0.8rem 1.2rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #1c4b2d;
-            box-shadow: 0 2px 6px rgba(0,40,0,0.1);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 55px;
-        }
-        .price-box span {
-            color: #2b6e3b;
-            font-weight: 400;
-        }
-        .price-box:nth-child(even) {
-            background: #f0faf0;
-        }
-
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -368,412 +433,435 @@
     </style>
 </head>
 <body>
-<div class="auth-card">
-    <!-- header -->
-    <div class="library-header">
-        <h1>CMP chapter 2 of 4 library</h1>
-        <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
+    <!-- SPLASH SCREEN -->
+    <div class="splash-overlay" id="splashOverlay">
+        <div class="splash-content">
+            <i class="fa-solid fa-book-open"></i>
+            <h1>CMP Library</h1>
+            <p>chapter 2 of 4</p>
+        </div>
     </div>
 
-    <!-- tabs (height doubled) -->
-    <div id="tabContainer" class="tab-container">
-        <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
-        <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
-    </div>
+    <!-- main auth card -->
+    <div class="auth-card">
+        <div class="library-header">
+            <h1>CMP chapter 2 of 4 library</h1>
+            <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
+        </div>
 
-    <!-- SIGNUP -->
-    <div id="signupPanel" class="form-panel active-panel">
-        <form onsubmit="event.preventDefault(); signupUser();">
-            <div class="double-row">
+        <!-- tabs -->
+        <div id="tabContainer" class="tab-container">
+            <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
+            <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
+        </div>
+
+        <!-- SIGNUP -->
+        <div id="signupPanel" class="form-panel active-panel">
+            <form onsubmit="event.preventDefault(); signupUser();">
+                <div class="double-row">
+                    <div class="input-group">
+                        <span class="input-label"><i class="fas fa-id-card"></i> Admission No.</span>
+                        <input class="input-field" type="text" id="signupAdmission" placeholder="e.g., AD2025-178" required>
+                    </div>
+                    <div class="input-group">
+                        <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
+                        <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
+                    </div>
+                </div>
+                <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account</button>
+            </form>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="loginPanel" class="form-panel">
+            <form onsubmit="event.preventDefault(); loginUser();">
                 <div class="input-group">
-                    <span class="input-label"><i class="fas fa-id-card"></i> Admission No.</span>
-                    <input class="input-field" type="text" id="signupAdmission" placeholder="e.g., AD2025-178" required>
+                    <span class="input-label"><i class="fas fa-id-card"></i> Admission number</span>
+                    <input class="input-field" type="text" id="loginAdmission" placeholder="your admission" required>
                 </div>
                 <div class="input-group">
                     <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
-                    <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
+                    <input class="input-field" type="password" id="loginPasskey" placeholder="••••••••" required>
                 </div>
-            </div>
-            <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account</button>
-        </form>
-    </div>
+                <button class="action-btn" type="submit"><i class="fa-regular fa-id-card"></i> log in</button>
+            </form>
+        </div>
 
-    <!-- LOGIN -->
-    <div id="loginPanel" class="form-panel">
-        <form onsubmit="event.preventDefault(); loginUser();">
-            <div class="input-group">
-                <span class="input-label"><i class="fas fa-id-card"></i> Admission number</span>
-                <input class="input-field" type="text" id="loginAdmission" placeholder="your admission" required>
-            </div>
-            <div class="input-group">
-                <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
-                <input class="input-field" type="password" id="loginPasskey" placeholder="••••••••" required>
-            </div>
-            <button class="action-btn" type="submit"><i class="fa-regular fa-id-card"></i> log in</button>
-        </form>
-    </div>
-
-    <!-- DASHBOARD -->
-    <div id="dashboardPanel" class="dashboard-panel">
-        <div class="welcome-card">
-            <div class="personal-welcome" id="personalWelcome">
-                <i class="fa-regular fa-hand-wave"></i> Welcome, <span id="welcomeAdmission">User</span>!
-            </div>
-            <div class="dashboard-stats">
-                <div class="stat-box">
-                    <i class="fa-regular fa-id-card"></i>
-                    <div><strong id="dashboardAdmission">---</strong></div>
-                    <div>admission</div>
+        <!-- DASHBOARD -->
+        <div id="dashboardPanel" class="dashboard-panel">
+            <div class="welcome-card">
+                <div class="personal-welcome" id="personalWelcome">
+                    <i class="fa-regular fa-hand-wave"></i> Welcome, <span id="welcomeAdmission">User</span>!
                 </div>
-                <div class="stat-box">
-                    <i class="fa-regular fa-calendar"></i>
-                    <div><strong id="dashboardSince">---</strong></div>
-                    <div>member since</div>
+                <div class="dashboard-stats">
+                    <div class="stat-box">
+                        <i class="fa-regular fa-id-card"></i>
+                        <div><strong id="dashboardAdmission">---</strong></div>
+                        <div>admission</div>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-regular fa-calendar"></i>
+                        <div><strong id="dashboardSince">---</strong></div>
+                        <div>member since</div>
+                    </div>
                 </div>
+                <button class="action-btn logout-btn" onclick="logout()" style="background:#c94f4f;"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
             </div>
-            <button class="action-btn logout-btn" onclick="logout()" style="background:#c94f4f;"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
-        </div>
-        <div id="dashboardHome" class="records-section">
-            <div class="records-header">
-                <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
-                <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
+            <div id="dashboardHome" class="records-section">
+                <div class="records-header">
+                    <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
+                    <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
+                </div>
+                <div id="dashboardRecordsContainer"></div>
             </div>
-            <div id="dashboardRecordsContainer"></div>
+        </div>
+
+        <!-- container for dynamic pages (HD, PQ, COURSES) -->
+        <div id="dynamicPageContainer" style="min-height: 300px;"></div>
+
+        <!-- message area -->
+        <div id="authMessage" class="message"></div>
+
+        <!-- FOOTER BAR – black background -->
+        <div class="footer-bar">
+            <div class="footer-item" onclick="handleFooterClick('dashboard')">
+                <i class="fa-solid fa-book-open"></i>
+                <span>DASHBOARD</span>
+            </div>
+            <div class="footer-item" onclick="handleFooterClick('hd')">
+                <i class="fa-solid fa-book"></i>
+                <span>HD</span>
+            </div>
+            <div class="footer-item" onclick="handleFooterClick('pq')">
+                <i class="fa-solid fa-bookmark"></i>
+                <span>PQ</span>
+            </div>
+            <div class="footer-item" onclick="handleFooterClick('courses')">
+                <i class="fa-solid fa-books"></i>
+                <span>COURSES</span>
+            </div>
         </div>
     </div>
 
-    <!-- container for dynamic pages (HD, PQ, COURSES) -->
-    <div id="dynamicPageContainer" style="min-height: 300px;"></div>
-
-    <!-- message area -->
-    <div id="authMessage" class="message"></div>
-
-    <!-- FOOTER BAR – transparent, inline, with small icons -->
-    <div class="footer-bar">
-        <div class="footer-item" onclick="handleFooterClick('dashboard')">
-            <i class="fa-solid fa-book-open"></i>
-            <span>DASHBOARD</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('hd')">
-            <i class="fa-solid fa-book"></i>
-            <span>HD</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('pq')">
-            <i class="fa-solid fa-bookmark"></i>
-            <span>PQ</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('courses')">
-            <i class="fa-solid fa-books"></i>
-            <span>COURSES</span>
+    <!-- Guide overlay -->
+    <div id="guideOverlay" class="guide-overlay" style="display: none;">
+        <div class="guide-card">
+            <div id="guideSlideContainer" class="guide-slide"></div>
+            <div class="guide-dots" id="guideDots"></div>
+            <div class="guide-buttons">
+                <button class="guide-btn outline" id="guidePrevBtn" onclick="guidePrev()">Previous</button>
+                <button class="guide-btn" id="guideNextBtn" onclick="guideNext()">Next</button>
+                <button class="guide-btn" id="guideFinishBtn" onclick="guideFinish()" style="display: none;">Go to Dashboard</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Guide overlay (hidden by default) -->
-<div id="guideOverlay" class="guide-overlay" style="display: none;">
-    <div class="guide-card">
-        <div id="guideSlideContainer" class="guide-slide">
-            <!-- slides injected via JS -->
-        </div>
-        <div class="guide-dots" id="guideDots"></div>
-        <div class="guide-buttons">
-            <button class="guide-btn outline" id="guidePrevBtn" onclick="guidePrev()">Previous</button>
-            <button class="guide-btn" id="guideNextBtn" onclick="guideNext()">Next</button>
-            <button class="guide-btn" id="guideFinishBtn" onclick="guideFinish()" style="display: none;">Go to Dashboard</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    (function() {
-        let currentUser = null;
-        if (!localStorage.getItem('m10xUsers')) {
-            localStorage.setItem('m10xUsers', JSON.stringify([]));
-        }
-
-        // Guide data
-        const guideSlides = [
-            { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
-            { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
-            { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 data boxes – like a price ladder. Explore them!' },
-            { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with sample data. Use the footer to switch pages.' },
-            { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
-        ];
-        let currentSlide = 0;
-
-        // DOM
-        const tabContainer = document.getElementById('tabContainer');
-        const signupPanel = document.getElementById('signupPanel');
-        const loginPanel = document.getElementById('loginPanel');
-        const dashboardPanel = document.getElementById('dashboardPanel');
-        const tabSignup = document.getElementById('tabSignup');
-        const tabLogin = document.getElementById('tabLogin');
-        const authMessage = document.getElementById('authMessage');
-        const globalHint = document.getElementById('globalHint');
-        const dynamicContainer = document.getElementById('dynamicPageContainer');
-        const guideOverlay = document.getElementById('guideOverlay');
-        const guideSlideContainer = document.getElementById('guideSlideContainer');
-        const guideDots = document.getElementById('guideDots');
-        const guidePrevBtn = document.getElementById('guidePrevBtn');
-        const guideNextBtn = document.getElementById('guideNextBtn');
-        const guideFinishBtn = document.getElementById('guideFinishBtn');
-
-        const welcomeAdmission = document.getElementById('welcomeAdmission');
-        const dashboardAdmission = document.getElementById('dashboardAdmission');
-        const dashboardSince = document.getElementById('dashboardSince');
-        const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
-
-        function clearMessage() { authMessage.innerHTML = ''; }
-        function showMessage(text, isSuccess = true) {
-            authMessage.innerHTML = text;
-            authMessage.style.background = isSuccess ? '#d9f0da' : '#ffe6e1';
-        }
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
-        }
-
-        window.renderDashboardRecords = function() {
-            if (!currentUser) return;
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            if (!users.length) {
-                dashboardRecordsContainer.innerHTML = '<div class="no-records">no users yet</div>';
-                return;
+    <script>
+        (function() {
+            let currentUser = null;
+            if (!localStorage.getItem('m10xUsers')) {
+                localStorage.setItem('m10xUsers', JSON.stringify([]));
             }
-            const sorted = [...users].reverse();
-            let html = '';
-            sorted.forEach(entry => {
-                const adm = escapeHtml(entry.admission);
-                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
-                const time = entry.timestamp || '';
-                const isCurrent = currentUser && entry.id === currentUser.id;
-                const style = isCurrent ? 'background:#d9f0da;' : '';
-                html += `<div class="record-item" style="${style}">
-                    <div><strong>adm:</strong> ${adm} ${isCurrent ? '(you)' : ''}<br><span style="font-size:0.7rem;">${time}</span></div>
-                    <div><span style="font-size:0.8rem;">key: ${maskedPass}</span></div>
-                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')"><i class="fa-regular fa-trash-can"></i></div>
-                </div>`;
-            });
-            dashboardRecordsContainer.innerHTML = html;
-        };
 
-        // Guide functions
-        function updateGuide() {
-            const slide = guideSlides[currentSlide];
-            guideSlideContainer.innerHTML = `
-                <i class="${slide.icon}"></i>
-                <h2>${slide.title}</h2>
-                <p>${slide.text}</p>
-            `;
-            // Dots
-            let dotsHtml = '';
-            guideSlides.forEach((_, index) => {
-                dotsHtml += `<span class="dot ${index === currentSlide ? 'active' : ''}" onclick="guideJumpTo(${index})"></span>`;
-            });
-            guideDots.innerHTML = dotsHtml;
+            // Guide data
+            const guideSlides = [
+                { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
+                { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
+                { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 data boxes – like a price ladder. Explore them!' },
+                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with sample data. Use the footer to switch pages.' },
+                { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
+            ];
+            let currentSlide = 0;
 
-            // Buttons
-            guidePrevBtn.style.display = currentSlide === 0 ? 'none' : 'inline-block';
-            guideNextBtn.style.display = currentSlide === guideSlides.length - 1 ? 'none' : 'inline-block';
-            guideFinishBtn.style.display = currentSlide === guideSlides.length - 1 ? 'inline-block' : 'none';
-        }
+            // DOM
+            const tabContainer = document.getElementById('tabContainer');
+            const signupPanel = document.getElementById('signupPanel');
+            const loginPanel = document.getElementById('loginPanel');
+            const dashboardPanel = document.getElementById('dashboardPanel');
+            const tabSignup = document.getElementById('tabSignup');
+            const tabLogin = document.getElementById('tabLogin');
+            const authMessage = document.getElementById('authMessage');
+            const globalHint = document.getElementById('globalHint');
+            const dynamicContainer = document.getElementById('dynamicPageContainer');
+            const guideOverlay = document.getElementById('guideOverlay');
+            const guideSlideContainer = document.getElementById('guideSlideContainer');
+            const guideDots = document.getElementById('guideDots');
+            const guidePrevBtn = document.getElementById('guidePrevBtn');
+            const guideNextBtn = document.getElementById('guideNextBtn');
+            const guideFinishBtn = document.getElementById('guideFinishBtn');
 
-        window.guideNext = function() {
-            if (currentSlide < guideSlides.length - 1) {
-                currentSlide++;
+            const welcomeAdmission = document.getElementById('welcomeAdmission');
+            const dashboardAdmission = document.getElementById('dashboardAdmission');
+            const dashboardSince = document.getElementById('dashboardSince');
+            const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
+
+            // Splash screen fallback
+            setTimeout(() => {
+                const splash = document.getElementById('splashOverlay');
+                if (splash) splash.style.display = 'none';
+            }, 3000);
+
+            function clearMessage() { authMessage.innerHTML = ''; }
+            function showMessage(text, isSuccess = true) {
+                authMessage.innerHTML = text;
+                authMessage.style.background = isSuccess ? '#d9f0da' : '#ffe6e1';
+            }
+            function escapeHtml(str) {
+                if (!str) return '';
+                return String(str).replace(/[&<>"]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[m]));
+            }
+
+            window.renderDashboardRecords = function() {
+                if (!currentUser) return;
+                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+                if (!users.length) {
+                    dashboardRecordsContainer.innerHTML = '<div class="no-records">no users yet</div>';
+                    return;
+                }
+                const sorted = [...users].reverse();
+                let html = '';
+                sorted.forEach(entry => {
+                    const adm = escapeHtml(entry.admission);
+                    const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
+                    const time = entry.timestamp || '';
+                    const isCurrent = currentUser && entry.id === currentUser.id;
+                    const style = isCurrent ? 'background:#d9f0da;' : '';
+                    html += `<div class="record-item" style="${style}">
+                        <div><strong>adm:</strong> ${adm} ${isCurrent ? '(you)' : ''}<br><span style="font-size:0.7rem;">${time}</span></div>
+                        <div><span style="font-size:0.8rem;">key: ${maskedPass}</span></div>
+                        <div class="delete-icon" onclick="deleteRecord('${entry.id}')"><i class="fa-regular fa-trash-can"></i></div>
+                    </div>`;
+                });
+                dashboardRecordsContainer.innerHTML = html;
+            };
+
+            // Guide functions
+            function updateGuide() {
+                const slide = guideSlides[currentSlide];
+                guideSlideContainer.innerHTML = `
+                    <i class="${slide.icon}"></i>
+                    <h2>${slide.title}</h2>
+                    <p>${slide.text}</p>
+                `;
+                let dotsHtml = '';
+                guideSlides.forEach((_, index) => {
+                    dotsHtml += `<span class="dot ${index === currentSlide ? 'active' : ''}" onclick="guideJumpTo(${index})"></span>`;
+                });
+                guideDots.innerHTML = dotsHtml;
+
+                guidePrevBtn.style.display = currentSlide === 0 ? 'none' : 'inline-block';
+                guideNextBtn.style.display = currentSlide === guideSlides.length - 1 ? 'none' : 'inline-block';
+                guideFinishBtn.style.display = currentSlide === guideSlides.length - 1 ? 'inline-block' : 'none';
+            }
+
+            window.guideNext = function() {
+                if (currentSlide < guideSlides.length - 1) {
+                    currentSlide++;
+                    updateGuide();
+                }
+            };
+
+            window.guidePrev = function() {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateGuide();
+                }
+            };
+
+            window.guideJumpTo = function(index) {
+                currentSlide = index;
                 updateGuide();
-            }
-        };
+            };
 
-        window.guidePrev = function() {
-            if (currentSlide > 0) {
-                currentSlide--;
-                updateGuide();
-            }
-        };
-
-        window.guideJumpTo = function(index) {
-            currentSlide = index;
-            updateGuide();
-        };
-
-        window.guideFinish = function() {
-            guideOverlay.style.display = 'none';
-            // Show dashboard
-            tabContainer.style.display = 'none';
-            signupPanel.classList.remove('active-panel');
-            loginPanel.classList.remove('active-panel');
-            dashboardPanel.classList.add('active-panel');
-            globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
-            welcomeAdmission.textContent = currentUser.admission;
-            dashboardAdmission.textContent = currentUser.admission;
-            dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
-            renderDashboardRecords();
-            dynamicContainer.style.display = 'none';
-            dynamicContainer.innerHTML = '';
-        };
-
-        // Modified login flow: after successful login, show guide overlay
-        function showGuideAndThenDashboard() {
-            currentSlide = 0;
-            updateGuide();
-            guideOverlay.style.display = 'flex';
-        }
-
-        function updateUIForUser() {
-            if (currentUser) {
-                // Hide tabs and dashboard initially, show guide
+            window.guideFinish = function() {
+                guideOverlay.style.display = 'none';
                 tabContainer.style.display = 'none';
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
-                dashboardPanel.classList.remove('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> welcome · new user guide';
+                dashboardPanel.classList.add('active-panel');
+                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+                welcomeAdmission.textContent = currentUser.admission;
+                dashboardAdmission.textContent = currentUser.admission;
+                dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
+                renderDashboardRecords();
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
-
-                showGuideAndThenDashboard();
-                clearMessage();
-            } else {
-                tabContainer.style.display = 'flex';
-                dashboardPanel.classList.remove('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
-                switchPanel('signup');
-                dynamicContainer.style.display = 'none';
-                dynamicContainer.innerHTML = '';
-                guideOverlay.style.display = 'none';
-            }
-        }
-
-        // signup
-        window.signupUser = function() {
-            const admission = document.getElementById('signupAdmission').value.trim();
-            const passkey = document.getElementById('signupPasskey').value.trim();
-            if (!admission || !passkey) { showMessage('❌ Both fields required', false); return; }
-            if (passkey.length < 4) { showMessage('❌ Passkey min 4 chars', false); return; }
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const newEntry = {
-                id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
-                admission, passkey, timestamp: new Date().toLocaleString()
             };
-            users.push(newEntry);
-            localStorage.setItem('m10xUsers', JSON.stringify(users));
-            document.getElementById('signupAdmission').value = '';
-            document.getElementById('signupPasskey').value = '';
-            showMessage('✅ Signup successful! You can now log in.', true);
-        };
 
-        // login
-        window.loginUser = function() {
-            const admission = document.getElementById('loginAdmission').value.trim();
-            const passkey = document.getElementById('loginPasskey').value.trim();
-            if (!admission || !passkey) { showMessage('❌ Enter both', false); return; }
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const matched = users.find(u => u.admission === admission && u.passkey === passkey);
-            if (matched) {
-                currentUser = { ...matched };
-                updateUIForUser();
-                document.getElementById('loginAdmission').value = '';
-                document.getElementById('loginPasskey').value = '';
-            } else {
-                showMessage('❌ No matching user', false);
+            function showGuideAndThenDashboard() {
+                currentSlide = 0;
+                updateGuide();
+                guideOverlay.style.display = 'flex';
             }
-        };
 
-        window.logout = function() {
-            currentUser = null;
-            updateUIForUser();
-            showMessage('👋 Logged out', true);
-        };
+            function updateUIForUser() {
+                if (currentUser) {
+                    tabContainer.style.display = 'none';
+                    signupPanel.classList.remove('active-panel');
+                    loginPanel.classList.remove('active-panel');
+                    dashboardPanel.classList.remove('active-panel');
+                    globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> welcome · new user guide';
+                    dynamicContainer.style.display = 'none';
+                    dynamicContainer.innerHTML = '';
 
-        window.deleteRecord = function(id) {
-            let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const userToDelete = users.find(u => u.id == id);
-            if (currentUser && userToDelete && userToDelete.id === currentUser.id) {
-                if (!confirm('Delete your own account?')) return;
-                users = users.filter(e => e.id != id);
+                    showGuideAndThenDashboard();
+                    clearMessage();
+                } else {
+                    tabContainer.style.display = 'flex';
+                    dashboardPanel.classList.remove('active-panel');
+                    globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
+                    switchPanel('signup');
+                    dynamicContainer.style.display = 'none';
+                    dynamicContainer.innerHTML = '';
+                    guideOverlay.style.display = 'none';
+                }
+            }
+
+            // signup
+            window.signupUser = function() {
+                const admission = document.getElementById('signupAdmission').value.trim();
+                const passkey = document.getElementById('signupPasskey').value.trim();
+                if (!admission || !passkey) { showMessage('❌ Both fields required', false); return; }
+                if (passkey.length < 4) { showMessage('❌ Passkey min 4 chars', false); return; }
+                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+                const newEntry = {
+                    id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
+                    admission, passkey, timestamp: new Date().toLocaleString()
+                };
+                users.push(newEntry);
                 localStorage.setItem('m10xUsers', JSON.stringify(users));
+                document.getElementById('signupAdmission').value = '';
+                document.getElementById('signupPasskey').value = '';
+                showMessage('✅ Signup successful! You can now log in.', true);
+            };
+
+            // login
+            window.loginUser = function() {
+                const admission = document.getElementById('loginAdmission').value.trim();
+                const passkey = document.getElementById('loginPasskey').value.trim();
+                if (!admission || !passkey) { showMessage('❌ Enter both', false); return; }
+                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+                const matched = users.find(u => u.admission === admission && u.passkey === passkey);
+                if (matched) {
+                    currentUser = { ...matched };
+                    updateUIForUser();
+                    document.getElementById('loginAdmission').value = '';
+                    document.getElementById('loginPasskey').value = '';
+                } else {
+                    showMessage('❌ No matching user', false);
+                }
+            };
+
+            window.logout = function() {
                 currentUser = null;
                 updateUIForUser();
-                showMessage('Your account deleted', true);
-                return;
-            }
-            users = users.filter(e => e.id != id);
-            localStorage.setItem('m10xUsers', JSON.stringify(users));
-            if (currentUser) {
-                const stillExists = users.find(u => u.id === currentUser.id);
-                if (!stillExists) { currentUser = null; updateUIForUser(); }
-                else renderDashboardRecords();
-            }
-        };
+                showMessage('👋 Logged out', true);
+            };
 
-        window.switchPanel = function(panel) {
-            if (currentUser) return;
-            if (panel === 'signup') {
-                signupPanel.classList.add('active-panel');
-                loginPanel.classList.remove('active-panel');
-                tabSignup.classList.add('active');
-                tabLogin.classList.remove('active');
-            } else {
-                loginPanel.classList.add('active-panel');
-                signupPanel.classList.remove('active-panel');
-                tabLogin.classList.add('active');
-                tabSignup.classList.remove('active');
-            }
-            clearMessage();
-            dynamicContainer.style.display = 'none';
-            dynamicContainer.innerHTML = '';
-        };
+            window.deleteRecord = function(id) {
+                let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+                const userToDelete = users.find(u => u.id == id);
+                if (currentUser && userToDelete && userToDelete.id === currentUser.id) {
+                    if (!confirm('Delete your own account?')) return;
+                    users = users.filter(e => e.id != id);
+                    localStorage.setItem('m10xUsers', JSON.stringify(users));
+                    currentUser = null;
+                    updateUIForUser();
+                    showMessage('Your account deleted', true);
+                    return;
+                }
+                users = users.filter(e => e.id != id);
+                localStorage.setItem('m10xUsers', JSON.stringify(users));
+                if (currentUser) {
+                    const stillExists = users.find(u => u.id === currentUser.id);
+                    if (!stillExists) { currentUser = null; updateUIForUser(); }
+                    else renderDashboardRecords();
+                }
+            };
 
-        // Helper to generate 7 boxes
-        function renderSevenBoxes(title) {
-            const boxes = [];
-            for (let i = 1; i <= 7; i++) {
-                const base = 68000 - i * 100;
-                boxes.push(`
-                    <div class="price-box">
-                        <span>${title} ${i}</span>
-                        <span>${base.toFixed(2)}</span>
-                    </div>
-                `);
-            }
-            return `
-                <div class="box-page">
-                    <div class="box-list">
-                        ${boxes.join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        // footer click handler
-        window.handleFooterClick = function(section) {
-            if (!currentUser) {
-                showMessage('🔒 Please log in first', false);
-                return;
-            }
-            dashboardPanel.classList.remove('active-panel');
-            tabContainer.style.display = 'none';
-            dynamicContainer.style.display = 'block';
-
-            if (section === 'dashboard') {
-                dashboardPanel.classList.add('active-panel');
+            window.switchPanel = function(panel) {
+                if (currentUser) return;
+                if (panel === 'signup') {
+                    signupPanel.classList.add('active-panel');
+                    loginPanel.classList.remove('active-panel');
+                    tabSignup.classList.add('active');
+                    tabLogin.classList.remove('active');
+                } else {
+                    loginPanel.classList.add('active-panel');
+                    signupPanel.classList.remove('active-panel');
+                    tabLogin.classList.add('active');
+                    tabSignup.classList.remove('active');
+                }
+                clearMessage();
                 dynamicContainer.style.display = 'none';
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
-            } else if (section === 'hd') {
-                dynamicContainer.innerHTML = renderSevenBoxes('HD');
-                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes';
-            } else if (section === 'pq') {
-                dynamicContainer.innerHTML = renderSevenBoxes('PQ');
-                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes';
-            } else if (section === 'courses') {
-                dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
-                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes';
-            }
-        };
+                dynamicContainer.innerHTML = '';
+            };
 
-        // initial
-        switchPanel('signup');
-    })();
-</script>
+            // Helper to generate 7 boxes + dropdown with 6 links
+            function renderSevenBoxes(title) {
+                const boxes = [];
+                for (let i = 1; i <= 7; i++) {
+                    const base = 68000 - i * 100;
+                    boxes.push(`
+                        <div class="price-box">
+                            <span>${title} ${i}</span>
+                            <span>${base.toFixed(2)}</span>
+                        </div>
+                    `);
+                }
+                // Dropdown with 6 links
+                const dropdown = `
+                    <div class="dropdown-section">
+                        <select onchange="window.open(this.value, '_blank')">
+                            <option value="" disabled selected>— choose a link —</option>
+                            <option value="https://example.com/1">Link 1: Documentation</option>
+                            <option value="https://example.com/2">Link 2: Tutorials</option>
+                            <option value="https://example.com/3">Link 3: Community</option>
+                            <option value="https://example.com/4">Link 4: Support</option>
+                            <option value="https://example.com/5">Link 5: Updates</option>
+                            <option value="https://example.com/6">Link 6: Feedback</option>
+                        </select>
+                    </div>
+                `;
+                return `
+                    <div class="box-page">
+                        <div class="box-list">
+                            ${boxes.join('')}
+                        </div>
+                        ${dropdown}
+                    </div>
+                `;
+            }
+
+            // footer click handler
+            window.handleFooterClick = function(section) {
+                if (!currentUser) {
+                    showMessage('🔒 Please log in first', false);
+                    return;
+                }
+                dashboardPanel.classList.remove('active-panel');
+                tabContainer.style.display = 'none';
+                dynamicContainer.style.display = 'block';
+
+                if (section === 'dashboard') {
+                    dashboardPanel.classList.add('active-panel');
+                    dynamicContainer.style.display = 'none';
+                    globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+                } else if (section === 'hd') {
+                    dynamicContainer.innerHTML = renderSevenBoxes('HD');
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes + dropdown';
+                } else if (section === 'pq') {
+                    dynamicContainer.innerHTML = renderSevenBoxes('PQ');
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes + dropdown';
+                } else if (section === 'courses') {
+                    dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes + dropdown';
+                }
+            };
+
+            // initial
+            switchPanel('signup');
+        })();
+    </script>
 </body>
 </html>
