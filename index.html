@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · simple</title>
-    <!-- Font Awesome 6 (free) – kept for other icons, not used in footer -->
+    <title>CMP library · 7‑box pages</title>
+    <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -68,11 +68,11 @@
         .tab {
             flex: 1;
             text-align: center;
-            padding: 1.2rem 0;        /* doubled from 0.6rem */
+            padding: 1.2rem 0;
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 1.2rem;         /* slightly larger for proportion */
+            font-size: 1.2rem;
             color: #1c4b2d;
             border: 1px solid transparent;
         }
@@ -262,7 +262,47 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
-        /* empty page – completely empty */
+        /* ===== 7‑box layout for HD and PQ ===== */
+        .box-page {
+            background: #f5fff5;
+            border-radius: 20px;
+            padding: 1rem;
+            border: 2px solid #1c4b2d;
+            margin: 1rem 0;
+            /* fixed height for the whole container – can be adjusted */
+            height: 450px;
+            overflow-y: auto; /* in case content overflows, but 7 boxes fit */
+        }
+        .box-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .price-box {
+            background: white;
+            border: 1px solid #1c4b2d;
+            border-radius: 16px;
+            padding: 0.8rem 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #1c4b2d;
+            box-shadow: 0 2px 6px rgba(0,40,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* fixed height for each box – gives consistent look */
+            height: 55px;
+        }
+        .price-box span {
+            color: #2b6e3b;
+            font-weight: 400;
+        }
+        /* simple alternating background for visual interest */
+        .price-box:nth-child(even) {
+            background: #f0faf0;
+        }
+
+        /* empty page for courses (completely empty) */
         .empty-page {
             min-height: 200px;
             background: #ffffff;
@@ -347,8 +387,8 @@
         </div>
     </div>
 
-    <!-- container for empty pages -->
-    <div id="emptyPageContainer" style="display: none;"></div>
+    <!-- container for dynamic pages (HD, PQ, Courses) -->
+    <div id="dynamicPageContainer" style="min-height: 300px;"></div>
 
     <!-- message area -->
     <div id="authMessage" class="message"></div>
@@ -378,7 +418,7 @@
         const tabLogin = document.getElementById('tabLogin');
         const authMessage = document.getElementById('authMessage');
         const globalHint = document.getElementById('globalHint');
-        const emptyContainer = document.getElementById('emptyPageContainer');
+        const dynamicContainer = document.getElementById('dynamicPageContainer');
 
         const welcomeAdmission = document.getElementById('welcomeAdmission');
         const dashboardAdmission = document.getElementById('dashboardAdmission');
@@ -443,6 +483,9 @@
                 dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
                 renderDashboardRecords();
                 clearMessage();
+                // hide any dynamic page
+                dynamicContainer.style.display = 'none';
+                dynamicContainer.innerHTML = '';
             }, 1500);
         }
 
@@ -454,8 +497,8 @@
                 dashboardPanel.classList.remove('active-panel');
                 globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
                 switchPanel('signup');
-                emptyContainer.style.display = 'none';
-                emptyContainer.innerHTML = '';
+                dynamicContainer.style.display = 'none';
+                dynamicContainer.innerHTML = '';
             }
         }
 
@@ -535,21 +578,62 @@
                 tabSignup.classList.remove('active');
             }
             clearMessage();
-            emptyContainer.style.display = 'none';
-            emptyContainer.innerHTML = '';
+            dynamicContainer.style.display = 'none';
+            dynamicContainer.innerHTML = '';
         };
 
-        // footer click – show absolutely empty page
+        // Helper to generate 7 boxes (like price ladder)
+        function renderSevenBoxes(title) {
+            // Create 7 boxes with dummy numbers (like crypto prices)
+            const boxes = [];
+            for (let i = 1; i <= 7; i++) {
+                // Generate some decreasing numbers for effect
+                const base = 68000 - i * 100;
+                boxes.push(`
+                    <div class="price-box">
+                        <span>${title} ${i}</span>
+                        <span>${base.toFixed(2)}</span>
+                    </div>
+                `);
+            }
+            return `
+                <div class="box-page">
+                    <div class="box-list">
+                        ${boxes.join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // footer click handler
         window.handleFooterClick = function(section) {
             if (!currentUser) {
                 showMessage('🔒 Please log in first', false);
                 return;
             }
+            // Hide dashboard and show dynamic container
             dashboardPanel.classList.remove('active-panel');
             tabContainer.style.display = 'none';
-            emptyContainer.style.display = 'block';
-            emptyContainer.innerHTML = '<div class="empty-page"></div>';
-            globalHint.innerHTML = `<i class="fa-regular fa-eye-slash"></i> viewing ${section} · empty`;
+            dynamicContainer.style.display = 'block';
+
+            if (section === 'dashboard') {
+                // Show dashboard (re-activate dashboard panel)
+                dashboardPanel.classList.add('active-panel');
+                dynamicContainer.style.display = 'none';
+                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+            } else if (section === 'hd') {
+                // HD page with 7 boxes
+                dynamicContainer.innerHTML = renderSevenBoxes('HD');
+                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes';
+            } else if (section === 'pq') {
+                // PQ page with 7 boxes
+                dynamicContainer.innerHTML = renderSevenBoxes('PQ');
+                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes';
+            } else if (section === 'courses') {
+                // Courses page – empty (as before)
+                dynamicContainer.innerHTML = '<div class="empty-page"></div>';
+                globalHint.innerHTML = '<i class="fa-regular fa-eye-slash"></i> viewing COURSES · empty';
+            }
         };
 
         // initial
