@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · course boxes</title>
+    <title>CMP library · HD & PQ boxes</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -274,7 +274,7 @@
         .box-label {
             font-weight: 600;
             color: #1c4b2d;
-            min-width: 100px;
+            min-width: 120px;
             font-size: 1rem;
         }
         .box-select {
@@ -787,8 +787,8 @@
                 dynamicContainer.innerHTML = '';
             };
 
-            // List of course codes (exactly as provided)
-            const courseLabels = [
+            // Label sets for different pages
+            const hdCourseLabels = [
                 "CMP 201",
                 "CMP 209",
                 "ucsc 201",
@@ -797,9 +797,18 @@
                 "MTH 201"
             ];
 
-            // Helper to generate boxes with course codes and dropdowns
-            function renderCourseBoxes() {
-                const boxes = courseLabels.map((label, index) => {
+            const pqCourseLabels = [
+                "CMP PQ 201",
+                "CMP PQ 209",
+                "UCSC PQ 201",
+                "SEN PQ 201",
+                "GST PQ 211",
+                "MTH PQ 201"
+            ];
+
+            // Helper to generate boxes with given labels
+            function renderCourseBoxes(labels) {
+                const boxes = labels.map(label => {
                     const options = [
                         '<option value="" disabled selected>— choose link —</option>',
                         '<option value="https://example.com/1">Documentation</option>',
@@ -842,13 +851,13 @@
                     dynamicContainer.style.display = 'none';
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
-                    dynamicContainer.innerHTML = renderCourseBoxes();
+                    dynamicContainer.innerHTML = renderCourseBoxes(hdCourseLabels);
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · course boxes';
                 } else if (section === 'pq') {
-                    dynamicContainer.innerHTML = renderCourseBoxes();
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · course boxes';
+                    dynamicContainer.innerHTML = renderCourseBoxes(pqCourseLabels);
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · custom boxes';
                 } else if (section === 'courses') {
-                    dynamicContainer.innerHTML = renderCourseBoxes();
+                    dynamicContainer.innerHTML = renderCourseBoxes(hdCourseLabels);
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · course boxes';
                 }
             };
