@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-liabrary · signup & storage</title>
+    <title>M10x-liabrary · signup + login</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -24,30 +24,23 @@
         }
 
         /* main white card */
-        .signup-card {
+        .auth-card {
             background-color: #ffffff;
             width: 100%;
-            max-width: 480px;
-            padding: 2.2rem 2rem 2.5rem 2rem;
+            max-width: 500px;
+            padding: 2rem 2rem 2rem 2rem;
             border-radius: 36px;
             box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35);
             border: 1px solid #c0ddb5;
-            transition: transform 0.2s ease;
         }
 
-        .signup-card:hover {
-            transform: scale(1.005);
-            box-shadow: 0 30px 45px -10px #1e4a2e55;
-        }
-
-        /* ----- library icon + M10x-liabrary ----- */
+        /* library icon + M10x-liabrary (exact spelling) */
         .library-header {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.8rem;
-            color: #1c4b2d;
+            margin-bottom: 1.5rem;
         }
 
         .icon-circle {
@@ -58,7 +51,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             box-shadow: 0 12px 16px -8px #1c4b2d80;
             border: 2px solid #e6ffe6;
         }
@@ -66,7 +59,6 @@
         .icon-circle i {
             font-size: 3.2rem;
             color: white;
-            filter: drop-shadow(2px 4px 4px #0f2b1a);
         }
 
         .library-header h1 {
@@ -95,9 +87,48 @@
             display: inline-block;
         }
 
-        /* form labels */
+        /* tab switcher */
+        .tab-container {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1.5rem 0 1.8rem 0;
+            background: #e5f2e5;
+            padding: 0.4rem;
+            border-radius: 50px;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.7rem 0.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #1d5e2b;
+            border: 1px solid transparent;
+        }
+        .tab.active {
+            background: white;
+            color: #0f481f;
+            box-shadow: 0 6px 12px #b7d9b7;
+            border: 1px solid #a7c9a7;
+            font-weight: 700;
+        }
+        .tab i {
+            margin-right: 6px;
+        }
+
+        /* forms (only active one visible) */
+        .form-panel {
+            display: none;
+        }
+        .form-panel.active-panel {
+            display: block;
+        }
+
         .input-group {
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.3rem;
         }
 
         .input-label {
@@ -107,13 +138,10 @@
             font-weight: 500;
             margin-bottom: 6px;
             color: #0f3b1e;
-            font-size: 1rem;
         }
-
         .input-label i {
             color: #1f6e3b;
             width: 20px;
-            font-size: 1.1rem;
         }
 
         .input-field {
@@ -126,28 +154,15 @@
             outline: none;
             transition: all 0.15s;
             color: #1a3a24;
-            font-weight: 500;
-            box-shadow: inset 0 3px 8px #f1f9ee;
         }
-
         .input-field:focus {
             border-color: #1d6e32;
-            box-shadow: 0 0 0 4px rgba(45, 125, 70, 0.2), inset 0 2px 5px #ebf5e7;
+            box-shadow: 0 0 0 4px rgba(45, 125, 70, 0.2);
         }
-
         .input-field::placeholder {
             color: #83a78b;
-            font-weight: 300;
         }
 
-        .hint-text {
-            text-align: right;
-            font-size: 0.8rem;
-            margin-top: 4px;
-            color: #4f8b5e;
-        }
-
-        /* row for admission + extra field (if needed) */
         .double-row {
             display: flex;
             gap: 12px;
@@ -157,48 +172,43 @@
             flex: 1 1 160px;
         }
 
-        /* signup button — dark green */
-        .signup-btn {
+        .action-btn {
             background-color: #1d542d;
             color: white;
             width: 100%;
             padding: 1rem;
             border: none;
             border-radius: 40px;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin: 1.2rem 0 0.8rem 0;
+            gap: 10px;
+            margin: 1rem 0 0.5rem 0;
             cursor: pointer;
             box-shadow: 0 14px 18px -8px #1b4f29;
             transition: 0.15s;
             border: 1px solid #c4e6c4;
         }
-
-        .signup-btn:hover {
+        .action-btn:hover {
             background-color: #0f421f;
+            transform: translateY(-2px);
             box-shadow: 0 18px 22px -8px #143f1f;
-            transform: translateY(-3px);
         }
-
-        .signup-btn:active {
-            background-color: #0a3117;
+        .action-btn:active {
             transform: translateY(2px);
             box-shadow: 0 6px 12px -6px #0c2f15;
         }
 
-        /* table / record section */
+        /* records / user list */
         .records-section {
-            margin-top: 2.2rem;
+            margin-top: 2rem;
             background: #f4faf2;
             border-radius: 28px;
             padding: 1.3rem 1.2rem 1rem 1.2rem;
             border: 1px solid #b1d3b6;
         }
-
         .records-header {
             display: flex;
             align-items: center;
@@ -206,7 +216,7 @@
             margin-bottom: 0.8rem;
             color: #1b562b;
             font-weight: 600;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
         }
         .records-header i {
             background: #1c4b2d;
@@ -215,7 +225,6 @@
             border-radius: 30px;
             font-size: 0.8rem;
             cursor: pointer;
-            transition: 0.1s;
             border: 1px solid white;
         }
         .records-header i:hover {
@@ -235,7 +244,6 @@
             font-size: 0.9rem;
             word-break: break-word;
         }
-
         .record-info {
             display: flex;
             flex-wrap: wrap;
@@ -259,33 +267,12 @@
         .delete-icon:hover {
             background: #d32f2f;
             color: white;
-            border-color: #b71c1c;
         }
-
         .no-records {
             color: #6a9072;
             font-style: italic;
-            padding: 0.5rem 0.5rem 0.3rem 0.5rem;
+            padding: 0.5rem;
             text-align: center;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1.2rem;
-            font-size: 0.9rem;
-        }
-        .footer-links a {
-            color: #1c5e2d;
-            text-decoration: none;
-            font-weight: 500;
-            background: #e2f0de;
-            padding: 0.4rem 1rem;
-            border-radius: 50px;
-            border: 1px solid #b1d7b8;
-        }
-        .footer-links a:hover {
-            background: #cae9d1;
         }
 
         .small-note {
@@ -298,190 +285,290 @@
             margin: 1rem 0 0 0;
             border: 1px solid #a6d4b2;
         }
+        .footer-links {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        .footer-links span {
+            color: #1c5e2d;
+            background: #e2f0de;
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            border: 1px solid #b1d7b8;
+            cursor: pointer;
+        }
+        .footer-links span:hover {
+            background: #cae9d1;
+        }
+        .message {
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 0.4rem;
+            border-radius: 40px;
+        }
+        .success-msg {
+            background: #d9f0da;
+            color: #115f27;
+        }
+        .error-msg {
+            background: #ffe6e1;
+            color: #a3321d;
+        }
     </style>
 </head>
 <body>
-    <div class="signup-card">
-        <!-- library icon + M10x-liabrary (exact spelling) -->
-        <div class="library-header">
-            <div class="icon-circle">
-                <i class="fas fa-landmark"></i>
-            </div>
-            <h1>M10x-liabrary</h1>
-            <span class="header-hint"><i class="fa-regular fa-pen-to-square"></i> create account · data stored</span>
+<div class="auth-card">
+    <!-- library header -->
+    <div class="library-header">
+        <div class="icon-circle">
+            <i class="fas fa-landmark"></i>
         </div>
+        <h1>M10x-liabrary</h1>
+        <span class="header-hint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
+    </div>
 
-        <!-- SIGNUP FORM (stores each entry permanently in localStorage) -->
-        <form id="signupForm" onsubmit="event.preventDefault(); storeUserData();">
+    <!-- tab switcher -->
+    <div class="tab-container">
+        <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
+        <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
+    </div>
+
+    <!-- SIGNUP PANEL (with Parma entry) -->
+    <div id="signupPanel" class="form-panel active-panel">
+        <form id="signupForm" onsubmit="event.preventDefault(); signupUser();">
             <div class="double-row">
                 <div class="input-group">
                     <span class="input-label"><i class="fas fa-id-card"></i> Admission No.</span>
-                    <input class="input-field" type="text" id="admissionNum" placeholder="e.g., AD2025-178" required>
+                    <input class="input-field" type="text" id="signupAdmission" placeholder="e.g., AD2025-178" required>
                 </div>
                 <div class="input-group">
                     <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
-                    <input class="input-field" type="password" id="passkey" placeholder="min 4 chars" required minlength="4">
+                    <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
                 </div>
             </div>
-
-            <!-- extra Parma entry field (as requested: "store every data Parma entry") 
-                 we consider "Parma entry" as a city/region or extra identifier. 
-                 You can type anything, it will be stored together with admission+passkey -->
             <div class="input-group">
-                <span class="input-label"><i class="fas fa-map-pin"></i> Parma entry (location / extra)</span>
-                <input class="input-field" type="text" id="parmaField" placeholder="e.g., Parma, reading section" required>
-                <div class="hint-text">specific Parma identifier (always stored)</div>
+                <span class="input-label"><i class="fas fa-map-pin"></i> Parma entry (extra)</span>
+                <input class="input-field" type="text" id="signupParma" placeholder="e.g., Parma, section B" required>
             </div>
-
-            <button class="signup-btn" type="submit">
-                <span>sign up → store</span>
-                <i class="fas fa-database"></i>
-            </button>
+            <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account → store</button>
         </form>
+    </div>
 
-        <!-- RECORDS: displays all stored entries (admission, passkey, parma) -->
-        <div class="records-section" id="recordsSection">
-            <div class="records-header">
-                <span><i class="fa-regular fa-hard-drive"></i> stored entries</span>
-                <i class="fas fa-rotate-right" id="refreshIcon" onclick="renderRecords()" title="refresh list"></i>
+    <!-- LOGIN PANEL (only admission + passkey) -->
+    <div id="loginPanel" class="form-panel">
+        <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
+            <div class="input-group">
+                <span class="input-label"><i class="fas fa-id-card"></i> Admission number</span>
+                <input class="input-field" type="text" id="loginAdmission" placeholder="your admission" required>
             </div>
-            <div id="recordsContainer">
-                <!-- dynamic content from localStorage -->
+            <div class="input-group">
+                <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
+                <input class="input-field" type="password" id="loginPasskey" placeholder="••••••••" required>
             </div>
-        </div>
+            <button class="action-btn" type="submit"><i class="fa-regular fa-id-card"></i> log in → verify</button>
+        </form>
+    </div>
 
-        <!-- helper note -->
-        <div class="small-note">
-            <i class="fa-regular fa-floppy-disk"></i> every signup stores admission + passkey + Parma entry
-        </div>
+    <!-- message area (success/error) -->
+    <div id="authMessage" class="message"></div>
 
-        <!-- additional links (just design) -->
-        <div class="footer-links">
-            <a href="#"><i class="fa-regular fa-circle-question"></i> help</a>
-            <a href="#" onclick="clearAllRecords(); return false;"><i class="fa-regular fa-trash-can"></i> clear all</a>
+    <!-- RECORDS: shows all stored entries (admission + passkey + parma) -->
+    <div class="records-section">
+        <div class="records-header">
+            <span><i class="fa-regular fa-hard-drive"></i> stored users</span>
+            <i class="fas fa-rotate-right" onclick="renderRecords()" title="refresh"></i>
+        </div>
+        <div id="recordsContainer">
+            <!-- dynamic from localStorage -->
         </div>
     </div>
 
-    <script>
-        (function() {
-            // Initialize storage if not present
-            if (!localStorage.getItem('m10xUsers')) {
-                localStorage.setItem('m10xUsers', JSON.stringify([]));
+    <!-- utility clear & hint -->
+    <div class="footer-links">
+        <span onclick="clearAllRecords()"><i class="fa-regular fa-trash-can"></i> delete all</span>
+    </div>
+    <div class="small-note">
+        <i class="fa-regular fa-circle-check"></i> signup stores admission + passkey + parma · login verifies
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Initialize storage
+        if (!localStorage.getItem('m10xUsers')) {
+            localStorage.setItem('m10xUsers', JSON.stringify([]));
+        }
+
+        // DOM elements
+        const signupPanel = document.getElementById('signupPanel');
+        const loginPanel = document.getElementById('loginPanel');
+        const tabSignup = document.getElementById('tabSignup');
+        const tabLogin = document.getElementById('tabLogin');
+        const authMessage = document.getElementById('authMessage');
+
+        // switch panel function (global)
+        window.switchPanel = function(panel) {
+            if (panel === 'signup') {
+                signupPanel.classList.add('active-panel');
+                loginPanel.classList.remove('active-panel');
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+            } else {
+                loginPanel.classList.add('active-panel');
+                signupPanel.classList.remove('active-panel');
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
             }
+            clearMessage();
+        };
+
+        function clearMessage() {
+            authMessage.innerHTML = '';
+            authMessage.className = 'message';
+        }
+
+        function showMessage(text, isSuccess = true) {
+            authMessage.innerHTML = text;
+            authMessage.className = isSuccess ? 'message success-msg' : 'message error-msg';
+        }
+
+        // --- SIGNUP function (stores admission, passkey, parma) ---
+        window.signupUser = function() {
+            const admission = document.getElementById('signupAdmission').value.trim();
+            const passkey = document.getElementById('signupPasskey').value.trim();
+            const parma = document.getElementById('signupParma').value.trim();
+
+            if (!admission || !passkey || !parma) {
+                showMessage('❌ All fields (admission, passkey, Parma) required.', false);
+                return;
+            }
+            if (passkey.length < 4) {
+                showMessage('❌ Passkey must be at least 4 characters.', false);
+                return;
+            }
+
+            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+
+            // optional: check duplicate admission? we allow multiple same admission for demo, but we can warn.
+            // but for clarity, we allow duplicates, just push.
+
+            const newEntry = {
+                id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
+                admission: admission,
+                passkey: passkey,      // stored plain (demo only)
+                parma: parma,
+                timestamp: new Date().toLocaleString()
+            };
+
+            users.push(newEntry);
+            localStorage.setItem('m10xUsers', JSON.stringify(users));
+
+            // clear signup fields
+            document.getElementById('signupAdmission').value = '';
+            document.getElementById('signupPasskey').value = '';
+            document.getElementById('signupParma').value = '';
+
             renderRecords();
+            showMessage('✅ Signup successful! Data stored.', true);
+        };
 
-            // make functions globally accessible (for onclick)
-            window.storeUserData = function() {
-                const admission = document.getElementById('admissionNum').value.trim();
-                const passkey = document.getElementById('passkey').value.trim();
-                const parma = document.getElementById('parmaField').value.trim();
+        // --- LOGIN function (verifies admission + passkey match a stored record) ---
+        window.loginUser = function() {
+            const admission = document.getElementById('loginAdmission').value.trim();
+            const passkey = document.getElementById('loginPasskey').value.trim();
 
-                if (!admission || !passkey || !parma) {
-                    alert('❌ Please fill in all fields (admission, passkey, Parma entry).');
-                    return;
-                }
-
-                // retrieve existing array
-                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-
-                // add new record (plain object) — we store all data, including passkey (for demo)
-                // In real app you'd never store plain passkey; this is just to show "every data" as requested.
-                const newEntry = {
-                    id: Date.now() + '-' + Math.random().toString(36).substr(2, 6),
-                    admission: admission,
-                    passkey: passkey,           // stored as entered (demo only)
-                    parma: parma,
-                    timestamp: new Date().toLocaleString()
-                };
-
-                users.push(newEntry);
-                localStorage.setItem('m10xUsers', JSON.stringify(users));
-
-                // clear form
-                document.getElementById('admissionNum').value = '';
-                document.getElementById('passkey').value = '';
-                document.getElementById('parmaField').value = '';
-
-                // update display
-                renderRecords();
-                alert('✅ Data stored permanently in localStorage (Parma entry included).');
-            };
-
-            window.renderRecords = function() {
-                const container = document.getElementById('recordsContainer');
-                const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-
-                if (!users.length) {
-                    container.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no entries yet — sign up above</div>';
-                    return;
-                }
-
-                // show all entries, newest first (based on id / timestamp)
-                const sorted = [...users].reverse(); 
-                let html = '';
-                sorted.forEach(entry => {
-                    // safely display, truncate if needed
-                    const adm = escapeHtml(entry.admission || '??');
-                    const psw = escapeHtml(entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '??'); // mask passkey visually but still show it's stored
-                    const parma = escapeHtml(entry.parma || '');
-                    const time = entry.timestamp || '';
-
-                    html += `<div class="record-item" data-id="${entry.id}">
-                        <div class="record-info">
-                            <span><strong>adm:</strong> ${adm}</span>
-                            <span><strong>key:</strong> ${psw}</span>
-                            <span><strong>parma:</strong> ${parma}</span>
-                            <span style="font-size:0.7rem; color:#567f5e;"><i class="fa-regular fa-clock"></i> ${time}</span>
-                        </div>
-                        <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete this entry"><i class="fa-regular fa-trash-can"></i> del</div>
-                    </div>`;
-                });
-                container.innerHTML = html;
-            };
-
-            // helper to escape HTML (prevent XSS from stored data)
-            function escapeHtml(str) {
-                if (!str) return '';
-                return String(str).replace(/[&<>"]/g, function(m) {
-                    if (m === '&') return '&amp;';
-                    if (m === '<') return '&lt;';
-                    if (m === '>') return '&gt;';
-                    if (m === '"') return '&quot;';
-                    return m;
-                });
+            if (!admission || !passkey) {
+                showMessage('❌ Enter both admission number and passkey.', false);
+                return;
             }
 
-            window.deleteRecord = function(id) {
-                let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-                users = users.filter(entry => entry.id != id);  // loose comparison but id is string
-                localStorage.setItem('m10xUsers', JSON.stringify(users));
-                renderRecords();
-            };
+            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+            // Find match (case-sensitive, but can adjust)
+            const matchedUser = users.find(user => user.admission === admission && user.passkey === passkey);
 
-            window.clearAllRecords = function() {
-                if (confirm('Delete ALL stored entries? (admission, passkey, parma)')) {
-                    localStorage.setItem('m10xUsers', JSON.stringify([]));
-                    renderRecords();
-                }
-            };
-
-            // expose functions globally
-            window.deleteRecord = deleteRecord;
-            window.clearAllRecords = clearAllRecords;
-        })();
-    </script>
-    <!-- ensure that the refresh icon also calls renderRecords() -->
-    <script>
-        // additional binding if not already
-        document.addEventListener('DOMContentLoaded', function() {
-            // make sure renderRecords is attached to window (already is)
-            const refreshIcon = document.getElementById('refreshIcon');
-            if (refreshIcon) {
-                refreshIcon.addEventListener('click', function() {
-                    window.renderRecords();
-                });
+            if (matchedUser) {
+                showMessage(`✅ Login successful! Welcome, ${matchedUser.admission} (Parma: ${matchedUser.parma})`, true);
+                // optional: clear login fields
+                document.getElementById('loginAdmission').value = '';
+                document.getElementById('loginPasskey').value = '';
+            } else {
+                showMessage('❌ No matching user. Check admission & passkey, or sign up.', false);
             }
-        });
-    </script>
+        };
+
+        // --- render stored records (with delete) ---
+        window.renderRecords = function() {
+            const container = document.getElementById('recordsContainer');
+            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+
+            if (!users.length) {
+                container.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no users yet — sign up above</div>';
+                return;
+            }
+
+            // show newest first
+            const sorted = [...users].reverse();
+            let html = '';
+            sorted.forEach(entry => {
+                const adm = escapeHtml(entry.admission || '');
+                // show masked passkey (still indicates stored)
+                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
+                const parma = escapeHtml(entry.parma || '');
+                const time = entry.timestamp || '';
+                html += `<div class="record-item" data-id="${entry.id}">
+                    <div class="record-info">
+                        <span><strong>adm:</strong> ${adm}</span>
+                        <span><strong>key:</strong> ${maskedPass}</span>
+                        <span><strong>parma:</strong> ${parma}</span>
+                        <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
+                    </div>
+                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                if (m === '"') return '&quot;';
+                return m;
+            });
+        }
+
+        window.deleteRecord = function(id) {
+            let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+            users = users.filter(entry => entry.id != id);
+            localStorage.setItem('m10xUsers', JSON.stringify(users));
+            renderRecords();
+            clearMessage();
+        };
+
+        window.clearAllRecords = function() {
+            if (confirm('Delete ALL stored users? (admission, passkey, parma)')) {
+                localStorage.setItem('m10xUsers', JSON.stringify([]));
+                renderRecords();
+                clearMessage();
+            }
+        };
+
+        // initial render
+        renderRecords();
+
+        // make functions globally available
+        window.switchPanel = switchPanel;
+        window.signupUser = signupUser;
+        window.loginUser = loginUser;
+        window.renderRecords = renderRecords;
+        window.deleteRecord = deleteRecord;
+        window.clearAllRecords = clearAllRecords;
+    })();
+</script>
 </body>
 </html>
