@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-liabrary · signup + login (no Parma)</title>
+    <title>M10x-liabrary · signup + login + dashboard</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -27,20 +27,21 @@
         .auth-card {
             background-color: #ffffff;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             padding: 2rem 2rem 2rem 2rem;
             border-radius: 36px;
             box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35);
             border: 1px solid #c0ddb5;
+            transition: all 0.2s ease;
         }
 
-        /* library icon + M10x-liabrary (exact spelling) */
+        /* library header */
         .library-header {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
         }
 
         .icon-circle {
@@ -87,7 +88,7 @@
             display: inline-block;
         }
 
-        /* tab switcher */
+        /* tab switcher (only visible when not logged in) */
         .tab-container {
             display: flex;
             gap: 0.5rem;
@@ -119,7 +120,7 @@
             margin-right: 6px;
         }
 
-        /* forms (only active one visible) */
+        /* forms */
         .form-panel {
             display: none;
         }
@@ -159,9 +160,6 @@
             border-color: #1d6e32;
             box-shadow: 0 0 0 4px rgba(45, 125, 70, 0.2);
         }
-        .input-field::placeholder {
-            color: #83a78b;
-        }
 
         .double-row {
             display: flex;
@@ -194,20 +192,81 @@
         .action-btn:hover {
             background-color: #0f421f;
             transform: translateY(-2px);
-            box-shadow: 0 18px 22px -8px #143f1f;
         }
         .action-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 6px 12px -6px #0c2f15;
         }
 
-        /* records / user list */
+        /* dashboard panel */
+        .dashboard-panel {
+            display: none;
+            margin-top: 0.5rem;
+        }
+        .dashboard-panel.active-panel {
+            display: block;
+        }
+
+        .welcome-card {
+            background: #eaf6e9;
+            border-radius: 30px;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            margin-bottom: 1.8rem;
+            border: 2px solid #9fc6a5;
+            box-shadow: inset 0 2px 6px white;
+        }
+        .welcome-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1b562b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+        }
+        .user-badge {
+            background: #1c4b2d;
+            color: white;
+            padding: 0.3rem 1rem;
+            border-radius: 40px;
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        .dashboard-stats {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0 1rem;
+        }
+        .stat-box {
+            background: white;
+            border-radius: 30px;
+            padding: 1rem 1.5rem;
+            flex: 1 1 120px;
+            text-align: center;
+            border: 1px solid #c0e0c0;
+            box-shadow: 0 4px 8px #c8ddc8;
+        }
+        .stat-box i {
+            font-size: 1.8rem;
+            color: #1c4b2d;
+            margin-bottom: 0.3rem;
+        }
+        .logout-btn {
+            background-color: #c94f4f;
+            box-shadow: 0 10px 14px -8px #a14545;
+            margin-top: 0.5rem;
+        }
+        .logout-btn:hover {
+            background-color: #b13b3b;
+        }
+
+        /* records container (used both in main and dashboard) */
         .records-section {
-            margin-top: 2rem;
             background: #f4faf2;
             border-radius: 28px;
             padding: 1.3rem 1.2rem 1rem 1.2rem;
             border: 1px solid #b1d3b6;
+            margin-top: 1rem;
         }
         .records-header {
             display: flex;
@@ -242,7 +301,6 @@
             justify-content: space-between;
             align-items: center;
             font-size: 0.9rem;
-            word-break: break-word;
         }
         .record-info {
             display: flex;
@@ -261,7 +319,6 @@
             border-radius: 30px;
             cursor: pointer;
             transition: 0.1s;
-            font-size: 0.9rem;
             border: 1px solid #f3bfb0;
         }
         .delete-icon:hover {
@@ -274,7 +331,6 @@
             padding: 0.5rem;
             text-align: center;
         }
-
         .small-note {
             background: #eef9ea;
             color: #266339;
@@ -299,9 +355,6 @@
             border: 1px solid #b1d7b8;
             cursor: pointer;
         }
-        .footer-links span:hover {
-            background: #cae9d1;
-        }
         .message {
             margin-top: 0.8rem;
             font-size: 0.9rem;
@@ -320,23 +373,23 @@
     </style>
 </head>
 <body>
-<div class="auth-card">
-    <!-- library header -->
+<div class="auth-card" id="authCard">
+    <!-- library header (always visible) -->
     <div class="library-header">
         <div class="icon-circle">
             <i class="fas fa-landmark"></i>
         </div>
         <h1>M10x-liabrary</h1>
-        <span class="header-hint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
+        <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
     </div>
 
-    <!-- tab switcher -->
-    <div class="tab-container">
+    <!-- tab switcher (visible only when not logged in) -->
+    <div id="tabContainer" class="tab-container">
         <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
         <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
     </div>
 
-    <!-- SIGNUP PANEL (only admission + passkey - NO PARMA) -->
+    <!-- SIGNUP PANEL -->
     <div id="signupPanel" class="form-panel active-panel">
         <form id="signupForm" onsubmit="event.preventDefault(); signupUser();">
             <div class="double-row">
@@ -349,12 +402,11 @@
                     <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
                 </div>
             </div>
-            <!-- Parma field completely removed -->
             <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account → store</button>
         </form>
     </div>
 
-    <!-- LOGIN PANEL (only admission + passkey) -->
+    <!-- LOGIN PANEL -->
     <div id="loginPanel" class="form-panel">
         <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
             <div class="input-group">
@@ -369,60 +421,95 @@
         </form>
     </div>
 
-    <!-- message area (success/error) -->
+    <!-- DASHBOARD PANEL (visible after login) -->
+    <div id="dashboardPanel" class="dashboard-panel">
+        <div class="welcome-card">
+            <div class="welcome-title">
+                <i class="fa-regular fa-circle-user"></i> Welcome, <span id="dashboardUserName">User</span>!
+                <span class="user-badge" id="dashboardUserBadge"></span>
+            </div>
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <i class="fa-regular fa-id-card"></i>
+                    <div><strong id="dashboardAdmission">---</strong></div>
+                    <div style="font-size:0.8rem;">admission</div>
+                </div>
+                <div class="stat-box">
+                    <i class="fa-regular fa-calendar"></i>
+                    <div><strong id="dashboardSince">---</strong></div>
+                    <div style="font-size:0.8rem;">member since</div>
+                </div>
+            </div>
+            <button class="action-btn logout-btn" onclick="logout()"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
+        </div>
+
+        <!-- records inside dashboard (full list) -->
+        <div class="records-section">
+            <div class="records-header">
+                <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
+                <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
+            </div>
+            <div id="dashboardRecordsContainer">
+                <!-- dynamic from localStorage -->
+            </div>
+        </div>
+    </div>
+
+    <!-- message area (for auth feedback) -->
     <div id="authMessage" class="message"></div>
 
-    <!-- RECORDS: shows all stored entries (admission + passkey only) -->
-    <div class="records-section">
+    <!-- records section (visible only when NOT logged in) -->
+    <div id="publicRecordsSection" class="records-section">
         <div class="records-header">
             <span><i class="fa-regular fa-hard-drive"></i> stored users</span>
-            <i class="fas fa-rotate-right" onclick="renderRecords()" title="refresh"></i>
+            <i class="fas fa-rotate-right" onclick="renderPublicRecords()" title="refresh"></i>
         </div>
-        <div id="recordsContainer">
+        <div id="publicRecordsContainer">
             <!-- dynamic from localStorage -->
         </div>
     </div>
 
-    <!-- utility clear & hint -->
+    <!-- utility clear (always visible) -->
     <div class="footer-links">
         <span onclick="clearAllRecords()"><i class="fa-regular fa-trash-can"></i> delete all</span>
     </div>
     <div class="small-note">
-        <i class="fa-regular fa-circle-check"></i> signup stores admission + passkey · login verifies
-    <h5>&cmp classrep<\h5>
+        <i class="fa-regular fa-circle-check"></i> signup stores admission + passkey · login shows dashboard
     </div>
 </div>
 
 <script>
     (function() {
+        // ---------- state ----------
+        let currentUser = null; // { id, admission, passkey, timestamp } when logged in
+
         // Initialize storage
         if (!localStorage.getItem('m10xUsers')) {
             localStorage.setItem('m10xUsers', JSON.stringify([]));
         }
 
         // DOM elements
+        const tabContainer = document.getElementById('tabContainer');
         const signupPanel = document.getElementById('signupPanel');
         const loginPanel = document.getElementById('loginPanel');
+        const dashboardPanel = document.getElementById('dashboardPanel');
+        const publicRecordsSection = document.getElementById('publicRecordsSection');
         const tabSignup = document.getElementById('tabSignup');
         const tabLogin = document.getElementById('tabLogin');
         const authMessage = document.getElementById('authMessage');
+        const globalHint = document.getElementById('globalHint');
 
-        // switch panel function (global)
-        window.switchPanel = function(panel) {
-            if (panel === 'signup') {
-                signupPanel.classList.add('active-panel');
-                loginPanel.classList.remove('active-panel');
-                tabSignup.classList.add('active');
-                tabLogin.classList.remove('active');
-            } else {
-                loginPanel.classList.add('active-panel');
-                signupPanel.classList.remove('active-panel');
-                tabLogin.classList.add('active');
-                tabSignup.classList.remove('active');
-            }
-            clearMessage();
-        };
+        // dashboard elements
+        const dashboardUserName = document.getElementById('dashboardUserName');
+        const dashboardUserBadge = document.getElementById('dashboardUserBadge');
+        const dashboardAdmission = document.getElementById('dashboardAdmission');
+        const dashboardSince = document.getElementById('dashboardSince');
+        const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
 
+        // public records container
+        const publicRecordsContainer = document.getElementById('publicRecordsContainer');
+
+        // ---------- helper functions ----------
         function clearMessage() {
             authMessage.innerHTML = '';
             authMessage.className = 'message';
@@ -433,7 +520,105 @@
             authMessage.className = isSuccess ? 'message success-msg' : 'message error-msg';
         }
 
-        // --- SIGNUP function (stores only admission + passkey) ---
+        // Escape HTML
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>"]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                if (m === '"') return '&quot;';
+                return m;
+            });
+        }
+
+        // Render public records (for non-logged in view)
+        window.renderPublicRecords = function() {
+            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+            if (!users.length) {
+                publicRecordsContainer.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no users yet — sign up above</div>';
+                return;
+            }
+            const sorted = [...users].reverse();
+            let html = '';
+            sorted.forEach(entry => {
+                const adm = escapeHtml(entry.admission || '');
+                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
+                const time = entry.timestamp || '';
+                html += `<div class="record-item" data-id="${entry.id}">
+                    <div class="record-info">
+                        <span><strong>adm:</strong> ${adm}</span>
+                        <span><strong>key:</strong> ${maskedPass}</span>
+                        <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
+                    </div>
+                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
+                </div>`;
+            });
+            publicRecordsContainer.innerHTML = html;
+        };
+
+        // Render records inside dashboard (full list, with delete)
+        window.renderDashboardRecords = function() {
+            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+            if (!users.length) {
+                dashboardRecordsContainer.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no other users</div>';
+                return;
+            }
+            const sorted = [...users].reverse();
+            let html = '';
+            sorted.forEach(entry => {
+                const adm = escapeHtml(entry.admission || '');
+                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
+                const time = entry.timestamp || '';
+                // Highlight current user row
+                const isCurrent = currentUser && entry.id === currentUser.id;
+                const highlightStyle = isCurrent ? 'background: #d9f0da; border-left-color: #0b4a1f;' : '';
+                html += `<div class="record-item" style="${highlightStyle}" data-id="${entry.id}">
+                    <div class="record-info">
+                        <span><strong>adm:</strong> ${adm} ${isCurrent ? ' (you)' : ''}</span>
+                        <span><strong>key:</strong> ${maskedPass}</span>
+                        <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
+                    </div>
+                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
+                </div>`;
+            });
+            dashboardRecordsContainer.innerHTML = html;
+        };
+
+        // update UI based on login state
+        function updateUIForUser() {
+            if (currentUser) {
+                // logged in: show dashboard, hide tabs + public records
+                tabContainer.style.display = 'none';
+                signupPanel.classList.remove('active-panel');
+                loginPanel.classList.remove('active-panel');
+                dashboardPanel.classList.add('active-panel');
+                publicRecordsSection.style.display = 'none';
+                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+
+                // populate dashboard with current user data
+                dashboardUserName.textContent = currentUser.admission;
+                dashboardUserBadge.textContent = `ID: ${currentUser.admission.slice(0,6)}...`;
+                dashboardAdmission.textContent = currentUser.admission;
+                dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
+
+                // render dashboard records
+                renderDashboardRecords();
+            } else {
+                // logged out: show tabs, public records, hide dashboard
+                tabContainer.style.display = 'flex';
+                publicRecordsSection.style.display = 'block';
+                dashboardPanel.classList.remove('active-panel');
+                globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
+
+                // make signup panel active by default (tab state)
+                switchPanel('signup');
+                renderPublicRecords();
+            }
+            clearMessage();
+        }
+
+        // ---------- signup ----------
         window.signupUser = function() {
             const admission = document.getElementById('signupAdmission').value.trim();
             const passkey = document.getElementById('signupPasskey').value.trim();
@@ -448,26 +633,28 @@
             }
 
             const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-
             const newEntry = {
                 id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
                 admission: admission,
-                passkey: passkey,      // stored plain (demo only)
+                passkey: passkey,
                 timestamp: new Date().toLocaleString()
             };
-
             users.push(newEntry);
             localStorage.setItem('m10xUsers', JSON.stringify(users));
 
-            // clear signup fields
             document.getElementById('signupAdmission').value = '';
             document.getElementById('signupPasskey').value = '';
 
-            renderRecords();
-            showMessage('✅ Signup successful! Data stored.', true);
+            // If someone is already logged in, stay logged in; else just update public
+            if (currentUser) {
+                renderDashboardRecords();
+            } else {
+                renderPublicRecords();
+            }
+            showMessage('✅ Signup successful! You can now log in.', true);
         };
 
-        // --- LOGIN function (verifies admission + passkey match a stored record) ---
+        // ---------- login ----------
         window.loginUser = function() {
             const admission = document.getElementById('loginAdmission').value.trim();
             const passkey = document.getElementById('loginPasskey').value.trim();
@@ -478,12 +665,12 @@
             }
 
             const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            // Find match (case-sensitive)
             const matchedUser = users.find(user => user.admission === admission && user.passkey === passkey);
 
             if (matchedUser) {
-                showMessage(`✅ Login successful! Welcome, ${matchedUser.admission}`, true);
-                // optional: clear login fields
+                // set current user (copy object)
+                currentUser = { ...matchedUser };
+                updateUIForUser();
                 document.getElementById('loginAdmission').value = '';
                 document.getElementById('loginPasskey').value = '';
             } else {
@@ -491,73 +678,81 @@
             }
         };
 
-        // --- render stored records (with delete) ---
-        window.renderRecords = function() {
-            const container = document.getElementById('recordsContainer');
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+        // ---------- logout ----------
+        window.logout = function() {
+            currentUser = null;
+            updateUIForUser();
+            showMessage('👋 Logged out successfully.', true);
+        };
 
-            if (!users.length) {
-                container.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no users yet — sign up above</div>';
+        // ---------- delete record (global, checks if self) ----------
+        window.deleteRecord = function(id) {
+            let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
+            const userToDelete = users.find(u => u.id == id);
+            if (currentUser && userToDelete && userToDelete.id === currentUser.id) {
+                if (!confirm('You are about to delete YOUR OWN account. You will be logged out. Continue?')) {
+                    return;
+                }
+                // delete, then logout
+                users = users.filter(entry => entry.id != id);
+                localStorage.setItem('m10xUsers', JSON.stringify(users));
+                currentUser = null;
+                updateUIForUser();
+                showMessage('Your account was deleted.', true);
                 return;
             }
 
-            // show newest first
-            const sorted = [...users].reverse();
-            let html = '';
-            sorted.forEach(entry => {
-                const adm = escapeHtml(entry.admission || '');
-                // show masked passkey (indicates stored)
-                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
-                const time = entry.timestamp || '';
-                html += `<div class="record-item" data-id="${entry.id}">
-                    <div class="record-info">
-                        <span><strong>adm:</strong> ${adm}</span>
-                        <span><strong>key:</strong> ${maskedPass}</span>
-                        <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
-                    </div>
-                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
-                </div>`;
-            });
-            container.innerHTML = html;
-        };
-
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>"]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                if (m === '"') return '&quot;';
-                return m;
-            });
-        }
-
-        window.deleteRecord = function(id) {
-            let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
             users = users.filter(entry => entry.id != id);
             localStorage.setItem('m10xUsers', JSON.stringify(users));
-            renderRecords();
+
+            if (currentUser) {
+                // check if current user still exists (maybe deleted by someone else? but not possible here)
+                const stillExists = users.find(u => u.id === currentUser.id);
+                if (!stillExists) {
+                    currentUser = null;
+                    updateUIForUser();
+                    showMessage('Your session ended (account deleted elsewhere).', false);
+                } else {
+                    renderDashboardRecords();
+                }
+            } else {
+                renderPublicRecords();
+            }
             clearMessage();
         };
 
+        // ---------- clear all records ----------
         window.clearAllRecords = function() {
             if (confirm('Delete ALL stored users? (admission + passkey)')) {
                 localStorage.setItem('m10xUsers', JSON.stringify([]));
-                renderRecords();
-                clearMessage();
+                if (currentUser) {
+                    currentUser = null;
+                }
+                updateUIForUser();
+                showMessage('All records deleted.', true);
             }
         };
 
-        // initial render
-        renderRecords();
+        // ---------- switch panel (signup/login) ----------
+        window.switchPanel = function(panel) {
+            if (currentUser) return; // no switching when logged in
+            if (panel === 'signup') {
+                signupPanel.classList.add('active-panel');
+                loginPanel.classList.remove('active-panel');
+                tabSignup.classList.add('active');
+                tabLogin.classList.remove('active');
+            } else {
+                loginPanel.classList.add('active-panel');
+                signupPanel.classList.remove('active-panel');
+                tabLogin.classList.add('active');
+                tabSignup.classList.remove('active');
+            }
+            clearMessage();
+        };
 
-        // make functions globally available
-        window.switchPanel = switchPanel;
-        window.signupUser = signupUser;
-        window.loginUser = loginUser;
-        window.renderRecords = renderRecords;
-        window.deleteRecord = deleteRecord;
-        window.clearAllRecords = clearAllRecords;
+        // initial render (logged out)
+        window.renderPublicRecords();
+        window.switchPanel('signup');
     })();
 </script>
 </body>
