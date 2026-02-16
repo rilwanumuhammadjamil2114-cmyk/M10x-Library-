@@ -860,6 +860,16 @@
                 "MTH PQ 201"
             ];
 
+            // Semester course lists
+            const firstSemesterCourses = [...hdCourseLabels]; // same as HD
+            const secondSemesterCourses = [
+                "CMP 202",
+                "csc 203",
+                "IFT 212",
+                "ENT 211",
+                "GST 212"
+            ];
+
             // Helper to generate boxes with dropdowns (for HD and PQ)
             function renderCourseBoxesWithDropdown(labels) {
                 const boxes = labels.map(label => {
@@ -890,45 +900,49 @@
                 `;
             }
 
-            // COURSES page: semester tabs and simple course list (no dropdowns)
+            // Function to render course list from an array
+            function renderCourseList(courses) {
+                return courses.map(label => `
+                    <div class="course-item">
+                        <i class="fa-regular fa-bookmark"></i>
+                        ${label}
+                    </div>
+                `).join('');
+            }
+
+            // COURSES page: semester tabs and dynamic course list
             function renderCoursesPage() {
-                // Two semester tabs (1st and 2nd), both show the same list for now (can be extended)
                 const semesterTabs = `
                     <div class="semester-tabs">
                         <div class="semester-tab active" onclick="switchSemester(1)">1st Semester</div>
                         <div class="semester-tab" onclick="switchSemester(2)">2nd Semester</div>
                     </div>
                 `;
-                // Base course list (same as HD but without dropdowns)
-                const courseItems = hdCourseLabels.map(label => `
-                    <div class="course-item">
-                        <i class="fa-regular fa-bookmark"></i>
-                        ${label}
-                    </div>
-                `).join('');
-                const courseList = `
-                    <div class="course-list" id="courseListContainer">
-                        ${courseItems}
-                    </div>
-                `;
+                // Initially show first semester
+                const initialList = renderCourseList(firstSemesterCourses);
                 return `
                     <div class="box-page" style="border: none; background: transparent; padding: 0;">
                         ${semesterTabs}
-                        ${courseList}
+                        <div class="course-list" id="courseListContainer">
+                            ${initialList}
+                        </div>
                     </div>
                 `;
             }
 
-            // Semester switching function (simple; could be extended with different lists)
+            // Semester switching function
             window.switchSemester = function(semester) {
                 const tabs = document.querySelectorAll('.semester-tab');
                 tabs.forEach(t => t.classList.remove('active'));
+                const container = document.getElementById('courseListContainer');
+                if (!container) return;
+
                 if (semester === 1) {
                     tabs[0].classList.add('active');
-                    // For now, keep same list. In future, could change content.
+                    container.innerHTML = renderCourseList(firstSemesterCourses);
                 } else {
                     tabs[1].classList.add('active');
-                    // Same list for demo
+                    container.innerHTML = renderCourseList(secondSemesterCourses);
                 }
             };
 
