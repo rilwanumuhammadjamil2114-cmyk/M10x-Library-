@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · black footer & dropdowns</title>
+    <title>CMP library · dropdown in boxes</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -216,7 +216,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: black;           /* changed to black */
+            background: black;
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
             border-top: 1px solid #333;
@@ -230,7 +230,7 @@
             cursor: pointer;
             padding: 0.3rem 0.5rem;
             min-width: 70px;
-            color: white;                /* white text on black */
+            color: white;
             border-radius: 12px;
             font-weight: 600;
             transition: background 0.1s;
@@ -242,38 +242,17 @@
             color: white;
         }
         .footer-item:hover {
-            background: #333;             /* dark grey hover */
+            background: #333;
         }
 
-        /* ===== DROPDOWN (select) under the 7 boxes ===== */
-        .dropdown-section {
-            margin-top: 1.5rem;
-            text-align: center;
-        }
-        .dropdown-section select {
-            width: 80%;
-            padding: 0.8rem 1rem;
-            border: 2px solid #1c4b2d;
-            border-radius: 40px;
-            background: white;
-            font-size: 1rem;
-            color: #1c4b2d;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-        }
-        .dropdown-section select:hover {
-            background: #f0faf0;
-        }
-
-        /* 7‑box layout */
+        /* ===== 7‑box layout with dropdown inside each box ===== */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
             padding: 1rem;
             border: 2px solid #1c4b2d;
             margin: 1rem 0;
-            height: auto;                /* let it expand for dropdown */
+            height: auto;
             overflow-y: visible;
         }
         .box-list {
@@ -285,21 +264,31 @@
             background: white;
             border: 1px solid #1c4b2d;
             border-radius: 16px;
-            padding: 0.8rem 1.2rem;
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: #1c4b2d;
-            box-shadow: 0 2px 6px rgba(0,40,0,0.1);
+            padding: 0.6rem 1rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 55px;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
-        .price-box span {
-            color: #2b6e3b;
-            font-weight: 400;
+        .box-label {
+            font-weight: 600;
+            color: #1c4b2d;
+            min-width: 60px;
         }
-        .price-box:nth-child(even) {
+        .box-select {
+            flex: 1;
+            min-width: 150px;
+            padding: 0.4rem 0.8rem;
+            border: 2px solid #1c4b2d;
+            border-radius: 30px;
+            background: white;
+            font-size: 0.9rem;
+            color: #1c4b2d;
+            cursor: pointer;
+            outline: none;
+        }
+        .box-select:hover {
             background: #f0faf0;
         }
 
@@ -567,8 +556,8 @@
             const guideSlides = [
                 { icon: 'fa-regular fa-hand-wave', title: 'Welcome to CMP Library!', text: 'We’re glad to have you here. This guide will show you the basics.' },
                 { icon: 'fa-solid fa-book-open', title: 'Dashboard', text: 'Your personal hub. View your stats and all registered users.' },
-                { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 data boxes – like a price ladder. Explore them!' },
-                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with sample data. Use the footer to switch pages.' },
+                { icon: 'fa-solid fa-book', title: 'HD & PQ Pages', text: 'Each contains 7 boxes with dropdown menus. Explore them!' },
+                { icon: 'fa-solid fa-books', title: 'Courses', text: 'Also features 7 boxes with dropdowns. Use the footer to switch pages.' },
                 { icon: 'fa-regular fa-circle-check', title: 'You’re all set!', text: 'Click "Go to Dashboard" to start.' }
             ];
             let currentSlide = 0;
@@ -797,38 +786,35 @@
                 dynamicContainer.innerHTML = '';
             };
 
-            // Helper to generate 7 boxes + dropdown with 6 links
+            // Helper to generate 7 boxes, each with a dropdown (replacing the number)
             function renderSevenBoxes(title) {
                 const boxes = [];
                 for (let i = 1; i <= 7; i++) {
-                    const base = 68000 - i * 100;
+                    // Create a select with 6 options (placeholder + 5 real links)
+                    const selectId = `select-${title}-${i}`;
+                    const options = [
+                        '<option value="" disabled selected>— choose link —</option>',
+                        '<option value="https://example.com/1">Documentation</option>',
+                        '<option value="https://example.com/2">Tutorials</option>',
+                        '<option value="https://example.com/3">Community</option>',
+                        '<option value="https://example.com/4">Support</option>',
+                        '<option value="https://example.com/5">Updates</option>',
+                        '<option value="https://example.com/6">Feedback</option>'
+                    ].join('');
                     boxes.push(`
                         <div class="price-box">
-                            <span>${title} ${i}</span>
-                            <span>${base.toFixed(2)}</span>
+                            <span class="box-label">${title} ${i}</span>
+                            <select class="box-select" onchange="window.open(this.value, '_blank')">
+                                ${options}
+                            </select>
                         </div>
                     `);
                 }
-                // Dropdown with 6 links
-                const dropdown = `
-                    <div class="dropdown-section">
-                        <select onchange="window.open(this.value, '_blank')">
-                            <option value="" disabled selected>— choose a link —</option>
-                            <option value="https://example.com/1">Link 1: Documentation</option>
-                            <option value="https://example.com/2">Link 2: Tutorials</option>
-                            <option value="https://example.com/3">Link 3: Community</option>
-                            <option value="https://example.com/4">Link 4: Support</option>
-                            <option value="https://example.com/5">Link 5: Updates</option>
-                            <option value="https://example.com/6">Link 6: Feedback</option>
-                        </select>
-                    </div>
-                `;
                 return `
                     <div class="box-page">
                         <div class="box-list">
                             ${boxes.join('')}
                         </div>
-                        ${dropdown}
                     </div>
                 `;
             }
@@ -849,13 +835,13 @@
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
                     dynamicContainer.innerHTML = renderSevenBoxes('HD');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes + dropdown';
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes with dropdowns';
                 } else if (section === 'pq') {
                     dynamicContainer.innerHTML = renderSevenBoxes('PQ');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes + dropdown';
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes with dropdowns';
                 } else if (section === 'courses') {
                     dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes + dropdown';
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes with dropdowns';
                 }
             };
 
