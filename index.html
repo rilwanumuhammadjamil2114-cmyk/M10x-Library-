@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-liabrary · 7‑box footer</title>
+    <title>M10x-liabrary · CMP dashboard</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -27,7 +27,7 @@
         .auth-card {
             background-color: #ffffff;
             width: 100%;
-            max-width: 700px;           /* slightly wider for 7 boxes */
+            max-width: 650px;
             padding: 2rem 2rem 1rem 2rem;
             border-radius: 36px 36px 28px 28px;
             box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35);
@@ -210,7 +210,19 @@
             border: 2px solid #9fc6a5;
             box-shadow: inset 0 2px 6px white;
         }
-        .welcome-title {
+        .personal-welcome {
+            font-size: 1.2rem;
+            color: #1c4b2d;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .personal-welcome i {
+            color: #1c4b2d;
+        }
+        .cmp-heading {
             font-size: 1.8rem;
             font-weight: 700;
             color: #1b562b;
@@ -219,7 +231,7 @@
             gap: 12px;
             margin-bottom: 0.5rem;
         }
-        .welcome-title i {
+        .cmp-heading i {
             font-size: 2.2rem;
             color: #1c4b2d;
         }
@@ -336,19 +348,19 @@
             background-color: #b13b3b;
         }
 
-        /* ===== FOOTER BAR with 7 boxes in flex row ===== */
+        /* ===== FOOTER BAR with 4 boxes ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
             align-items: center;
             background: #1c4b2d;
-            margin: 2rem -2rem -1rem -2rem;  /* extends beyond card */
+            margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
             border-radius: 0 0 36px 36px;
             border-top: 3px solid #b7e0b7;
             color: white;
             gap: 0.3rem;
-            flex-wrap: wrap;           /* allows wrap on very narrow screens */
+            flex-wrap: wrap;
         }
 
         .footer-item {
@@ -358,22 +370,22 @@
             justify-content: center;
             gap: 4px;
             cursor: pointer;
-            padding: 0.4rem 0.3rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 20px;
             transition: 0.1s;
-            min-width: 70px;
+            min-width: 80px;
             border: 1px solid transparent;
             background: transparent;
         }
 
         .footer-item i {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             color: #e8ffe8;
             filter: drop-shadow(0 2px 4px #0e3b1a);
         }
 
         .footer-item span {
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             font-weight: 600;
             letter-spacing: 0.3px;
             color: #f0fff0;
@@ -445,7 +457,12 @@
     <!-- DASHBOARD PANEL (visible only after login) -->
     <div id="dashboardPanel" class="dashboard-panel">
         <div class="welcome-card">
-            <div class="welcome-title">
+            <!-- Personalized welcome with admission number -->
+            <div class="personal-welcome" id="personalWelcome">
+                <i class="fa-regular fa-hand-wave"></i> Welcome, <span id="welcomeAdmission">User</span>!
+            </div>
+            <!-- CMP heading -->
+            <div class="cmp-heading">
                 <i class="fa-solid fa-book-open"></i> CMP chapter 2 of 4 library
             </div>
             <div class="dashboard-stats">
@@ -463,7 +480,7 @@
             <button class="action-btn logout-btn" onclick="logout()"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
         </div>
 
-        <!-- only dashboard home (user list) is shown -->
+        <!-- user list -->
         <div id="dashboardHome" class="records-section">
             <div class="records-header">
                 <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
@@ -476,35 +493,23 @@
     <!-- message area for feedback -->
     <div id="authMessage" class="message"></div>
 
-    <!-- ===== FOOTER BAR with 7 boxes ===== -->
+    <!-- ===== FOOTER BAR with 4 boxes: Dashboard, HD, PQ, Courses ===== -->
     <div class="footer-bar">
-        <div class="footer-item" onclick="handleFooterClick('box1')">
-            <i class="fa-solid fa-book"></i>
-            <span>READ</span>
+        <div class="footer-item" onclick="handleFooterClick('dashboard')">
+            <i class="fa-regular fa-chart-pie"></i>
+            <span>DASHBOARD</span>
         </div>
-        <div class="footer-item" onclick="handleFooterClick('box2')">
-            <i class="fa-solid fa-book-open"></i>
-            <span>STUDY</span>
+        <div class="footer-item" onclick="handleFooterClick('hd')">
+            <i class="fa-solid fa-hard-drive"></i>
+            <span>HD</span>
         </div>
-        <div class="footer-item" onclick="handleFooterClick('box3')">
-            <i class="fa-solid fa-bookmark"></i>
-            <span>BOOKMARKS</span>
+        <div class="footer-item" onclick="handleFooterClick('pq')">
+            <i class="fa-solid fa-gauge-high"></i>
+            <span>PQ</span>
         </div>
-        <div class="footer-item" onclick="handleFooterClick('box4')">
-            <i class="fa-solid fa-layer-group"></i>
-            <span>CHAPTERS</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('box5')">
+        <div class="footer-item" onclick="handleFooterClick('courses')">
             <i class="fa-solid fa-graduation-cap"></i>
             <span>COURSES</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('box6')">
-            <i class="fa-solid fa-clipboard-list"></i>
-            <span>PROGRESS</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('box7')">
-            <i class="fa-solid fa-gear"></i>
-            <span>SETTINGS</span>
         </div>
     </div>
 </div>
@@ -512,7 +517,7 @@
 <script>
     (function() {
         // ---------- state ----------
-        let currentUser = null; // { id, admission, passkey, timestamp } when logged in
+        let currentUser = null; // { id, admission, passkey, timestamp }
 
         // Initialize storage
         if (!localStorage.getItem('m10xUsers')) {
@@ -530,6 +535,7 @@
         const globalHint = document.getElementById('globalHint');
 
         // dashboard elements
+        const welcomeAdmission = document.getElementById('welcomeAdmission');
         const dashboardAdmission = document.getElementById('dashboardAdmission');
         const dashboardSince = document.getElementById('dashboardSince');
         const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
@@ -556,7 +562,7 @@
             });
         }
 
-        // Render dashboard records (only visible to logged-in user)
+        // Render dashboard records
         window.renderDashboardRecords = function() {
             if (!currentUser) return;
             const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
@@ -587,24 +593,22 @@
         // Update UI based on login state
         function updateUIForUser() {
             if (currentUser) {
-                // logged in: hide tabs, show dashboard
                 tabContainer.style.display = 'none';
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
                 dashboardPanel.classList.add('active-panel');
                 globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
 
-                // populate dashboard stats with current user data
+                // Set welcome message and stats
+                welcomeAdmission.textContent = currentUser.admission;
                 dashboardAdmission.textContent = currentUser.admission;
                 dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
 
                 renderDashboardRecords();
             } else {
-                // logged out: show tabs, hide dashboard
                 tabContainer.style.display = 'flex';
                 dashboardPanel.classList.remove('active-panel');
                 globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
-                // default to signup panel
                 switchPanel('signup');
             }
             clearMessage();
@@ -723,16 +727,18 @@
         };
 
         // ---------- footer click handler (requires login) ----------
-        window.handleFooterClick = function(boxId) {
+        window.handleFooterClick = function(section) {
             if (!currentUser) {
                 showMessage('🔒 Please log in to use footer features.', false);
                 return;
             }
-            // For demo, just show which box was clicked
-            showMessage(`📌 You clicked ${boxId} — feature placeholder.`, true);
+            // For demo, just show which section was clicked
+            let displayName = section.toUpperCase();
+            if (section === 'courses') displayName = 'COURSES';
+            showMessage(`📌 ${displayName} section – feature placeholder.`, true);
         };
 
-        // initial state: logged out, signup panel active
+        // initial state
         switchPanel('signup');
     })();
 </script>
