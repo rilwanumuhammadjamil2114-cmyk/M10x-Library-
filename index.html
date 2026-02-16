@@ -262,16 +262,15 @@
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes pop { 0% { transform: scale(0.8); } 100% { transform: scale(1); } }
 
-        /* ===== 7‑box layout for HD and PQ ===== */
+        /* ===== 7‑box layout for HD, PQ, COURSES ===== */
         .box-page {
             background: #f5fff5;
             border-radius: 20px;
             padding: 1rem;
             border: 2px solid #1c4b2d;
             margin: 1rem 0;
-            /* fixed height for the whole container – can be adjusted */
             height: 450px;
-            overflow-y: auto; /* in case content overflows, but 7 boxes fit */
+            overflow-y: auto;
         }
         .box-list {
             display: flex;
@@ -290,19 +289,17 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            /* fixed height for each box – gives consistent look */
             height: 55px;
         }
         .price-box span {
             color: #2b6e3b;
             font-weight: 400;
         }
-        /* simple alternating background for visual interest */
         .price-box:nth-child(even) {
             background: #f0faf0;
         }
 
-        /* empty page for courses (completely empty) */
+        /* empty page (no longer used for courses, but kept for reference) */
         .empty-page {
             min-height: 200px;
             background: #ffffff;
@@ -387,7 +384,7 @@
         </div>
     </div>
 
-    <!-- container for dynamic pages (HD, PQ, Courses) -->
+    <!-- container for dynamic pages (HD, PQ, COURSES) -->
     <div id="dynamicPageContainer" style="min-height: 300px;"></div>
 
     <!-- message area -->
@@ -584,10 +581,8 @@
 
         // Helper to generate 7 boxes (like price ladder)
         function renderSevenBoxes(title) {
-            // Create 7 boxes with dummy numbers (like crypto prices)
             const boxes = [];
             for (let i = 1; i <= 7; i++) {
-                // Generate some decreasing numbers for effect
                 const base = 68000 - i * 100;
                 boxes.push(`
                     <div class="price-box">
@@ -617,22 +612,20 @@
             dynamicContainer.style.display = 'block';
 
             if (section === 'dashboard') {
-                // Show dashboard (re-activate dashboard panel)
+                // Show dashboard
                 dashboardPanel.classList.add('active-panel');
                 dynamicContainer.style.display = 'none';
                 globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
             } else if (section === 'hd') {
-                // HD page with 7 boxes
                 dynamicContainer.innerHTML = renderSevenBoxes('HD');
                 globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · 7 boxes';
             } else if (section === 'pq') {
-                // PQ page with 7 boxes
                 dynamicContainer.innerHTML = renderSevenBoxes('PQ');
                 globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · 7 boxes';
             } else if (section === 'courses') {
-                // Courses page – empty (as before)
-                dynamicContainer.innerHTML = '<div class="empty-page"></div>';
-                globalHint.innerHTML = '<i class="fa-regular fa-eye-slash"></i> viewing COURSES · empty';
+                // COURSES now also shows 7 boxes
+                dynamicContainer.innerHTML = renderSevenBoxes('COURSE');
+                globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES · 7 boxes';
             }
         };
 
