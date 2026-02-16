@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M10x-library · white & dark green</title>
+    <!-- Font Awesome 6 (free) for the library icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(145deg, #e9f3e6 0%, #c8dbc1 100%);
+            /* soft green background to complement dark green & white theme */
+            padding: 1rem;
+        }
+
+        /* main white card with subtle dark green accents */
+        .login-card {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem 2rem 2.8rem 2rem;
+            border-radius: 36px;
+            box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35),
+                        0 2px 0 0 #e1f0da inset; /* very faint inner light */
+            border: 1px solid #c0ddb5; /* soft green border */
+            transition: transform 0.2s ease;
+        }
+
+        .login-card:hover {
+            transform: scale(1.01);
+            box-shadow: 0 30px 45px -10px #1e4a2e55;
+        }
+
+        /* ----- library icon + name (M10x-liabrary) ----- */
+        .library-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            color: #1c4b2d; /* dark green for text */
+        }
+
+        .icon-circle {
+            background-color: #1c4b2d; /* dark green background */
+            width: 80px;
+            height: 80px;
+            border-radius: 30px 30px 30px 10px; /* soft library / book-like shape */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            box-shadow: 0 12px 16px -8px #1c4b2d80;
+            border: 2px solid #e6ffe6;
+            transition: 0.2s;
+        }
+
+        .icon-circle i {
+            font-size: 3.2rem;
+            color: white;
+            filter: drop-shadow(2px 4px 4px #0f2b1a);
+        }
+
+        /* stylised "M10x-liabrary" – notice the intentional spelling (liabrary) as requested */
+        .library-header h1 {
+            font-size: 2.1rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            word-break: break-word;
+            text-align: center;
+            background: linear-gradient(130deg, #154f26, #246b3b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px #b8d9b0;
+            margin: 0;
+            line-height: 1.2;
+            border-bottom: 2px dotted #98c0a0;
+            padding-bottom: 0.2rem;
+        }
+
+        /* hint text */
+        .header-hint {
+            font-size: 0.95rem;
+            color: #347a45;
+            margin-top: 6px;
+            font-weight: 400;
+            background: #f0f9ec;
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+        }
+
+        /* form elements */
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .input-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #0f3b1e;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .input-label i {
+            color: #1f6e3b;
+            width: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* white fields with dark green border & subtle shadow */
+        .input-field {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            background-color: white;
+            border: 2px solid #9fc0a5;
+            border-radius: 28px;
+            font-size: 1.05rem;
+            outline: none;
+            transition: all 0.15s;
+            color: #1a3a24;
+            font-weight: 500;
+            box-shadow: inset 0 3px 8px #f1f9ee, 0 2px 3px #cce3d1;
+        }
+
+        .input-field:focus {
+            border-color: #1d6e32;
+            box-shadow: 0 0 0 4px rgba(45, 125, 70, 0.2), inset 0 2px 5px #ebf5e7;
+        }
+
+        .input-field::placeholder {
+            color: #83a78b;
+            font-weight: 300;
+            font-size: 0.95rem;
+        }
+
+        /* passkey hint (optional) */
+        .hint-text {
+            text-align: right;
+            font-size: 0.8rem;
+            margin-top: 6px;
+            color: #4f8b5e;
+            opacity: 0.8;
+        }
+
+        /* action button — dark green, white text */
+        .login-btn {
+            background-color: #1d542d;
+            color: white;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 40px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 2.2rem 0 1rem 0;
+            cursor: pointer;
+            box-shadow: 0 14px 18px -8px #1b4f29;
+            transition: 0.15s;
+            border: 1px solid #c4e6c4;
+            letter-spacing: 1px;
+        }
+
+        .login-btn i {
+            font-size: 1.2rem;
+            transition: transform 0.2s;
+        }
+
+        .login-btn:hover {
+            background-color: #0f421f;
+            box-shadow: 0 18px 22px -8px #143f1f;
+            transform: translateY(-3px);
+        }
+
+        .login-btn:hover i {
+            transform: translateX(5px);
+        }
+
+        .login-btn:active {
+            background-color: #0a3117;
+            transform: translateY(2px);
+            box-shadow: 0 6px 12px -6px #0c2f15;
+        }
+
+        /* additional link / footer (optional but fits design) */
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.8rem;
+            font-size: 0.9rem;
+            color: #347545;
+            border-top: 1px dashed #bcd5c0;
+            padding-top: 1rem;
+        }
+
+        .footer-links a {
+            color: #1c5e2d;
+            text-decoration: none;
+            font-weight: 500;
+            background: #e2f0de;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            transition: 0.1s;
+            border: 1px solid #b1d7b8;
+        }
+
+        .footer-links a:hover {
+            background: #cae9d1;
+            color: #0d381b;
+            border-color: #529465;
+        }
+
+        /* tiny extra: admission number icon / note */
+        .demo-note {
+            background: #eef9ea;
+            color: #266339;
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            border: 1px solid #a6d4b2;
+        }
+
+        /* ensure dark green elements pop */
+        i.fa-solid, i.fa-regular {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-card">
+        <!-- Library icon + "M10x-liabrary" (spelling exactly as requested) -->
+        <div class="library-header">
+            <div class="icon-circle">
+                <i class="fas fa-landmark"></i> <!-- library / landmark icon -->
+            </div>
+            <h1>M10x-liabrary</h1>
+            <span class="header-hint"><i class="fa-regular fa-bookmark"></i> digital reading · secure access</span>
+        </div>
+
+        <!-- login form (no submit action — pure ui) -->
+        <form onsubmit="event.preventDefault(); alert('Demo: welcome to M10x-liabrary 📚\n(no actual authentication)');">
+            <div class="input-group">
+                <span class="input-label">
+                    <i class="fas fa-id-card"></i>
+                    <span>Admission number</span>
+                </span>
+                <input class="input-field" type="text" placeholder="e.g., AD2025-178" required autofocus>
+                <div class="hint-text">enter your school/college ID</div>
+            </div>
+
+            <div class="input-group">
+                <span class="input-label">
+                    <i class="fas fa-lock"></i>
+                    <span>Passkey</span>
+                </span>
+                <input class="input-field" type="password" placeholder="••••••••" required>
+                <div class="hint-text"><i class="fa-regular fa-eye-slash"></i> 6–12 characters</div>
+            </div>
+
+            <button class="login-btn" type="submit">
+                <span>enter</span>
+                <i class="fas fa-arrow-right-to-bracket"></i>
+            </button>
+        </form>
+
+        <!-- small extra links / consistent with library theme -->
+        <div class="footer-links">
+            <a href="#"><i class="fa-regular fa-circle-question"></i> help</a>
+            <a href="#"><i class="fa-regular fa-credit-card"></i> register</a>
+            <a href="#"><i class="fa-regular fa-key"></i> reset</a>
+        </div>
+
+        <!-- invisible demo note but keeps the two‑tone white/green vibe -->
+        <div class="demo-note">
+            <i class="fa-regular fa-circle-check" style="color: #236b37;"></i> 
+            M10x members · secure passkey
+        </div>
+    </div>
+
+    <!-- tiny extra touch: absolutely optional, but ensures dark green presence -->
+</body>
+</html>
