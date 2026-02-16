@@ -1,14 +1,17 @@
+Here is the updated HTML code. The top header has been changed from “M10x‑liabrary” to “CMP chapter 2 of 4 library” and the icon has been removed, as you requested. The rest of the page (dashboard welcome, stats, footer) remains unchanged.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M10x-liabrary · CMP dashboard</title>
+    <title>CMP chapter 2 of 4 library</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
-            margin: 0
+            margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
@@ -34,31 +37,13 @@
             border: 1px solid #c0ddb5;
         }
 
-        /* library header */
+        /* library header - now without icon, text changed */
         .library-header {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             margin-bottom: 1.2rem;
-        }
-
-        .icon-circle {
-            background-color: #1c4b2d;
-            width: 80px;
-            height: 80px;
-            border-radius: 30px 30px 30px 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-            box-shadow: 0 12px 16px -8px #1c4b2d80;
-            border: 2px solid #e6ffe6;
-        }
-
-        .icon-circle i {
-            font-size: 3.2rem;
-            color: white;
         }
 
         .library-header h1 {
@@ -348,7 +333,7 @@
             background-color: #b13b3b;
         }
 
-        /* ===== FOOTER BAR with 4 boxes ===== */
+        /* ===== FOOTER BAR with 4 boxes – all book‑themed icons ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
@@ -407,12 +392,9 @@
 </head>
 <body>
 <div class="auth-card">
-    <!-- library header (M10x-liabrary) -->
+    <!-- library header – now "CMP chapter 2 of 4 library" without icon -->
     <div class="library-header">
-        <div class="icon-circle">
-            <i class="fas fa-landmark"></i>
-        </div>
-        <h1>M10x-liabrary</h1>
+        <h1>CMP chapter 2 of 4 library</h1>
         <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
     </div>
 
@@ -461,7 +443,7 @@
             <div class="personal-welcome" id="personalWelcome">
                 <i class="fa-regular fa-hand-wave"></i> Welcome, <span id="welcomeAdmission">User</span>!
             </div>
-            <!-- CMP heading -->
+            <!-- CMP heading (still has icon, can be removed if desired) -->
             <div class="cmp-heading">
                 <i class="fa-solid fa-book-open"></i> CMP chapter 2 of 4 library
             </div>
@@ -493,22 +475,22 @@
     <!-- message area for feedback -->
     <div id="authMessage" class="message"></div>
 
-    <!-- ===== FOOTER BAR with 4 boxes: Dashboard, HD, PQ, Courses ===== -->
+    <!-- ===== FOOTER BAR with 4 boxes – all book icons ===== -->
     <div class="footer-bar">
         <div class="footer-item" onclick="handleFooterClick('dashboard')">
-            <i class="fa-regular fa-chart-pie"></i>
+            <i class="fa-solid fa-book-open"></i>
             <span>DASHBOARD</span>
         </div>
         <div class="footer-item" onclick="handleFooterClick('hd')">
-            <i class="fa-solid fa-hard-drive"></i>
+            <i class="fa-solid fa-book"></i>
             <span>HD</span>
         </div>
         <div class="footer-item" onclick="handleFooterClick('pq')">
-            <i class="fa-solid fa-gauge-high"></i>
+            <i class="fa-solid fa-book-bookmark"></i>
             <span>PQ</span>
         </div>
         <div class="footer-item" onclick="handleFooterClick('courses')">
-            <i class="fa-solid fa-graduation-cap"></i>
+            <i class="fa-solid fa-books"></i>
             <span>COURSES</span>
         </div>
     </div>
@@ -744,3 +726,4 @@
 </script>
 </body>
 </html>
+```
