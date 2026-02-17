@@ -17,7 +17,7 @@
         body {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;  /* allow footer credit to sit below card */
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             background: #c8dbc1;
@@ -242,7 +242,7 @@
             display: flex;
             justify-content: space-around;
             align-items: center;
-            background: black;                  /* solid black, no blur */
+            background: black;
             margin: 2rem -2rem -1rem -2rem;
             padding: 0.8rem 0.5rem;
             border-top: 1px solid #333;
@@ -947,8 +947,8 @@
                 "GST 212"
             ];
 
-            // Helper to generate boxes with dropdowns (for HD and PQ)
-            function renderCourseBoxesWithDropdown(labels) {
+            // Helper to generate boxes with dropdowns for PQ (still using example.com)
+            function renderPqBoxesWithDropdown(labels) {
                 const boxes = labels.map(label => {
                     const options = [
                         '<option value="" disabled selected>— choose link —</option>',
@@ -959,6 +959,46 @@
                         '<option value="https://example.com/5">Updates</option>',
                         '<option value="https://example.com/6">Feedback</option>'
                     ].join('');
+                    return `
+                        <div class="price-box">
+                            <span class="box-label">${label}</span>
+                            <select class="box-select" onchange="window.open(this.value, '_blank')">
+                                ${options}
+                            </select>
+                        </div>
+                    `;
+                }).join('');
+                return `
+                    <div class="box-page">
+                        <div class="box-list">
+                            ${boxes}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // New function for HD boxes with PDF links
+            function renderHdBoxesWithPdfDropdown(labels) {
+                const pdfLinks = [
+                    "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                    "https://www.africau.edu/images/default/sample.pdf",
+                    "https://www.orimi.com/pdf-test.pdf",
+                    "https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.pdf",
+                    "https://www.clickdimensions.com/links/TestPDFfile.pdf",
+                    "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+                ];
+                const boxes = labels.map((label, index) => {
+                    // Cycle through pdfLinks if more boxes than links (we have 6 boxes and 6 links)
+                    const pdfUrl = pdfLinks[index % pdfLinks.length];
+                    const options = `
+                        <option value="" disabled selected>— choose PDF —</option>
+                        <option value="${pdfUrl}">Documentation PDF</option>
+                        <option value="${pdfUrl}">Tutorial PDF</option>
+                        <option value="${pdfUrl}">Community PDF</option>
+                        <option value="${pdfUrl}">Support PDF</option>
+                        <option value="${pdfUrl}">Updates PDF</option>
+                        <option value="${pdfUrl}">Feedback PDF</option>
+                    `;
                     return `
                         <div class="price-box">
                             <span class="box-label">${label}</span>
@@ -1033,10 +1073,10 @@
                     dynamicContainer.style.display = 'none';
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
-                    dynamicContainer.innerHTML = renderCourseBoxesWithDropdown(hdCourseLabels);
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · course boxes';
+                    dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels);
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns';
                 } else if (section === 'pq') {
-                    dynamicContainer.innerHTML = renderCourseBoxesWithDropdown(pqCourseLabels);
+                    dynamicContainer.innerHTML = renderPqBoxesWithDropdown(pqCourseLabels);
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing PQ · custom boxes';
                 } else if (section === 'courses') {
                     dynamicContainer.innerHTML = renderCoursesPage();
@@ -1052,14 +1092,12 @@
                     return;
                 }
 
-                // If there's already a pending click, clear it
                 if (clickTimer) {
                     clearTimeout(clickTimer);
                     clickTimer = null;
                     document.querySelectorAll('.footer-item').forEach(el => el.classList.remove('loading'));
                 }
 
-                // Find the clicked element and add loading class
                 const items = document.querySelectorAll('.footer-item');
                 let clickedItem = null;
                 items.forEach(item => {
@@ -1072,7 +1110,6 @@
                     clickedItem.classList.add('loading');
                 }
 
-                // Set timer to perform navigation after 1.5s
                 clickTimer = setTimeout(() => {
                     document.querySelectorAll('.footer-item').forEach(el => el.classList.remove('loading'));
                     performNavigation(section);
