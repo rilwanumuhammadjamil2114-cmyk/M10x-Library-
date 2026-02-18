@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · redirect</title>
+    <title>CMP library · payment</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -602,6 +602,89 @@
             background: #e0f0e0;
         }
 
+        /* ===== PAYMENT WAITING OVERLAY ===== */
+        .payment-waiting-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+        }
+        .waiting-card {
+            background: white;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 30px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: none;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+        }
+        .waiting-card i {
+            font-size: 4rem;
+            color: #1c4b2d;
+            margin-bottom: 0.5rem;
+        }
+        .waiting-card h2 {
+            color: #1c4b2d;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        .waiting-card p {
+            color: #1c4b2d;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+        }
+        .verify-btn {
+            background: #1c4b2d;
+            color: white;
+            border: none;
+            border-radius: 40px;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .verify-btn:hover {
+            background: #0f381d;
+        }
+
+        /* ===== PLAIN SITE OVERLAY (no styling, just text) ===== */
+        .plain-site-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: white;
+            color: black;
+            font-family: 'Times New Roman', serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            text-align: center;
+            padding: 2rem;
+        }
+        .plain-site-overlay h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: normal;
+        }
+        .plain-site-overlay p {
+            font-size: 1.5rem;
+        }
+
         /* credit line below footer */
         .footer-credit {
             text-align: center;
@@ -672,7 +755,7 @@
             </form>
         </div>
 
-        <!-- DASHBOARD (hidden until after guide + redirect) -->
+        <!-- DASHBOARD (hidden until payment) -->
         <div id="dashboardPanel" class="dashboard-panel">
             <div class="welcome-card">
                 <div class="personal-welcome" id="personalWelcome">
@@ -750,6 +833,23 @@
         </div>
     </div>
 
+    <!-- PAYMENT WAITING OVERLAY (hidden by default) -->
+    <div id="paymentWaitingOverlay" class="payment-waiting-overlay" style="display: none;">
+        <div class="waiting-card">
+            <i class="fa-regular fa-hourglass-half"></i>
+            <h2>Payment Required</h2>
+            <p>A new tab has been opened with the payment link.</p>
+            <p>After completing payment, click the button below to verify and access your dashboard.</p>
+            <button class="verify-btn" onclick="verifyPayment()"><i class="fa-regular fa-circle-check"></i> Verify Payment</button>
+        </div>
+    </div>
+
+    <!-- PLAIN SITE OVERLAY (hidden by default) -->
+    <div id="plainSiteOverlay" class="plain-site-overlay" style="display: none;">
+        <h1>Payment Not Confirmed</h1>
+        <p>Access denied. Please complete the payment and try again.</p>
+    </div>
+
     <script>
         (function() {
             let currentUser = null;
@@ -785,6 +885,8 @@
             const guidePrevBtn = document.getElementById('guidePrevBtn');
             const guideNextBtn = document.getElementById('guideNextBtn');
             const guideFinishBtn = document.getElementById('guideFinishBtn');
+            const paymentWaitingOverlay = document.getElementById('paymentWaitingOverlay');
+            const plainSiteOverlay = document.getElementById('plainSiteOverlay');
 
             const welcomeAdmission = document.getElementById('welcomeAdmission');
             const dashboardAdmission = document.getElementById('dashboardAdmission');
@@ -870,13 +972,30 @@
                 updateGuide();
             };
 
-            // Modified: after guide, redirect to Flutterwave payment link and show dashboard
+            // Modified: after guide, open payment link and show waiting overlay
             window.guideFinish = function() {
                 guideOverlay.style.display = 'none';
                 // Open payment link in a new tab
                 window.open('https://flutterwave.com/pay/3e6wzaan9hyf', '_blank');
-                // Then show dashboard (user can return after payment)
-                showDashboard();
+                // Show payment waiting overlay
+                paymentWaitingOverlay.style.display = 'flex';
+                globalHint.innerHTML = '<i class="fa-regular fa-credit-card"></i> payment pending';
+            };
+
+            // Verify payment – simulate check
+            window.verifyPayment = function() {
+                // Simulate a confirmation dialog (in a real app, this would be an API call)
+                const confirmed = confirm('Has the payment been confirmed? Click OK for YES, Cancel for NO.');
+                if (confirmed) {
+                    // Payment confirmed – hide waiting overlay and show dashboard
+                    paymentWaitingOverlay.style.display = 'none';
+                    showDashboard();
+                } else {
+                    // Payment not confirmed – show plain site overlay and hide waiting overlay
+                    paymentWaitingOverlay.style.display = 'none';
+                    plainSiteOverlay.style.display = 'flex';
+                    globalHint.innerHTML = '<i class="fa-regular fa-ban"></i> payment failed';
+                }
             };
 
             function showDashboard() {
@@ -926,6 +1045,8 @@
                     dynamicContainer.style.display = 'none';
                     dynamicContainer.innerHTML = '';
                     guideOverlay.style.display = 'none';
+                    paymentWaitingOverlay.style.display = 'none';
+                    plainSiteOverlay.style.display = 'none';
                     adminRecordsSection.style.display = 'none';
                 }
             }
