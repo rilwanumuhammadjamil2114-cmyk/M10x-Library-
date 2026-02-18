@@ -40,28 +40,20 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* header */
+        /* header – bold */
         .library-header {
             text-align: center;
             margin-bottom: 1.5rem;
         }
         .library-header h1 {
             font-size: 2rem;
-            font-weight: 600;
+            font-weight: 700; /* bold */
             color: #1c4b2d;
             border-bottom: 2px solid #98c0a0;
             padding-bottom: 0.3rem;
             display: inline-block;
         }
-        .header-hint {
-            display: block;
-            margin-top: 0.5rem;
-            color: #1c4b2d;
-            background: #e0f0e0;
-            padding: 0.2rem 1.2rem;
-            border-radius: 30px;
-            font-size: 0.9rem;
-        }
+        /* header hint removed as requested */
 
         /* tabs – height doubled */
         .tab-container {
@@ -153,6 +145,7 @@
             font-size: 1.3rem;
             color: #1c4b2d;
             margin-bottom: 1rem;
+            font-weight: 700; /* bold */
         }
         .dashboard-stats {
             display: flex;
@@ -169,6 +162,7 @@
             border: 1px solid #1c4b2d;
         }
         .stat-box i { font-size: 1.8rem; color: #1c4b2d; }
+        .stat-box div { font-weight: 700; } /* bold */
 
         /* records – only visible to admin */
         .records-section {
@@ -184,7 +178,7 @@
             justify-content: space-between;
             margin-bottom: 0.8rem;
             color: #1b562b;
-            font-weight: 600;
+            font-weight: 700; /* bold */
             font-size: 1.1rem;
         }
         .records-header i {
@@ -214,6 +208,7 @@
         .record-info strong {
             color: #0b4a1f;
             min-width: 70px;
+            font-weight: 700;
         }
         .delete-icon {
             color: #a54836;
@@ -242,41 +237,38 @@
             background: #e0f0e0;
         }
 
-        /* ===== FOOTER BAR – solid black (blur removed) ===== */
+        /* ===== FOOTER BAR – new style (plain text, no icons, light background) ===== */
         .footer-bar {
             display: flex;
-            justify-content: space-around;
+            justify-content: center;
             align-items: center;
-            background: black;
-            margin: 2rem -2rem -1rem -2rem;
-            padding: 0.8rem 0.5rem;
-            border-top: 1px solid #333;
-            gap: 0.3rem;
-            flex-wrap: nowrap;
+            background: transparent; /* light to match first image */
+            margin: 2rem -2rem 0 -2rem;
+            padding: 0.8rem 1rem;
+            border-top: 1px solid #1c4b2d;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            color: #1c4b2d;
+            font-weight: 600;
         }
         .footer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             cursor: pointer;
-            padding: 0.3rem 0.5rem;
-            min-width: 70px;
-            color: white;
-            border-radius: 12px;
-            font-weight: 600;
+            padding: 0.2rem 0.5rem;
             transition: background 0.1s;
             text-align: center;
-            position: relative;
-        }
-        .footer-item i {
-            font-size: 1.2rem;
-            margin-bottom: 2px;
-            color: white;
+            font-weight: 700; /* bold */
         }
         .footer-item:hover {
-            background: #333;
+            background: rgba(28, 75, 45, 0.1);
+            border-radius: 20px;
         }
-        /* loading state */
+        /* separator dots */
+        .footer-separator {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1c4b2d;
+        }
+        /* loading state (kept for functionality) */
         .footer-item.loading {
             pointer-events: none;
             opacity: 0.7;
@@ -360,6 +352,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 700; /* bold */
         }
         .preview-actions {
             display: flex;
@@ -377,6 +370,7 @@
             align-items: center;
             gap: 0.4rem;
             transition: background 0.1s;
+            font-weight: 600;
         }
         .preview-btn:hover {
             background: #0f381d;
@@ -389,29 +383,35 @@
             font-size: 1rem;
             line-height: 1.7;
             white-space: pre-wrap;
-            font-family: 'Times New Roman', serif; /* Changed to Times New Roman */
+            font-family: 'Times New Roman', serif;
             max-height: 400px;
             overflow-y: auto;
             color: #1a3a24;
         }
-        /* Full-screen mode for preview */
+        /* Full-screen mode for preview – edge to edge */
         .preview-panel.fullscreen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
+            right: 0; /* ensure full width */
             height: 100vh;
             z-index: 10000;
             background: white;
             margin: 0;
             border-radius: 0;
             border: none;
-            padding: 2rem;
+            padding: 0; /* remove padding for edge-to-edge */
             overflow-y: auto;
         }
+        .preview-panel.fullscreen .preview-header {
+            padding: 1.5rem 2rem 0 2rem; /* add padding only to header */
+        }
         .preview-panel.fullscreen .preview-content {
-            max-height: calc(100vh - 150px);
+            max-height: calc(100vh - 100px);
             font-size: 1.2rem;
+            margin: 0 2rem 2rem 2rem; /* add margin for content */
+            padding: 1.5rem;
         }
 
         /* ===== Semester tabs for COURSES page ===== */
@@ -491,7 +491,7 @@
         }
         .splash-content h1 {
             font-size: 2.5rem;
-            font-weight: 600;
+            font-weight: 700;
         }
         .splash-content p {
             font-size: 1.1rem;
@@ -533,6 +533,7 @@
             color: #1c4b2d;
             margin-bottom: 1rem;
             font-size: 1.8rem;
+            font-weight: 700;
         }
         .guide-slide p {
             color: #1c4b2d;
@@ -620,7 +621,7 @@
     <div class="auth-card">
         <div class="library-header">
             <h1>CMP chapter 2 of 4 library</h1>
-            <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
+            <!-- header hint removed as requested -->
         </div>
 
         <!-- tabs -->
@@ -700,24 +701,15 @@
         <!-- message area -->
         <div id="authMessage" class="message"></div>
 
-        <!-- FOOTER BAR – solid black (blur removed) -->
+        <!-- FOOTER BAR – new style (plain text, no icons) -->
         <div class="footer-bar">
-            <div class="footer-item" onclick="handleFooterClickWithDelay('dashboard')">
-                <i class="fa-solid fa-book-open"></i>
-                <span>DASHBOARD</span>
-            </div>
-            <div class="footer-item" onclick="handleFooterClickWithDelay('hd')">
-                <i class="fa-solid fa-book"></i>
-                <span>HD</span>
-            </div>
-            <div class="footer-item" onclick="handleFooterClickWithDelay('pq')">
-                <i class="fa-solid fa-bookmark"></i>
-                <span>PQ</span>
-            </div>
-            <div class="footer-item" onclick="handleFooterClickWithDelay('courses')">
-                <i class="fa-solid fa-books"></i>
-                <span>COURSES</span>
-            </div>
+            <span class="footer-item" onclick="handleFooterClickWithDelay('dashboard')">DASHBOARD</span>
+            <span class="footer-separator">•</span>
+            <span class="footer-item" onclick="handleFooterClickWithDelay('hd')">HD</span>
+            <span class="footer-separator">•</span>
+            <span class="footer-item" onclick="handleFooterClickWithDelay('pq')">PQ</span>
+            <span class="footer-separator">•</span>
+            <span class="footer-item" onclick="handleFooterClickWithDelay('courses')">COURSES</span>
         </div>
     </div>
 
@@ -1287,8 +1279,8 @@
                 const items = document.querySelectorAll('.footer-item');
                 let clickedItem = null;
                 items.forEach(item => {
-                    if (item.querySelector('span').innerText.trim() === section.toUpperCase() ||
-                        (section === 'courses' && item.querySelector('span').innerText.trim() === 'COURSES')) {
+                    if (item.innerText.trim() === section.toUpperCase() ||
+                        (section === 'courses' && item.innerText.trim() === 'COURSES')) {
                         clickedItem = item;
                     }
                 });
