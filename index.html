@@ -977,15 +977,15 @@
                 `;
             }
 
-            // New function for HD boxes with PDF links
+            // New function for HD boxes with PDF links – using direct download domain
             function renderHdBoxesWithPdfDropdown(labels) {
-                // Specific Dropbox links for CMP 201 – corrected to dl=1 for direct download
+                // Specific Dropbox links for CMP 201 – using dl.dropboxusercontent.com for direct download
                 const cmp201Links = [
-                    "https://www.dropbox.com/scl/fi/hbs2wz70yiy9cuetwj52e/CMP201_Lect1-1.pptx?rlkey=z2k3hw4lo92yjjquh4lpqkl9n&st=zkblzxe9&dl=1",
-                    "https://www.dropbox.com/scl/fi/ih2ueue7fx37hu72zqn38/CMP201_Lect2.pptx?rlkey=ekhgtv5i0w20bv11yeddtv0ha&st=od8db7fh&dl=1",
-                    "https://www.dropbox.com/scl/fi/lmpa21swe9a9m0hk4wgvt/CMP201_Lect3.pptx?rlkey=0srijmfgoziu4fmtm2q9r1j1s&st=6vmraob4&dl=1",
-                    "https://www.dropbox.com/scl/fi/hbffchx0wpo2135m4mutr/CMP201_Lect4.pptx?rlkey=ndoqkqm4bgd79ptvjkpftdk2a&st=y4gv6539&dl=1",
-                    "https://www.dropbox.com/scl/fi/ic48e0yd438pyhbztspa5/CMP201_Lect5.pptx?rlkey=ovp8hugue9nv8ssanf20dmjk4&st=caoblbj5&dl=1"
+                    "https://dl.dropboxusercontent.com/scl/fi/hbs2wz70yiy9cuetwj52e/CMP201_Lect1-1.pptx?rlkey=z2k3hw4lo92yjjquh4lpqkl9n&st=zkblzxe9&dl=1",
+                    "https://dl.dropboxusercontent.com/scl/fi/ih2ueue7fx37hu72zqn38/CMP201_Lect2.pptx?rlkey=ekhgtv5i0w20bv11yeddtv0ha&st=od8db7fh&dl=1",
+                    "https://dl.dropboxusercontent.com/scl/fi/lmpa21swe9a9m0hk4wgvt/CMP201_Lect3.pptx?rlkey=0srijmfgoziu4fmtm2q9r1j1s&st=6vmraob4&dl=1",
+                    "https://dl.dropboxusercontent.com/scl/fi/hbffchx0wpo2135m4mutr/CMP201_Lect4.pptx?rlkey=ndoqkqm4bgd79ptvjkpftdk2a&st=y4gv6539&dl=1",
+                    "https://dl.dropboxusercontent.com/scl/fi/ic48e0yd438pyhbztspa5/CMP201_Lect5.pptx?rlkey=ovp8hugue9nv8ssanf20dmjk4&st=caoblbj5&dl=1"
                 ];
                 // Generic PDF links for other courses
                 const genericPdfLinks = [
