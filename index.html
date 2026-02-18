@@ -1132,7 +1132,7 @@
                 dynamicContainer.innerHTML = '';
             };
 
-            // Label sets for different pages – includes SEN 201 now
+            // Label sets for different pages – includes IFT 211 now with multiple PDFs
             const hdCourseLabels = [
                 "CMP 201",
                 "CMP 209",
@@ -1332,6 +1332,265 @@ Research: Look up CMMI (Capability Maturity Model Integration). Assignment: In 5
 Topic: Software Engineering & Law / Ethics
 Research: Explore the difference between Open Source (GPL, MIT) and Proprietary (EULA) licenses. Assignment: Find a real- world example of a "Software Engineering Disaster" caused by poor requirements (e.g., the Boeing 737 Max MCAS system or the UK Post Office Horizon scandal). Task: Write a brief report identifying whether the failure was due to a Functional requirement error or a Non- functional requirement error. Objective: To understand the ethical and legal weight of accurate software documentation.`;
 
+            // New content for IFT 211 additional PDFs
+            const ift211_decodersContent = `DECODERS AND DEMULTIPLEXERS
+
+INTRODUCTION
+A decoder is type of combinational Circuit which decodes a small bit value into large bit value. It is normally used in combination with encoders which does exactly the opposite of what a decoder does. It is very similar to the Encoder method, but here we use the AND logic instead of the OR logic.
+
+A de-multiplexer (also known as a de-mux or data distributor) is a combinational circuit that can distribute or deliver multiple outputs from a single output. A de-multiplexer can perform as a single input with many output switches.
+
+2:4 DECODERS
+The Decoder has 2 input lines and 4 output lines; hence this type of Decoder is called as 2:4 Decoders. The two input pins are named as A1 and A0 and the four output pins are named from D0 to D3.
+
+Truth Table:
+A1 A0 | D3 D2 D1 D0
+0   0 | 0  0  0  1
+0   1 | 0  0  1  0
+1   0 | 0  1  0  0
+1   1 | 1  0  0  0
+
+PRIORITY DECODER
+This type of decoder has an extra input pin labeled as "E" (Enable) which will be connected with the valid pin of the priority Decoder.
+
+3 to 8 line decoder is also known as Binary to Octal Decoder. In a 3 line decoder, there is a total of eight outputs, Y0...Y7 and three inputs A0, A1, A2.
+
+APPLICATIONS OF A DECODER
+- Used for transmitting QR codes
+- Used by the military during war. The encoder converts the data format and sends it to other places by transmission and when the data is received, the decoder rectifies the defect and lets one have the original message.
+- It is used for data distribution (demultiplexing).
+
+DEMULTIPLEXERS
+A de-multiplexer (also known as a de-mux or data distributor) is a combinational circuit that can distribute or deliver multiple outputs from a single output. A de-multiplexer can perform as a single input with many output switches. The de-multiplexer's output lines are 'n' in number, the select line is 'm' and n = 2^m. The control signal or select input code decides the output line to which the input has to be transmitted.
+
+1x2 De-multiplexer:
+In the 1 to 2 De-multiplexer, there are only two outputs, Y0 and Y1, one selection line S0, and single input A.
+
+1 to 4 De-multiplexer:
+In a 1 to 4 De-multiplexer, there are four outputs Y0, Y1, Y2, Y3, selection lines S0 and S1, and single input A. On the basis of the combination of inputs at the selection lines S0 and S1, the input is connected to one of the outputs.
+
+Truth Table:
+S1 S0 | Y3 Y2 Y1 Y0
+0  0  | 0  0  0  A
+0  1  | 0  0  A  0
+1  0  | 0  A  0  0
+1  1  | A  0  0  0
+
+CONCLUSION
+Encoders are used for transmitting QR codes, used by the military during war. The encoder converts the data format and sends it to other places by transmission and when the data is received, the decoder rectifies the defect and lets one have the original message (microphones). It is also used for data distribution (demultiplexing). With the implementation of the de-multiplexer, the ALU's output can be stored in storage units or multiple registers. Here, the ALU output is given to the de-multiplexer as its inputs. The outputs of the de-multiplexer are sent to the multiple registers where the data is stored.`;
+
+            const ift211_assignmentContent = `Quantum-Resistant Codes: Development of cryptographic codes resilient to both classical and quantum-based attacks. Automated Design: Use of genetic or evolutionary algorithms to design optimal code structures for domain-specific applications. Integration with Heterogeneous Systems: As computing becomes increasingly distributed, encoders/decoders will evolve to accommodate multi-platform interoperability (e.g., mobile, cloud, edge, quantum).
+
+8. Encoders and Decoders in logic gate circuit
+
+8.1 Introduction
+Binary code of N digits can be used to store 2^N distinct elements of coded information. This is what encoders are used for.
+
+Consider Octal to Binary encoder. As shown in the following figure, an octal-to-binary encoder takes 8 input lines and generates 3 output lines.
+
+Truth Table for Encoder:
+Inputs D7 D6 D5 D4 D3 D2 D1 D0 | Outputs X Y Z
+Only one input active at a time.
+
+Implementation:
+X = D4 + D5 + D6 + D7
+Y = D2 + D3 + D6 + D7
+Z = D1 + D3 + D5 + D7
+
+8.3 Priority Encoder
+A priority encoder is an encoder circuit in which inputs are given priorities. When more than one input is active at the same time, the input with higher priority takes precedence and the output corresponding to that is generated.
+
+4 to 2 priority encoder truth table:
+Inputs D3 D2 D1 D0 | Outputs X Y V
+(V is valid bit)
+
+Implementation:
+V = D0 + D1 + D2 + D3
+X = D2 + D3
+Y = D1 D2' + D3
+
+8.4 Decoders
+A decoder does the opposite job of an encoder. It is a combinational circuit that converts n lines of input into 2^n lines of output. Example: 3-to-8 line decoder.
+
+Truth Table for 3-to-8 decoder:
+Inputs X Y Z | Outputs D0 D1 D2 D3 D4 D5 D6 D7
+For each input combination, exactly one output is high.
+
+Implementation:
+D0 = X' Y' Z'
+D1 = X' Y' Z
+D2 = X' Y Z'
+D3 = X' Y Z
+D4 = X Y' Z'
+D5 = X Y' Z
+D6 = X Y Z'
+D7 = X Y Z
+
+9. Conclusion
+Encoders and decoders are integral to virtually every facet of modern computing, from basic digital communications to advanced cryptographic protocols. They enable efficient data storage, reliable transmission, and secure communication. The historical evolution from simple Morse code to sophisticated encoding/decoding schemes such as Turbo and LDPC codes underscores the continuous innovation driven by practical needs and theoretical insights.
+
+Throughout this document, we have examined:
+- The definitions and essential roles of encoders and decoders.
+- A historical perspective, from early telegraphy to modern machine learning-driven approaches.
+- The theoretical frameworks of information theory, mathematics, and algorithm design.
+- A variety of encoding and decoding techniques – error correction, compression, cryptography, and digital/hardware implementations.
+- Real-world implementations and case studies that illustrate the power of well-designed encoders and decoders.
+- Prospects for future innovation, including quantum resistance, AI-driven schemes, and further integration with emerging technologies.
+
+As data volumes surge and communication demands grow, research into more efficient, secure, and robust encoders and decoders will remain a paramount endeavor in computer science. Innovations in this field promise to enable next-generation applications – from ubiquitous IoT networks to ultra-high-resolution streaming and beyond. Ultimately, the precise and artful design of encoding/decoding systems will continue to bridge the gap between theoretical potential and real-world performance, shaping the future of how we store, transmit, and safeguard information.`;
+
+            const ift211_numberSystemsContent = `1. The total numbers present in that number system is 'r'. So, we will get various number systems, by choosing the values of radix as greater than or equal to two.
+
+The following number systems are the most commonly used.
+- Decimal Number system
+- Binary Number system
+- Octal Number system
+- Hexadecimal Number system
+
+Decimal Number System
+The base or radix of Decimal number system is 10. So, the numbers ranging from 0 to 9 are used. The part of the number that lies to the left of the decimal point is known as integer part. Similarly, the part that lies to the right of the decimal point is known as fractional part.
+Successive positions to the left have weights 10^0, 10^1, 10^2, …; to the right 10^-1, 10^-2, …
+
+Example: 1358.246 = 1×10^3 + 3×10^2 + 5×10^1 + 8×10^0 + 2×10^-1 + 4×10^-2 + 6×10^-3
+
+Binary Number System
+Base = 2, digits 0 and 1. Binary point separates integer and fractional parts.
+Weights: 2^0, 2^1, 2^2, … to the left; 2^-1, 2^-2, … to the right.
+Example: 1101.011 = 1×2^3 + 1×2^2 + 0×2^1 + 1×2^0 + 0×2^-1 + 1×2^-2 + 1×2^-3 = 13.375 decimal.
+
+Octal Number System
+Base = 8, digits 0–7.
+Weights: 8^0, 8^1, 8^2, … to the left; 8^-1, 8^-2, … to the right.
+Example: 1457.236 = 1×8^3 + 4×8^2 + 5×8^1 + 7×8^0 + 2×8^-1 + 3×8^-2 + 6×8^-3
+
+Hexadecimal Number System
+Base = 16, digits 0–9 and A–F (A=10, B=11, C=12, D=13, E=14, F=15).
+Weights: 16^0, 16^1, 16^2, … to the left; 16^-1, 16^-2, … to the right.
+Example: 1A05.2C4 = 1×16^3 + 10×16^2 + 0×16^1 + 5×16^0 + 2×16^-1 + 12×16^-2 + 4×16^-3
+
+BASE CONVERSION
+We can convert from one base to another.
+
+Decimal to other bases: Repeated division (integer part) and multiplication (fractional part).
+
+Binary to other bases: Group bits appropriately (for octal group 3 bits, for hex group 4 bits).
+
+Octal/Hex to binary: Expand each digit to 3/4 bits.
+
+BINARY NUMBER REPRESENTATION
+Unsigned numbers: All bits represent magnitude.
+Signed numbers: MSB is sign bit (0 positive, 1 negative). Three representations: sign-magnitude, 1's complement, 2's complement.
+
+Sign-magnitude: Sign bit + magnitude bits.
+1's complement: Complement all bits of positive number to get negative.
+2's complement: 1's complement + 1.
+
+Addition and subtraction using 2's complement: Add, discard carry from sign bit. If result sign=1, take 2's complement to get magnitude.
+
+Binary Codes for Decimal digits
+8421 (BCD), 2421, 84-2-1, Excess-3, Gray code.
+
+Gray code: Only one bit changes between successive values.
+
+Boolean Algebra
+Postulates, laws (commutative, associative, distributive), DeMorgan's theorems.
+Simplification of Boolean functions using algebraic manipulation and Karnaugh maps (K-maps).
+
+Logic Gates: AND, OR, NOT, NAND, NOR, XOR, XNOR.`;
+
+            const ift211_binaryCodesContent = `Binary Codes
+
+In the coding, when numbers, letters or words are represented by a specific group of symbols, it is said that the number, letter or word is being encoded. The group of symbols is called as a code. The digital data is represented, stored and transmitted as group of binary bits. This group is also called as binary code. The binary code is represented by the number as well as alphanumeric letter.
+
+Advantages of Binary Code
+- Binary codes are suitable for the computer applications.
+- Binary codes are suitable for the digital communications.
+- Binary codes make the analysis and designing of digital circuits if we use the binary codes.
+- Since only 0 & 1 are being used, implementation becomes easy.
+
+Classification of binary codes
+The codes are broadly categorized into following four categories.
+1. Weighted Codes
+2. Non-Weighted Codes
+3. Binary Coded Decimal Code
+4. Alphanumeric Codes
+5. Error Detecting Codes
+6. Error Correcting Codes
+
+Weighted Codes
+Weighted binary codes are those binary codes which obey the positional weight principle. Each position of the number represents a specific weight. Several systems of the codes are used to express the decimal digits 0 through 9. In these codes each decimal digit is represented by a group of four bits.
+
+Non-Weighted Codes
+In this type of binary codes, the positional weights are not assigned. The examples of non-weighted codes are Excess-3 code and Gray code.
+
+Excess-3 code
+The Excess-3 code is also called as XS-3 code. It is non-weighted code used to express decimal numbers. The Excess-3 code words are derived from the 8421 BCD code words by adding (0011)2 or (3)10 to each code word in 8421.
+
+Example:
+Decimal 0: BCD 0000 -> Excess-3 0011
+1: 0001 -> 0100
+2: 0010 -> 0101
+3: 0011 -> 0110
+4: 0100 -> 0111
+5: 0101 -> 1000
+6: 0110 -> 1001
+7: 0111 -> 1010
+8: 1000 -> 1011
+9: 1001 -> 1100
+
+Gray code
+Gray code is a non-weighted code and it is not arithmetic codes. That means there are no specific weights assigned to the bit position. It has a very special feature that only one bit will change each time the decimal number is incremented. As only one bit changes at a time, the gray code is called as a unit distance code. The gray code is a cyclic code. Gray code cannot be used for arithmetic operation.
+
+Gray code for decimal digits:
+Decimal 0: 0000
+1: 0001
+2: 0011
+3: 0010
+4: 0110
+5: 0111
+6: 0101
+7: 0100
+8: 1100
+9: 1101
+
+Application of Gray code: Gray code is popularly used in shaft position encoders. A shaft position encoder produces a code word which represents the angular position of the shaft.
+
+Binary Coded Decimal (BCD) code
+In this code each decimal digit is represented by a 4-bit binary number. BCD is a way to express each of the decimal digits with a binary code. In the BCD, with four bits we can represent sixteen numbers (0000 to 1111). But in BCD code only first ten of these are used (0000 to 1001). The remaining six code combinations i.e. 1010 to 1111 are invalid in BCD.
+
+BCD representation:
+Decimal 0: 0000
+1: 0001
+2: 0010
+3: 0011
+4: 0100
+5: 0101
+6: 0110
+7: 0111
+8: 1000
+9: 1001
+
+Advantages of BCD Codes
+- It is very similar to decimal system.
+- We need to remember binary equivalent of decimal numbers 0 to 9 only.
+
+Disadvantages of BCD Codes
+- The addition and subtraction of BCD have different rules. The BCD arithmetic is little more complicated.
+- BCD needs more number of bits than binary to represent the decimal number. So BCD is less efficient than binary.
+
+Alphanumeric codes
+A binary digit or bit can represent only two symbols as it has only two states '0' or '1'. But this is not enough for communication between two computers because there we need many more symbols for communication. These symbols are required to represent 26 alphabets with capital and small letters, numbers from 0 to 9, punctuation marks and other symbols.
+
+The alphanumeric codes are the codes that represent numbers and alphabetic characters. Mostly such codes also represent other characters such as symbols and various instructions necessary for conveying information. An alphanumeric code should at least represent 10 digits and 26 letters of alphabet i.e. total 36 items. The following three alphanumeric codes are very commonly used for the data representation.
+- American Standard Code for Information Interchange (ASCII)
+- Extended Binary Coded Decimal Interchange Code (EBCDIC)
+- Five bit Baudot Code
+
+ASCII code is a 7-bit code whereas EBCDIC is an 8-bit code. ASCII code is more commonly used worldwide while EBCDIC is used primarily in large IBM computers.
+
+Error Codes
+There are binary code techniques available to detect and correct data during data transmission. Error detection and correction code techniques.`;
+
             // Lecture contents for CMP 201 (unchanged)
             const lectureContents = {
                 "Lecture 1": `CMP 201: Programming ...`, // truncated for brevity – full content from previous implementation
@@ -1375,7 +1634,7 @@ Research: Explore the difference between Open Source (GPL, MIT) and Proprietary 
                 `;
             }
 
-            // Function for HD boxes with PDF dropdowns – now includes SEN 201
+            // Function for HD boxes with PDF dropdowns – now includes IFT 211 with multiple PDFs
             function renderHdBoxesWithPdfDropdown(labels) {
                 const genericPdfLinks = [
                     "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
@@ -1402,6 +1661,10 @@ Research: Explore the difference between Open Source (GPL, MIT) and Proprietary 
                             <option value="" disabled selected>— choose PDF —</option>
                             <option value="IFT211 Handout">CMP 301 Handout (preview)</option>
                             <option value="IFT211 Tutorial">K-map Tutorial (preview)</option>
+                            <option value="IFT211 Decoders">Decoders and Demultiplexers (preview)</option>
+                            <option value="IFT211 Assignment">CMP301 Assignment (preview)</option>
+                            <option value="IFT211 NumberSystems">Number Systems & Boolean Algebra (preview)</option>
+                            <option value="IFT211 BinaryCodes">Binary Codes (preview)</option>
                         `;
                     } else if (label === "SEN 201") {
                         options = `
@@ -1492,6 +1755,38 @@ Research: Explore the difference between Open Source (GPL, MIT) and Proprietary 
                         currentLecture = {
                             title: `IFT211_Kmap_Tutorial`,
                             content: ift211_tutorialContent
+                        };
+                    } else if (selectedValue === "IFT211 Decoders") {
+                        previewTitle.innerText = `IFT 211 - Decoders and Demultiplexers`;
+                        previewContent.innerText = ift211_decodersContent;
+                        previewPanel.style.display = 'block';
+                        currentLecture = {
+                            title: `IFT211_Decoders_Demux`,
+                            content: ift211_decodersContent
+                        };
+                    } else if (selectedValue === "IFT211 Assignment") {
+                        previewTitle.innerText = `IFT 211 - CMP301 Assignment`;
+                        previewContent.innerText = ift211_assignmentContent;
+                        previewPanel.style.display = 'block';
+                        currentLecture = {
+                            title: `IFT211_CMP301_Assignment`,
+                            content: ift211_assignmentContent
+                        };
+                    } else if (selectedValue === "IFT211 NumberSystems") {
+                        previewTitle.innerText = `IFT 211 - Number Systems & Boolean Algebra`;
+                        previewContent.innerText = ift211_numberSystemsContent;
+                        previewPanel.style.display = 'block';
+                        currentLecture = {
+                            title: `IFT211_NumberSystems`,
+                            content: ift211_numberSystemsContent
+                        };
+                    } else if (selectedValue === "IFT211 BinaryCodes") {
+                        previewTitle.innerText = `IFT 211 - Binary Codes`;
+                        previewContent.innerText = ift211_binaryCodesContent;
+                        previewPanel.style.display = 'block';
+                        currentLecture = {
+                            title: `IFT211_BinaryCodes`,
+                            content: ift211_binaryCodesContent
                         };
                     } else {
                         previewPanel.style.display = 'none';
