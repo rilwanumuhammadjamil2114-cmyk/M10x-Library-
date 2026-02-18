@@ -979,7 +979,16 @@
 
             // New function for HD boxes with PDF links
             function renderHdBoxesWithPdfDropdown(labels) {
-                const pdfLinks = [
+                // Specific Dropbox links for CMP 201
+                const cmp201Links = [
+                    "https://www.dropbox.com/scl/fi/hbs2wz70yiy9cuetwj52e/CMP201_Lect1-1.pptx?rlkey=z2k3hw4lo92yjjquh4lpqkl9n&st=zkblzxe9&dl=0",
+                    "https://www.dropbox.com/scl/fi/ih2ueue7fx37hu72zqn38/CMP201_Lect2.pptx?rlkey=ekhgtv5i0w20bv11yeddtv0ha&st=od8db7fh&dl=0",
+                    "https://www.dropbox.com/scl/fi/lmpa21swe9a9m0hk4wgvt/CMP201_Lect3.pptx?rlkey=0srijmfgoziu4fmtm2q9r1j1s&st=6vmraob4&dl=0",
+                    "https://www.dropbox.com/scl/fi/hbffchx0wpo2135m4mutr/CMP201_Lect4.pptx?rlkey=ndoqkqm4bgd79ptvjkpftdk2a&st=y4gv6539&dl=0",
+                    "https://www.dropbox.com/scl/fi/ic48e0yd438pyhbztspa5/CMP201_Lect5.pptx?rlkey=ovp8hugue9nv8ssanf20dmjk4&st=caoblbj5&dl=0"
+                ];
+                // Generic PDF links for other courses
+                const genericPdfLinks = [
                     "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
                     "https://www.africau.edu/images/default/sample.pdf",
                     "https://www.orimi.com/pdf-test.pdf",
@@ -987,18 +996,32 @@
                     "https://www.clickdimensions.com/links/TestPDFfile.pdf",
                     "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
                 ];
+
                 const boxes = labels.map((label, index) => {
-                    // Cycle through pdfLinks if more boxes than links (we have 6 boxes and 6 links)
-                    const pdfUrl = pdfLinks[index % pdfLinks.length];
-                    const options = `
-                        <option value="" disabled selected>— choose PDF —</option>
-                        <option value="${pdfUrl}">Documentation PDF</option>
-                        <option value="${pdfUrl}">Tutorial PDF</option>
-                        <option value="${pdfUrl}">Community PDF</option>
-                        <option value="${pdfUrl}">Support PDF</option>
-                        <option value="${pdfUrl}">Updates PDF</option>
-                        <option value="${pdfUrl}">Feedback PDF</option>
-                    `;
+                    let options;
+                    if (label === "CMP 201") {
+                        // Use the five specific Dropbox links for CMP 201
+                        options = `
+                            <option value="" disabled selected>— choose lecture —</option>
+                            <option value="${cmp201Links[0]}">Lecture 1</option>
+                            <option value="${cmp201Links[1]}">Lecture 2</option>
+                            <option value="${cmp201Links[2]}">Lecture 3</option>
+                            <option value="${cmp201Links[3]}">Lecture 4</option>
+                            <option value="${cmp201Links[4]}">Lecture 5</option>
+                        `;
+                    } else {
+                        // Use generic PDF links for other courses
+                        const pdfUrl = genericPdfLinks[index % genericPdfLinks.length];
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="${pdfUrl}">Documentation PDF</option>
+                            <option value="${pdfUrl}">Tutorial PDF</option>
+                            <option value="${pdfUrl}">Community PDF</option>
+                            <option value="${pdfUrl}">Support PDF</option>
+                            <option value="${pdfUrl}">Updates PDF</option>
+                            <option value="${pdfUrl}">Feedback PDF</option>
+                        `;
+                    }
                     return `
                         <div class="price-box">
                             <span class="box-label">${label}</span>
