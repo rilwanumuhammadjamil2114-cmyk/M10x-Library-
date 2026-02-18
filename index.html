@@ -332,49 +332,81 @@
             background: #f0faf0;
         }
 
-        /* ===== Preview panel for CMP 201 lectures ===== */
+        /* ===== Enhanced preview panel for CMP 201 lectures ===== */
         .preview-panel {
-            background: white;
+            background: #fefefe;
             border: 2px solid #1c4b2d;
-            border-radius: 20px;
-            padding: 1rem;
+            border-radius: 24px;
+            padding: 1.5rem;
             margin-top: 1.5rem;
-            max-height: 400px;
-            overflow-y: auto;
+            box-shadow: 0 8px 20px rgba(0,40,0,0.15);
         }
-        .preview-panel h3 {
+        .preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .preview-header h3 {
             color: #1c4b2d;
-            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        .preview-content {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            white-space: pre-wrap;
-            background: #f9fff9;
-            padding: 0.8rem;
-            border-radius: 12px;
-            border: 1px solid #b0d0b0;
-            max-height: 300px;
-            overflow-y: auto;
+        .preview-actions {
+            display: flex;
+            gap: 0.5rem;
         }
-        .download-btn {
+        .preview-btn {
             background: #1c4b2d;
             color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 40px;
             padding: 0.5rem 1rem;
             font-size: 0.9rem;
             cursor: pointer;
-            margin-top: 0.8rem;
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
+            transition: background 0.1s;
         }
-        .download-btn:hover {
+        .preview-btn:hover {
             background: #0f381d;
+        }
+        .preview-content {
+            background: #f9fff9;
+            border: 1px solid #b0d0b0;
+            border-radius: 18px;
+            padding: 1.5rem;
+            font-size: 1rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            max-height: 400px;
+            overflow-y: auto;
+            color: #1a3a24;
+        }
+        /* Full-screen mode for preview */
+        .preview-panel.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 10000;
+            background: white;
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+        .preview-panel.fullscreen .preview-content {
+            max-height: calc(100vh - 150px);
+            font-size: 1.2rem;
         }
 
         /* ===== Semester tabs for COURSES page ===== */
@@ -994,15 +1026,7 @@
 
             // Lecture content for CMP 201 (from provided files)
             const lectureContents = {
-                "Lecture 1": `CMP 201: Computer Programming I\nProgramming Languages\nC & C++ ...` // truncated for brevity, but will use full content
-                // We'll embed the full text in the actual code below
-            };
-
-            // For the actual implementation, we'll embed the full text from the files
-            // Since the content is long, we'll create a function to return the content based on lecture number
-            function getLectureContent(lecture) {
-                const contents = {
-                    "Lecture 1": `CMP 201: Programming \nComputer Programming\nIn one sentence:\nThe process of writing computer programs is known as computer programming.\nA computer program is a clear, step-by-step, finite set of instructions that solve a specific problem. \nA computer program must be clear so that only one meaning can be derived from it\nA computer program is written by a computer programmer in a computer language called a programming language.\n\nHow to write a Program?\nA Computer is not Intelligent. Is this true???\nIt cannot analyze a problem and come up with a solution. \nA human (the programmer) must analyze the problem, develop the instructions for solving the problem, and then have the computer carry out the instructions. \nTo write a program for a computer to follow, we must go through a two-phase process: \nProblem Solving and Implementation.\n\nProblem-Solving Phase\nAnalysis and Specification- Understand (define) the problem and what the solution must do.\nGeneral Solution (Algorithm)- Specify the required data types and the logical sequences of steps that solve the problem.\nVerify- Follow the steps exactly to see if the solution really does solve the problem.\n\nImplementation Phase\nCoding the Program - Translate the algorithm (the general solution) into a programming language.\nTesting the Program - Have the computer follow the instructions.\nThen manually check the results. \nIf you find errors, analyze the program and the algorithm to determine the source of the errors, and then make corrections.\nMaintenance requires Modification of the program to meet changing requirements or to correct any errors that show up while using it.\n\nSteps in Program Development\nDefine the problem into three separate components:\nIdentify the inputs\nIdentify the outputs\nThe processing steps to produce required outputs.\nOutline the solution.\nDecompose the problem to smaller steps.\nEstablish a solution outline.\nDevelop the outline into an algorithm.\nThe solution outline is now expanded into an algorithm.\n\nSteps in Program Development\nTest the algorithm for correctness.\nVery important in the development of a program, but often forgotten\nMajor logic errors can be detected and corrected at an early stage.\nCode the algorithm into a specific programming language.\nTest the program on the computer.\nThis step uses a program compiler and programmer-designed test data to machine-test the code for\nsyntax errors\nlogic errors\nDocument and maintain the program.\n\nAlgorithms & Flowcharts\nWhat is an algorithm?\nLists the steps involved in accomplishing a task (like a recipe)\nAn algorithm must:\nBe lucid (clear), precise and unambiguous\nGive the correct solution in all cases\nEventually end (Finite number of Instructions)\nWhat is pseudocode?\nStructured English (formalized and abbreviated to look like high-level computer language)\n\nPseudocode & Algorithm\nExample 1: Write an algorithm to determine a student’s final grade and indicate whether it is passing or failing. The final grade is calculated as the Total of CA and Exam Scores.\n\nPseudocode & Algorithm\nPseudocode:\nInput CA and Exam Scores\nCalculate Total Score by summing CA and Exam Scores\nif Total Score is below 40\nPrint “FAIL”\nelse\nPrint “PASS”\n\nPseudocode & Algorithm\nDetailed Algorithm: \nStep 1: Input CA, Exam\nStep 2: Total = CA + Exam \nStep 3: if (Total < 40) then\nPrint “FAIL”\nelse\nPrint “PASS”\nendif\n\nFlowchart\nA graphical representation of the sequence of operations in an information system or program. \nProgram flowcharts show the sequence of instructions in a single program or subroutine. \nshows logic of an algorithm\nemphasizes individual steps and their interconnections\ne.g. control flow from one action to the next\nNote: Different symbols are used to draw each type of flowchart.\n\nFlowchart Symbols\nExample 2\nWrite an algorithm and draw a flowchart that will read the two sides of a rectangle and calculate its area. \nPseudocode \nInput the Length (L) and Breath (B) of a rectangle\nCalculate the area (A) by multiplying L with B\nPrint A\n\nExample 2……\nAlgorithm \nStep 1: Input L,B\nStep 2: A = L x B \nStep 3: Print A\n\nExample 3\nWrite an algorithm and draw a flowchart that will calculate the roots of a quadratic equation \nHint: d = sqrt ( ), and the roots are: x1 = (–b + d)/2a and x2 = (–b – d)/2a\n\nExample 3….\nPseudocode: \nInput the coefficients (a, b, c) of the quadratic equation\nCalculate d\nCalculate x1\nCalculate x2\nPrint x1 and x2\n\nExample 3….\nAlgorithm: \nStep 1: Input a, b, c\nStep 2: d = sqrt ( )\nStep 3: x1 = (–b + d) / (2 x a)\nStep 4: x2 = (–b – d) / (2 x a)\nStep 5: Print x1, x2`,
+                "Lecture 1": `CMP 201: Programming \nComputer Programming\nIn one sentence:\nThe process of writing computer programs is known as computer programming.\nA computer program is a clear, step-by-step, finite set of instructions that solve a specific problem. \nA computer program must be clear so that only one meaning can be derived from it\nA computer program is written by a computer programmer in a computer language called a programming language.\n\nHow to write a Program?\nA Computer is not Intelligent. Is this true???\nIt cannot analyze a problem and come up with a solution. \nA human (the programmer) must analyze the problem, develop the instructions for solving the problem, and then have the computer carry out the instructions. \nTo write a program for a computer to follow, we must go through a two-phase process: \nProblem Solving and Implementation.\n\nProblem-Solving Phase\nAnalysis and Specification- Understand (define) the problem and what the solution must do.\nGeneral Solution (Algorithm)- Specify the required data types and the logical sequences of steps that solve the problem.\nVerify- Follow the steps exactly to see if the solution really does solve the problem.\n\nImplementation Phase\nCoding the Program - Translate the algorithm (the general solution) into a programming language.\nTesting the Program - Have the computer follow the instructions.\nThen manually check the results. \nIf you find errors, analyze the program and the algorithm to determine the source of the errors, and then make corrections.\nMaintenance requires Modification of the program to meet changing requirements or to correct any errors that show up while using it.\n\nSteps in Program Development\nDefine the problem into three separate components:\nIdentify the inputs\nIdentify the outputs\nThe processing steps to produce required outputs.\nOutline the solution.\nDecompose the problem to smaller steps.\nEstablish a solution outline.\nDevelop the outline into an algorithm.\nThe solution outline is now expanded into an algorithm.\n\nSteps in Program Development\nTest the algorithm for correctness.\nVery important in the development of a program, but often forgotten\nMajor logic errors can be detected and corrected at an early stage.\nCode the algorithm into a specific programming language.\nTest the program on the computer.\nThis step uses a program compiler and programmer-designed test data to machine-test the code for\nsyntax errors\nlogic errors\nDocument and maintain the program.\n\nAlgorithms & Flowcharts\nWhat is an algorithm?\nLists the steps involved in accomplishing a task (like a recipe)\nAn algorithm must:\nBe lucid (clear), precise and unambiguous\nGive the correct solution in all cases\nEventually end (Finite number of Instructions)\nWhat is pseudocode?\nStructured English (formalized and abbreviated to look like high-level computer language)\n\nPseudocode & Algorithm\nExample 1: Write an algorithm to determine a student’s final grade and indicate whether it is passing or failing. The final grade is calculated as the Total of CA and Exam Scores.\n\nPseudocode & Algorithm\nPseudocode:\nInput CA and Exam Scores\nCalculate Total Score by summing CA and Exam Scores\nif Total Score is below 40\nPrint “FAIL”\nelse\nPrint “PASS”\n\nPseudocode & Algorithm\nDetailed Algorithm: \nStep 1: Input CA, Exam\nStep 2: Total = CA + Exam \nStep 3: if (Total < 40) then\nPrint “FAIL”\nelse\nPrint “PASS”\nendif\n\nFlowchart\nA graphical representation of the sequence of operations in an information system or program. \nProgram flowcharts show the sequence of instructions in a single program or subroutine. \nshows logic of an algorithm\nemphasizes individual steps and their interconnections\ne.g. control flow from one action to the next\nNote: Different symbols are used to draw each type of flowchart.\n\nFlowchart Symbols\nExample 2\nWrite an algorithm and draw a flowchart that will read the two sides of a rectangle and calculate its area. \nPseudocode \nInput the Length (L) and Breath (B) of a rectangle\nCalculate the area (A) by multiplying L with B\nPrint A\n\nExample 2……\nAlgorithm \nStep 1: Input L,B\nStep 2: A = L x B \nStep 3: Print A\n\nExample 3\nWrite an algorithm and draw a flowchart that will calculate the roots of a quadratic equation \nHint: d = sqrt ( ), and the roots are: x1 = (–b + d)/2a and x2 = (–b – d)/2a\n\nExample 3….\nPseudocode: \nInput the coefficients (a, b, c) of the quadratic equation\nCalculate d\nCalculate x1\nCalculate x2\nPrint x1 and x2\n\nExample 3….\nAlgorithm: \nStep 1: Input a, b, c\nStep 2: d = sqrt ( )\nStep 3: x1 = (–b + d) / (2 x a)\nStep 4: x2 = (–b – d) / (2 x a)\nStep 5: Print x1, x2`,
                     "Lecture 2": `CMP 201: Computer Programming I \nProgramming Languages\nC & C++ (an object-oriented language, based on C)\nJava (We will use it in this course)\nC# (a Java-like language developed by Microsoft)\nJavaScript ( A Java-like scripting language for web development (Front & Back End (using Node.js))\nPython (General purpose programming language use in data science, machine learning, web development, scripting, etc)\nVisual Basic (Basic-like visual language developed by Microsoft) \nRuby (Ruby on Rails framework for web development) \nPHP (General purpose scripting language for dynamic web development\nSwift (General purpose programming language for \niOS, iPadOS, macOS, tvOS, and watchOS\nKotlin (A cross-platform language for mobile, web, and desktop App \nWhy Java\nThe answer is that Java enables users to develop and deploy applications on the Internet for servers, desktop computers, and small hand-held devices. The future of computing is being profoundly influenced by the Internet, and Java promises to remain a big part of that future. \nJava is Object Oriented Programming language\nJava is the Internet programming language.\nJava is a general purpose programming language. \nJava is the Internet programming language.\nJava can be used to develop Web applications.\nJava Applets\nJava Web Applications\nJava can also be used to develop applications for hand-held devices such as Palm and cell phones\n\nJava History\nJames Gosling and Sun Microsystems 1991\nFirst called “Oak”\nRenamed to “Java”, May 20, 1995, Sun World\nHotJava\n \nThe first Java-enabled Web browser\nEarly History Website:\nhttp://java.sun.com/features/1998/05/birthday.html\n\nJDK Versions\nJDK 1.02 (1996)\nJDK 1.1 (1997)\nJDK 1.2 (1998)\nJDK 1.3 (2000)\nJDK 1.4 (2002)\nJDK 1.5 (2004) a. k. a. JDK 5 or Java 5\nJDK 1.6 (2006) a. k. a. JDK 6 or Java 6\nJDK 1.7 (possibly 2010) a. k. a. JDK 7 or Java 7\nCheck for the latest release: \nhttps://www.java.com/releases/matrix/\n\nJDK Editions\nJava Standard Edition (J2SE)\nJ2SE can be used to develop client-side standalone applications or applets.\nJava Enterprise Edition (J2EE)\nJ2EE can be used to develop server-side applications such as Java servlets and Java \nServerPages\n. \nJava Micro Edition (J2ME). \nJ2ME can be used to develop applications for mobile devices such as cell phones. \n\nPopular Java IDEs\nNetBeans Open Source by Sun \nEclipse Open Source by IBM \nIntelliJ IDEA Open Source by JetBrains\nBlueJ\n Open Source by Michael Kolling and John Rosenberg\nJdeveloper\n Open Source by Oracle Corporation\nJCreator\n by Xinox Software\nGreenfoot\n by King’s College London for the purpose of education\nJGrasp\n\nJava Identifiers\nTo be able to refer to entities stored in computer memory, Java allows the programmer to attach names to portions of memory. \nThese names are called Identifiers\nAn identifier is a sequence of characters that consist of letters, digits, underscores (_), and dollar signs ($). \nAn identifier must start with a letter, an underscore (_), or a dollar sign ($). It cannot start with a digit. \nAn identifier cannot be a reserved word (“Java Keywords”).\nMost significantly, identifiers are case sensitive. So, Sample is not same as sample.\nThere are also some other rules which are followed but are not compulsory:\nAll identifiers begin with a lowercase letter except it is the name of a class\nFor compound words, the first word begins with lower case while subsequent words begin with an upper-case letter e.g. \nclassNumber\n, \nmyProgram\n, \nareaOfTriangle\n\nVariables and Constants\nA variable is a placeholder for a value that can be updated as the program runs.\nA variable in Java is most easily envisioned as a box capable of storing a value.\nA variable whose value does not change during the course of a program is called a Constant. \nEach variable has the following attributes:\nA name, which enables you to differentiate one variable from another.\nA type, which specifies what type of value the variable can contain.\nA value, which represents the current contents of the variable.\nThe name and type of a variable are fixed. The value changes whenever you assign a new value to the variable.\n\nVariable Declarations\nIn Java, you must declare a variable before you can use it. The declaration establishes the name and type of the variable and, in most cases, specifies the initial value as well.\nThe most common form of a variable declaration is \n\t\t\t\t\t\nDatatype <variable name>;\nwhere Datatype is the name of a Java primitive type or class, variable name is an identifier that indicates the name of the variable\nA variable can be declared and initialize at the same time as follows:\n\t\t\t\t\t\nDatatype <variable name> = value;\nWhere value is an expression specifying the initial value.\nMost declarations appear as statements in the body of a method definition. Variables declared in this way are called local variables and are accessible only inside that method.\nVariables may also be declared as part of a class. These are called instance variables \n\nExpressions in Java\nAn expression in Java consists of terms joined together by operators\n\t\t\t\te.g. int total = n1 + n2;\nThe n1 + n2 that appears to the right of the equal sign is an example of an expression, which specifies the operations involved in the computation.\nEach term must be one of the following:\nA constant (such as 3.14159265 or "hello, world")\nA variable name (such as n1, n2, or total)\nA method calls that returns a values (such as readInt)\nAn expression enclosed in parentheses\n\nPrimitive Data Types\nAlthough complex data values are represented using objects, Java defines a set of primitive types to represent simple data.\nOf the eight primitive types available in Java, the programs in this course will use only the following four:\nInt\t\t\t\nThis type is used to represent integers, which are whole numbers such as 17 or –53.\nDouble\n\t\tThis type is used to represent numbers that include a decimal fraction, such as 3.14159265.\nBoolean\t\nThis type represents a logical value (true or false).\nChar\n\t\tThis type represents a single character\nString\n\t\tThis type represents a sequence of characters\n\nOperators and Operands\nAs in most languages, Java programs specify computation in the form of arithmetic expressions that closely resemble expressions in mathematics.\nOperators in Java usually appear between two subexpressions, which are called its operands. Operators that take two operands are called binary operators.\nThe - operator can also appear as a unary operator, as in the expression -x, which denotes the negative of x.\n\nDivision and Type Casts\nWhenever you apply a binary operator to numeric values in Java, the result will be of type int if both operands are of type int, but will be a double if either operand is a double.\nThis rule has important consequences in the case of division. For example, the expression\nseems as if it should have the value 2.8, but because both operands are of type int, Java computes an integer result by throwing away the fractional part. The result is therefore 2.\nIf you want to obtain the mathematically correct result, you need to convert at least one operand to a double, as in\nThe conversion is accomplished by means of a type cast, which consists of a type name in parentheses.\n14 / 5\n(double)14 / 5\n\nThe Remainder Operator\nThe only arithmetic operator that has no direct mathematical counterpart is %, which applies only to integer operands and computes the remainder when the first divided by the second:\nThe result of the % operator make intuitive sense only if both operands are positive. The examples in the book do not depend on knowing how % works with negative numbers.\nThe remainder operator turns out to be useful in a surprising number of programming applications and is well worth a bit of study.\n14 % 5 returns 4\n14 % 7 returns 0\n7 % 14 returns 7\n\nPrecedence\nIf an expression contains more than one operator, Java uses precedence rules to determine the order of evaluation. The arithmetic operators have the following relative precedence:\nThus, Java evaluates unary - operators and type casts first, then the operators *, /, and %, and then the operators + and -.\nPrecedence applies only when two operands compete for the same operator. If the operators are independent, Java evaluates expressions from left to right.\nParentheses may be used to change the order of operations.\nunary - (type cast) \n* / %\n+ -\nhighest\nlowest\n\nAssignment Statements\nYou can change the value of a variable in your program by using an assignment statement, which has the general form:\nThe effect of an assignment statement is to compute the value of the expression on the right side of the equal sign and assign that value to the variable that appears on the left. Thus, the assignment statement\nadds together the current values of the variables total and value and then stores that sum back in the variable total.\nWhen you assign a new value to a variable, the old value of that variable is lost. \nvariable = expression;\ntotal = total + value;\n\nShorthand Assignments\nStatements such as\nare so common that Java allows the following shorthand form:\nThe general form of a shorthand assignment is\nwhere op is any of Java’s binary operators. The effect of this statement is the same as\nFor example, the following statement multiplies salary by 2.\ntotal = total + value;\ntotal += value;\nvariable op= expression;\nvariable = variable op (expression);\nsalary *= 2;\n\nIncrement and Decrement Operators\nAnother important shorthand form that appears frequently in Java programs is the increment operator, which is most commonly written immediately after a variable, like this:\nThe effect of this statement is to add one to the value of x, which means that this statement is equivalent to\nor in an even longer form\nThe -- operator (which is called the decrement operator) is similar but subtracts one instead of adding one.\nThe ++ and -- operators are more complicated than shown here, but it makes sense to defer the details until in Repetition Statements.\nx++;\nx += 1;\nx = x + 1;\n\nThe Math Class\nObviously, the arithmetic operators discussed above do not solve all possible mathematical problems. However, many mathematical functions are included in the Math class of the Java library, which is available for the programmers use. Some of the functions include:\n\t\t\nFunction\t\t\t\tAction\nsqrt(X)\t\t\t\t\tReturns the square root of X\nabs(X)\t\t\t\t\tReturns the absolute value of X\ncos(X), sin(X), tan(X)\tReturns the trig values of an angle\nexp(X)\t\t\t\t\tReturns the exponential number e to the power of X\nlog(X)\t\t\t\t\tReturns the natural logarithm of X\npow(X, Y)\t\t\t\tReturns X to the power of Y`,
                     "Lecture 3": `CMP 201: Computer Programming I\nA Simple Java Program\n// This program prints Welcome to Programming in Java! \npublic class Welcome {\t\n  public static void main(String[] args) { \n    System.out.println("Welcome to Programming in Java!");\n  }\n}\n\nStructure of Java Program\n// Comments\npublic class ClassName {\t\n  public static void main(String[] args) { \n\t\t\tStatement1;\n\t\t\tStatement2;\n\t\t\t\t\t.\n\t\t\t\t\t.\n\t\t\t\t\t.\n\t\t\tStatementn;\n  }\n}\n\nAnatomy of Java Program\nComments\nAccess Modifiers\nClass name\nMain method\nStatements\nReserved words\nBlocks\n\nComments\nComments are summary at the beginning of the program to explain what the program does, its key features, its supporting data structures, and any unique techniques it uses.\nThree types of comments in Java.\nLine comment: A line comment is preceded by two slashes (//) in a line. When the Java compiler sees //, it ignores all text after // in the same line. \nParagraph comment: A paragraph comment is enclosed between /* and */ in one or multiple lines. When Java compiler sees /*, it scans for the next */ and ignores any text between /* and */. \njavadoc comment: javadoc comments begin with /** and end with */. They are used for documenting classes, data, and methods. They can be extracted into an HTML file using JDK's Javadoc command. \n\nAccess Modifiers\nJava uses certain reserved words called access modifiers that specify the properties of the data, methods, and classes and how they can be accessed. Examples of modifiers are public and static. Other modifiers are private, final, abstract, and protected. A public datum, method, or class can be accessed by other programs. A private datum or method cannot be accessed by other programs. \n\nClass Name\nEvery Java program must have at least one class. Each class has a name. By convention, class names start with an uppercase letter. In our example, the class name is Welcome. \n// This program prints Welcome to Java! \npublic class Welcome {\t\n  public static void main(String[] args) { \n    System.out.println("Welcome to Programming in Java!");\n  }\n}\n\nMain Method\nThe main method provides the control of program flow. The Java interpreter executes the application by invoking the main method. \nIn order to run a class, the class must contain a method named main. In our example program, line 2 defines the main method. \n// This program prints Welcome to Java! \npublic class Welcome {\t\n  public static void main(String[] args) { \n    System.out.println("Welcome to Programming in Java!");\n  }\n}\n\nStatements\nA statement represents an action or a sequence of actions. The statement System.out.println("Welcome to Java Programming!") in our example program is a statement to display the greeting "Welcome to Java Programming!".\nEvery statement in Java ends with a semicolon (;).\n// This program prints Welcome to Java! \npublic class Welcome {\t\n  public static void main(String[] args) { \n    System.out.println("Welcome to Programming in Java!");\n  }\n}\n\nReserved Words\nReserved words or keywords are words that have a specific meaning to the compiler and cannot be used for other purposes in the program. For example, when the compiler sees the word class, it understands that the word after class is the name for the class. Other reserved words in our example program are public, static, and void. Their use will be introduced later.\n// This program prints Welcome to Java! \npublic class Welcome {\t\n  public static void main(String[] args) { \n    System.out.println("Welcome to Programming in Java!");\n  }\n}\n\nBlocks\nA pair of braces in a program forms a block that groups components of a program.\n\nJava Print Statement\nJava programs use a statement called System.out.println to instruct the computer to print a line of output on the console\npronounced "print-linn"; sometimes called a println statement for short\nSystem.out.print: This first print statement prints the characters placed within the quotation marks and leaves the cursor on the same line. \nSystem.out.println: This print statement prints the characters placed within the quotation marks and moves the cursor to the next line.\n \nStrings and String Literals\nstring: A sequence of text characters (not just letters) that can be printed or manipulated in a program.\nliteral: a representation of a value of a particular type\nString literals in Java start and end with quotation mark characters\n\t\t“This is a string”\nA string literal may not span across multiple lines.\n“This is not\na legal String.”\nA string may not contain a " character. ' is OK\n"This is not a "legal" String either."\n"This is 'okay' though."\nA string can represent certain special characters by preceding them with a backslash \\ (this is called an escape sequence).\n\\t\ttab character\t\t\t\tMove the screen cursor to the next tab stop\n\\n \tnew line character\t\t\tPosition the cursor on a new line\n\\\"\t\tquotation mark character\tUsed to print a double quote character\n\\\\\t\tbackslash character\t\t\tUsed to print a backslash character\n\nWriting Simple Java Programs\nExample 1: Write a program that will calculate the area of a rectangle.\n// This program calculate and prints Area of Rectangle! \npublic class AreaOfRectangle\n{\n\tpublic static void main (String[] args) {\n\t\t\tdouble length = 6.5;\n\t\t\tdouble breadth = 4;\n\t\t\tdouble area; \n\t\t\tarea = length * breadth;\n\t\t\tSystem.out.println(“The Area of Rectangle is”+ area);\n\t}\n}\n\nWriting Simple Java Programs\nExample 2: Write a program that will calculate the average of three numbers\n// This program calculate and prints the average of three numbers! \npublic class Average{\n\tpublic static void main (String[] args) {\n\t\t\tint number1 = 10;\n\t\t\tint number2 = 4;\n\t\t\tint number3 = 16;\n\t\t\tdouble average; \n\t\t\taverage = (number1 + number2 + number3)/3;\n\t\t\tSystem.out.println(“The average is “ + average);\n\t}\n}\n\nWriting Simple Java Programs\nExample 3: Write a program to calculate the area of a triangle given the length of the sides:, a = 3, b = 4, c = 5. Use the following formula:\n\t\t\t\t\t\t\t\t\t\t \nwhere s = (a + b + c)/2\n// This program calculate and prints the area of Triangle! \npublic class Average{\n\tpublic static void main (String[] args) {\n\t\tint a = 3;\n\t\tint b = 4;\n\t\tint c = 5;\n\t\tdouble s, area; \n\t\ts = (a + b + c)/2;\n\t\tarea = Math.sqrt(s*(s – a)*(s – b)*(s – c));\n\t\tSystem.out.print(“The area is “ + area);\n\t}\n}`,
                     "Lecture 4": `CMP 201: Computer Programming I\nControl Structures\nContents\nIntroduction to Control Structures\nSequence Structure & Example\nSelection Structures\nSingle selection statement \nDouble selection statement \nMultiple selection statement \nExamples\nDangling else problem with example\n\nControl Structures\nIn the most basic sense, a program is a list of instructions. \nControl structures are programming blocks that can change the path we take through those instructions. \nThey can be considered as the building blocks of computer programs. \nThey are commands that enable a program to “take decisions”, following one path or another. \nIn Java programming, control structures are essential tools for creating more complex programs. \nThese structures allow you to control the flow of your program and repeat certain actions until a specific condition is met. \n\nControl Structures ….\nSometimes, we may want to jump from line to another line, we may want to skip a part of the program, or we may want to execute a part of the program again and again. \nTo solve this problem, java provides control statements. \nIn Java, control statements enable the programmer to specify that the next statement to execute is not necessarily the next one in sequence. \nThere are four types of control structures in Java:\nSequence structure\nSelection structure\nRepetition structure\nJump Structure\n\nSequence Structures\nBy default, the computer has been designed to execute instructions in sequence. \nSo unless directed otherwise, the computer executes Java statements one after the other in the order in which they are written. \nWhen a program is designed to execute statements line by line, it is said to have a sequence structure.\nSequential statements are type of control statements in which instructions are executed one after the other in sequence.  \nAll the previous Java programs written in this course are based on sequence structure.\n\nSelection Structures\nJava provides selection statements that let you choose actions with alternative courses. \nThe program can decide which statements to execute based on a condition. \nSelection statements use conditions that are Boolean expressions.\n A Boolean expression is an expression that evaluates to a Boolean value: true or false.\nIn Selection, we select one alternative based on a criterion (condition). \nAssume that we want to find the status of a student given his GPA.\n\nSelection Structures …..\nJava has the following types of selection statements:\nSingle selection statement \nThe single selection statement either selects or ignores a single action. \nIt may either select (perform) an action if a condition is true or skip the action if the condition is false. \nThe if statement is an example of a single selection statement. \nThe general structure is:\n       \nif(condition) {\n          statement;\n                 }\n\nSingle Selection Statement\nThe if statement\nSuppose you are asked to write a program that prints “Passed” if a student scores 40 and above. \nThe following if statement can be used.\n   if (grade >= 40){\n        System.out.println(“Passed”);\n   }\n \nThe Java code above determines whether a student has passed. \nNote that because the if-statement is a single selection statement, nothing happens if the students’ grade is less than 40.\n If the condition in bracket is false, the Print statement is ignored and the next statement in the program is performed. \n\nDouble Selection Statement\nThe double selection statement selects between two different actions. \nIt may select (perform) one action if a condition is true and perform a different action if the condition is false. \nThe if…else statement is an example of a double selection statement. \nThe general structure is:\n       if(condition){ \n   \t      statement1;\n       else{\n\t     statement2; \n    }\n\nThe if- else statement\nIn the if…else statement, a programmer can specify an action to perform if the condition is true, and a different action to perform if the condition is false. \nThe if…else statement can be used to modify the program that prints “Passed” when the grade is equal to or greater than 40 by alternatively printing “Failed” when the grade is less than 40. \n     if ( grade >= 40){\n        System.out.println(“Passed”);\n     else{\n        System.out.println(“Failed”);\n     }\n\nExample\nWrite a simple program that finds the maximum of two numbers given by the user.                               \nSolution\n\timport java.util.Scanner;\n\tpublic class Findmax\n{\n\t  public static void main (String[] args) {\n\t\tScanner input = new Scanner( System.in );\n\t\tint numb1, numb2, max;\n\t\tSystem.out.print("Enter the fisrt number: ");\n\t\tnumb1 = input.nextInt();\n\t\tSystem.out.print("Enter the second number: ");\n\t\tnumb2 = input.nextInt();\n\t\tif (numb1 > numb2){\n\t\t\tmax = numb1;\n\t\telse{\n\t\t\tmax = numb2;  \n\t\tSystem.out.println("The Maximum of the two numbers is: "+max); \n       }  \n  } \n\nMultiple Selection Statement\nThe multiple selection statement selects among many different actions. \nIt may select one of many different actions depending on the value of an expression. \nExamples of multiple selection statements include Nested if…else and Switch statements. \nThe general structure for Nested if…else is:\n\t\t\t\nif(condition1){ \n\t\t\t\tstatement1\n\t\t\telse if(condition2){\n\t\t\t\tstatement2\n\t\t\t...\n\t\t \t\nelse{\n\t         \t\tstatementN\n\nExample\nWrite a program to read the day of the week in a number [1…7] and display the equivalent name of the day given by the user.                  \n\timport java.util.Scanner;\n\tpublic class Dayweek {\n\t\tpublic static void main(String[] args) {\n\t\t\tScanner input = new Scanner(System.in);\n\t\t\tint dayNumber;\n\t\t\tSystem.out.print("Enter a number [1 .. 7]: ");\n\t\t\tdayNumber = input.nextInt();\n\t\t\tif(dayNumber == 1)     \n\t\t\t\tSystem.out.println("Saturday");\n\t\t\telse if(dayNumber == 2)\n\t\t\t\tSystem.out.println("Sunday");\n\t\t\telse if(dayNumber == 3)\n\t\t\t\tSystem.out.println("Monday"); \n\t\t\telse if(dayNumber == 4)\n\t\t\t\tSystem.out.println("Tuesday");\n\t\t\telse if(dayNumber == 5)\n\t\t\t\tSystem.out.println("Wednesday");\n\t\t\telse if(dayNumber == 6)\n\t\t\t\tSystem.out.println("Thursday"); \n\t\t\telse if(dayNumber == 7)\n\t\t\t\tSystem.out.println("Friday"); \n\t\t\telse\n\t\t\t\tSystem.out.println("Wrong input");\n\t\t}\n\t}\n\nDangling else problem\nThe dangling else problem is an ambiguity of language interpretation. \nIn programming, we can write conditionally executed code in the following two forms:\nif-then form\nif-then-else form\nThe problem rarely occurs while we deal with the nested if-else statement. \nIt is an ambiguity in which it is not clear which if statement is associated with the else clause. \nFor example, if X then if Y then E1 else E2 but it is not unacceptable in programming.\nFrom the above statement, it is clear that there are two if statements and a single else statement.\nBut it is not clear which if statement is associated with else statement.\nThis problem is known as the dangling else problem. \nSometimes, the problem leads to a serious problem that may interpret the wrong result.\n\nExample\nRemember, Java compiler always associates an else with the immediately preceding if unless told to do otherwise by placement of curly brackets to group statements into Blocks. \nif (x > 5)\n   if (y > 5)\n      System.out.println(“X and Y are greater than 5”);\n  else\n   System.out.println(“X is less than or equal to 5”);\nThe program segment above will associate the else statement with the second if statement, and \nthe program will print “X is less than or equal to 5” even if X > 5 is true as long as y > 5 is true. \n\nA Solution to Dangling Else Problem\nThe following are the two ways to avoid dangling else problem:\nTry to design non-ambiguous programming.\nThe dangling else problem can be resolved by using the braces and indentation.\nThe correct way to write the program is shown below:\nIf (x > 5) {\n   If (y > 5)\n      System.out.println(“X and Y are greater than 5”);\n}\nelse{\n      System.out.println(“X is less than or equal to 5”);\n}\n\nSwitch Statement\nThe switch statement in Java is an example of multiple selection statement. \nIn simple words, when selecting among many alternatives another construct to use is the switch statement. \nIt is like if-else-if ladder statement. \nThe switch statement works with byte, short, int, long etc. \nA switch statement allows a variable to be tested for equality against a list of values. \nEach value is called a case, and the variable being switched on is checked for each case. \n\nSwitch Statement….\nThe general structure is as follows:\n\t\nswitch(controlling Expression) {\n\t\t\ncase value1 : \tStatements; \n\t\tbreak;\n\t\t\ncase value2 : \tStatements; \n\t\tbreak;\n\t     ...\n\t\t\ndefault : \tStatements; \n\t} \n\nSwitch Statement….\nNote: \nThe following rules are to be considered when using a switch statement:\nThe controllingExpression must have a byte, char, short, or int value.\nA case label value must be a unique constant value or a constant expression of type byte, char, short, or int.\nThe statements of the case label that equals the controllingExpression value are executed; otherwise if there is no matching case label, the statements of the default label, if present, are executed.\n\nExample\nWrite a program that reads a day number [1...7] given by user and prints the English name of the day using the switch statement.                   \n\t\nimport java.util.Scanner;\n\tpublic class Dayweek2 {\n   \t\tpublic static void main(String[] args) {\n     \t\t\t Scanner input = new Scanner(System.in);\n      \t\t\tint dayNumber;\n      \t\t\tSystem.out.print("Enter a number [1 .. 7]: ");\n      \t\t\tdayNumber = input.nextInt();\n\t\t\tswitch(dayNumber){\n           \t\t\tcase 1:  System.out.println("Saturday"); break;\n           \t\t\tcase 2:  System.out.println("Sunday");\tbreak;\n          \t\t\tcase 3:  System.out.println("Monday");\tbreak;\n           \t\t\tcase 4:  System.out.println("Tuesday");\tbreak;\n           \t\t\tcase 5:  System.out.println("Wednesday"); break;\n           \t\t\tcase 6:  System.out.println("Thursday");\tbreak;\n           \t\t\tcase 7:  System.out.println("Friday");\tbreak;\n\t      \t\t\tdefault: System.out.println("Wrong input");\n        \t\t\t}\n    \t\t}\n  \t}\n\nSwitch Statement….\nNote: \nThe following rules are to be considered when using a switch statement:\nThe controllingExpression must have a byte, char, short, or int value.\nA case label value must be a unique constant value or a constant expression of type byte, char, short, or int.\nThe statements of the case label that equals the controllingExpression value are executed; otherwise if there is no matching case label, the statements of the default label, if present, are executed.`,
@@ -1041,30 +1065,11 @@
                 `;
             }
 
-            // New function for HD boxes with PDF links – using direct download domain and preview
+            // New function for HD boxes with PDF links – using direct download domain and enhanced preview
             function renderHdBoxesWithPdfDropdown(labels) {
-                // Specific Dropbox links for CMP 201 – using dl.dropboxusercontent.com for direct download
-                const cmp201Links = [
-                    "https://dl.dropboxusercontent.com/scl/fi/hbs2wz70yiy9cuetwj52e/CMP201_Lect1-1.pptx?rlkey=z2k3hw4lo92yjjquh4lpqkl9n&st=zkblzxe9&dl=1",
-                    "https://dl.dropboxusercontent.com/scl/fi/ih2ueue7fx37hu72zqn38/CMP201_Lect2.pptx?rlkey=ekhgtv5i0w20bv11yeddtv0ha&st=od8db7fh&dl=1",
-                    "https://dl.dropboxusercontent.com/scl/fi/lmpa21swe9a9m0hk4wgvt/CMP201_Lect3.pptx?rlkey=0srijmfgoziu4fmtm2q9r1j1s&st=6vmraob4&dl=1",
-                    "https://dl.dropboxusercontent.com/scl/fi/hbffchx0wpo2135m4mutr/CMP201_Lect4.pptx?rlkey=ndoqkqm4bgd79ptvjkpftdk2a&st=y4gv6539&dl=1",
-                    "https://dl.dropboxusercontent.com/scl/fi/ic48e0yd438pyhbztspa5/CMP201_Lect5.pptx?rlkey=ovp8hugue9nv8ssanf20dmjk4&st=caoblbj5&dl=1"
-                ];
-                // Generic PDF links for other courses
-                const genericPdfLinks = [
-                    "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
-                    "https://www.africau.edu/images/default/sample.pdf",
-                    "https://www.orimi.com/pdf-test.pdf",
-                    "https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.pdf",
-                    "https://www.clickdimensions.com/links/TestPDFfile.pdf",
-                    "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
-                ];
-
                 const boxes = labels.map((label, index) => {
                     let options;
                     if (label === "CMP 201") {
-                        // Use the five specific Dropbox links for CMP 201, but we'll handle preview via JavaScript
                         options = `
                             <option value="" disabled selected>— choose lecture —</option>
                             <option value="Lecture 1" data-type="preview">Lecture 1 (preview)</option>
@@ -1074,7 +1079,14 @@
                             <option value="Lecture 5" data-type="preview">Lecture 5 (preview)</option>
                         `;
                     } else {
-                        // Use generic PDF links for other courses
+                        const genericPdfLinks = [
+                            "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+                            "https://www.africau.edu/images/default/sample.pdf",
+                            "https://www.orimi.com/pdf-test.pdf",
+                            "https://www.w3.org/TR/2003/REC-PNG-20031110/iso_8859-1.pdf",
+                            "https://www.clickdimensions.com/links/TestPDFfile.pdf",
+                            "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf"
+                        ];
                         const pdfUrl = genericPdfLinks[index % genericPdfLinks.length];
                         options = `
                             <option value="" disabled selected>— choose PDF —</option>
@@ -1095,12 +1107,18 @@
                         </div>
                     `;
                 }).join('');
-                // Add a preview panel for CMP 201 lectures
+
+                // Enhanced preview panel with full-screen toggle
                 const previewDiv = `
                     <div id="previewPanel" class="preview-panel" style="display: none;">
-                        <h3><i class="fa-regular fa-file-lines"></i> <span id="previewTitle"></span></h3>
+                        <div class="preview-header">
+                            <h3><i class="fa-regular fa-file-lines"></i> <span id="previewTitle"></span></h3>
+                            <div class="preview-actions">
+                                <button class="preview-btn" id="fullscreenBtn" onclick="toggleFullScreen()"><i class="fa-regular fa-expand"></i> Full Screen</button>
+                                <button class="preview-btn" id="downloadBtn" onclick="downloadCurrentLecture()"><i class="fa-regular fa-circle-down"></i> Download</button>
+                            </div>
+                        </div>
                         <div id="previewContent" class="preview-content"></div>
-                        <button class="download-btn" id="downloadBtn" onclick="downloadCurrentLecture()"><i class="fa-regular fa-circle-down"></i> Download .pptx</button>
                     </div>
                 `;
                 return `
@@ -1113,8 +1131,8 @@
                 `;
             }
 
-            // Global variable to store current lecture content and download URL
-            let currentLecture = { title: '', content: '', downloadUrl: '' };
+            // Global variable to store current lecture content and title
+            let currentLecture = { title: '', content: '' };
 
             window.handleHdSelect = function(selectElement, courseLabel) {
                 const selectedValue = selectElement.value;
@@ -1129,15 +1147,13 @@
                         previewPanel.style.display = 'block';
                         // Store for download
                         currentLecture = {
-                            title: `CMP201_${selectedValue.replace(' ', '_')}.pptx`,
-                            content: lectureContent,
-                            downloadUrl: '#'
+                            title: `CMP201_${selectedValue.replace(' ', '_')}.txt`,
+                            content: lectureContent
                         };
                     } else {
                         previewPanel.style.display = 'none';
                     }
                 } else {
-                    // For other courses, open the link in new tab
                     if (selectedValue && selectedValue !== "" && !selectedValue.startsWith('Lecture')) {
                         window.open(selectedValue, '_blank');
                     }
@@ -1146,7 +1162,7 @@
 
             window.downloadCurrentLecture = function() {
                 if (currentLecture.content) {
-                    const blob = new Blob([currentLecture.content], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
+                    const blob = new Blob([currentLecture.content], { type: 'text/plain' });
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
@@ -1155,6 +1171,18 @@
                     a.click();
                     document.body.removeChild(a);
                     window.URL.revokeObjectURL(url);
+                }
+            };
+
+            window.toggleFullScreen = function() {
+                const previewPanel = document.getElementById('previewPanel');
+                const fullscreenBtn = document.getElementById('fullscreenBtn');
+                if (previewPanel.classList.contains('fullscreen')) {
+                    previewPanel.classList.remove('fullscreen');
+                    fullscreenBtn.innerHTML = '<i class="fa-regular fa-expand"></i> Full Screen';
+                } else {
+                    previewPanel.classList.add('fullscreen');
+                    fullscreenBtn.innerHTML = '<i class="fa-regular fa-compress"></i> Exit Full Screen';
                 }
             };
 
