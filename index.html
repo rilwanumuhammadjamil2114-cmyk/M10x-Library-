@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP library · payment</title>
+    <title>CMP library · redirect</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -602,83 +602,6 @@
             background: #e0f0e0;
         }
 
-        /* ===== PAYMENT OVERLAY – full screen, fixed, centered, no border ===== */
-        .payment-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(5px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5000;
-        }
-        .payment-card {
-            background: white;
-            width: 90%;
-            max-width: 400px;
-            border-radius: 30px;
-            padding: 2rem 1.5rem;
-            text-align: center; /* center all text */
-            border: none; /* removed yellow border */
-            box-shadow: 0 0 30px rgba(0,0,0,0.3);
-        }
-        .payment-card i {
-            font-size: 4rem;
-            color: #1c4b2d;
-            margin-bottom: 0.5rem;
-        }
-        .payment-card h2 {
-            color: #1c4b2d;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        .payment-card p {
-            color: #1c4b2d;
-            font-size: 1.1rem;
-            margin: 0.5rem 0;
-        }
-        .payment-details {
-            background: #f0f8f0;
-            border-radius: 20px;
-            padding: 1rem;
-            margin: 1.5rem 0;
-            border: 2px solid #1c4b2d;
-        }
-        .payment-details .amount {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #b34b4b;
-        }
-        .payment-details .account {
-            font-family: monospace;
-            font-size: 1.2rem;
-            background: white;
-            padding: 0.5rem;
-            border-radius: 12px;
-            margin: 0.5rem 0;
-        }
-        .payment-btn {
-            background: #1c4b2d;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-            text-align: center; /* ensure button text centered */
-        }
-        .payment-btn:hover {
-            background: #0f381d;
-        }
-
         /* credit line below footer */
         .footer-credit {
             text-align: center;
@@ -749,7 +672,7 @@
             </form>
         </div>
 
-        <!-- DASHBOARD (hidden until payment) -->
+        <!-- DASHBOARD (hidden until after guide + redirect) -->
         <div id="dashboardPanel" class="dashboard-panel">
             <div class="welcome-card">
                 <div class="personal-welcome" id="personalWelcome">
@@ -827,23 +750,6 @@
         </div>
     </div>
 
-    <!-- PAYMENT OVERLAY (hidden by default) -->
-    <div id="paymentOverlay" class="payment-overlay" style="display: none;">
-        <div class="payment-card">
-            <i class="fa-regular fa-heart"></i>
-            <h2>Support the Tech</h2>
-            <p>To continue, please make a one-time payment of</p>
-            <div class="payment-details">
-                <div class="amount">₦1,200</div>
-                <div class="account">9068866228</div>
-                <div><strong>Monie point</strong></div>
-                <div>TECH BY ME</div>
-            </div>
-            <p style="font-size:0.9rem;">After payment, click the button below to verify and access your dashboard.</p>
-            <button class="payment-btn" onclick="confirmPayment()"><i class="fa-regular fa-circle-check"></i> I have paid</button>
-        </div>
-    </div>
-
     <script>
         (function() {
             let currentUser = null;
@@ -879,7 +785,6 @@
             const guidePrevBtn = document.getElementById('guidePrevBtn');
             const guideNextBtn = document.getElementById('guideNextBtn');
             const guideFinishBtn = document.getElementById('guideFinishBtn');
-            const paymentOverlay = document.getElementById('paymentOverlay');
 
             const welcomeAdmission = document.getElementById('welcomeAdmission');
             const dashboardAdmission = document.getElementById('dashboardAdmission');
@@ -965,19 +870,16 @@
                 updateGuide();
             };
 
-            // Modified: after guide, show payment overlay instead of dashboard
+            // Modified: after guide, redirect to Flutterwave payment link and show dashboard
             window.guideFinish = function() {
                 guideOverlay.style.display = 'none';
-                // Show payment overlay
-                paymentOverlay.style.display = 'flex';
-                // Update global hint to indicate payment needed
-                globalHint.innerHTML = '<i class="fa-regular fa-credit-card"></i> payment required';
+                // Open payment link in a new tab
+                window.open('https://flutterwave.com/pay/3e6wzaan9hyf', '_blank');
+                // Then show dashboard (user can return after payment)
+                showDashboard();
             };
 
-            // Payment confirmation: hide payment, show dashboard
-            window.confirmPayment = function() {
-                paymentOverlay.style.display = 'none';
-                // Now show dashboard
+            function showDashboard() {
                 tabContainer.style.display = 'none';
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
@@ -996,7 +898,7 @@
 
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
-            };
+            }
 
             function showGuideAndThenDashboard() {
                 currentSlide = 0;
@@ -1024,7 +926,6 @@
                     dynamicContainer.style.display = 'none';
                     dynamicContainer.innerHTML = '';
                     guideOverlay.style.display = 'none';
-                    paymentOverlay.style.display = 'none';
                     adminRecordsSection.style.display = 'none';
                 }
             }
