@@ -972,11 +972,11 @@
                 updateGuide();
             };
 
-            // Modified: after guide, open payment link and show waiting overlay
+            // Modified: after guide, open Paystack payment link and show waiting overlay
             window.guideFinish = function() {
                 guideOverlay.style.display = 'none';
-                // Open payment link in a new tab
-                window.open('https://flutterwave.com/pay/3e6wzaan9hyf', '_blank');
+                // Open Paystack payment link in a new tab
+                window.open('https://paystack.shop/pay/rzf6xufpnj', '_blank');
                 // Show payment waiting overlay
                 paymentWaitingOverlay.style.display = 'flex';
                 globalHint.innerHTML = '<i class="fa-regular fa-credit-card"></i> payment pending';
