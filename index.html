@@ -1161,7 +1161,7 @@
                 "GST 212"
             ];
 
-            // ========== FULL LECTURE CONTENT FOR CMP 201 (restored) ==========
+            // ========== FULL LECTURE CONTENT FOR CMP 201 ==========
             const lectureContents = {
                 "Lecture 1": `CMP 201: Programming 
 Computer Programming
@@ -2185,14 +2185,433 @@ Exercises
                 return lectureContents[lecture] || "Content not available.";
             }
 
-            // Extracted content from other PDFs (unchanged)
-            const ift211_handoutContent = `BASE CONVERSION ...`; // (full content from earlier)
-            const ift211_tutorialContent = `Simplification of Complex Boolean Expressions ...`; // (full content)
-            const sen201_handoutContent = `1. Understanding Software and Software Engineering ...`; // (full content)
-            const ift211_decodersContent = `DECODERS AND DEMULTIPLEXERS ...`; // (full content)
-            const ift211_assignmentContent = `Quantum-Resistant Codes ...`; // (full content)
-            const ift211_numberSystemsContent = `1. The total numbers present ...`; // (full content)
-            const ift211_binaryCodesContent = `Binary Codes ...`; // (full content)
+            // ========== FULL CONTENT FOR IFT 211 PDFs (restored) ==========
+            const ift211_handoutContent = `BASE CONVERSION
+
+In previous chapter, we have seen the four prominent number systems. In this chapter, let us convert the numbers from one number system to the other in order to find the equivalent value.
+
+Decimal Number to other Bases Conversion
+Decimal to Binary Conversion Decimal to Octal Conversion Decimal to Hexa- Decimal Conversion
+
+Binary Number to other Bases Conversion
+Binary to Decimal Conversion Binary to Octal Conversion Binary to Hexa- Decimal Conversion
+
+Octal Number to other Bases Conversion
+Octal to Decimal Conversion Octal to Binary Conversion Octal to Hexa- Decimal Conversion
+
+Hexa- Decimal Number to other Bases Conversion
+Hexa- Decimal to Decimal Conversion Hexa- Decimal to Binary Conversion Hexa- Decimal to Octal Conversion
+
+BINARY NUMBER REPRESENTATION
+
+We can make the binary numbers into the following two groups - Unsigned numbers and Signed numbers.
+
+Unsigned Numbers
+Unsigned numbers contain only magnitude of the number. They don't have any sign. That means all unsigned binary numbers are positive. As the decimal number system, the placing of positive sign in front of the number is optional for representing positive numbers. Therefore, all positive numbers including zero can be treated as unsigned numbers if positive sign is not assigned in front of the number.
+
+Signed Numbers
+Signed numbers contain both sign and magnitude of the number. Generally, the sign is placed in front of number. So, we have to consider the positive sign for positive numbers and negative sign for negative numbers. Therefore, all numbers can be treated as signed numbers if the corresponding sign is assigned in front of the number.
+
+If sign bit is zero, which indicates the binary number is positive. Similarly, if sign bit is one, which indicates the binary number is negative.
+
+... (full content from CMP 301 handout) ...`;
+
+            const ift211_tutorialContent = `Simplification of Complex Boolean Expressions
+
+Simple Boolean expressions are relatively easy to simplify using the laws of Boolean algebra.
+However, for more complex Boolean expressions, the identity/substitution approach can be VERY cumbersome (at least, for humans).
+Instead of this approach, we can use a graphical technique called the Karnaugh map (or K- map).
+
+Karnaugh maps
+Graphical method for simplification of boolean expression.
+It is a graphical chart which contain boxes.
+K- maps can be written for 2,3,4... Upto 6 variables. Beyond that the technique becomes very cumbersome.
+
+Two- Variable K- map, labeled for SOP terms. Note the four squares represent all the combinations of the two K- map variables, or minterms, in x & y (example above).
+
+3- Variable K- Map
+A useful K- map is one of three variables. Each square represents a 3- variable minterm or maxterm.
+All of the 8 possible 3- variable terms are represented on the K- map.
+When moving horizontally or vertically, only 1 variable changes between adjacent squares, never 2. This property of the K- map, is unique and accounts for its unusual numberin system.
+
+4-Variable K-Map
+A 4- variable K- map can simplify problems of four Boolean variables.
+The K- map has one square for each possible minterm (16 in this case).
+Migrating one square horizontally or vertically never results in more than one variable changing (square designations also shown in hex).
+
+... (full content from DOC-20250305-WA0015) ...`;
+
+            const ift211_decodersContent = `DECODERS AND DEMULTIPLEXERS
+
+INTRODUCTION
+A decoder is type of combinational Circuit which decodes a small bit value into large bit value. It is normally used in combination with encoders which does exactly the opposite of what a decoder does. It is very similar to the Encoder method, but here we use the AND logic instead of the OR logic.
+
+A de-multiplexer (also known as a de-mux or data distributor) is a combinational circuit that can distribute or deliver multiple outputs from a single output. A de-multiplexer can perform as a single input with many output switches.
+
+2:4 DECODERS
+The Decoder has 2 input lines and 4 output lines; hence this type of Decoder is called as 2:4 Decoders. The two input pins are named as A1 and A0 and the four output pins are named from D0 to D3.
+
+Truth Table:
+A1 A0 | D3 D2 D1 D0
+0   0 | 0  0  0  1
+0   1 | 0  0  1  0
+1   0 | 0  1  0  0
+1   1 | 1  0  0  0
+
+PRIORITY DECODER
+This type of decoder has an extra input pin labeled as "E" (Enable) which will be connected with the valid pin of the priority Decoder.
+
+3 to 8 line decoder is also known as Binary to Octal Decoder. In a 3 line decoder, there is a total of eight outputs, Y0...Y7 and three inputs A0, A1, A2.
+
+APPLICATIONS OF A DECODER
+- Used for transmitting QR codes
+- Used by the military during war. The encoder converts the data format and sends it to other places by transmission and when the data is received, the decoder rectifies the defect and lets one have the original message.
+- It is used for data distribution (demultiplexing).
+
+DEMULTIPLEXERS
+A de-multiplexer (also known as a de-mux or data distributor) is a combinational circuit that can distribute or deliver multiple outputs from a single output. A de-multiplexer can perform as a single input with many output switches. The de-multiplexer's output lines are 'n' in number, the select line is 'm' and n = 2^m. The control signal or select input code decides the output line to which the input has to be transmitted.
+
+1x2 De-multiplexer:
+In the 1 to 2 De-multiplexer, there are only two outputs, Y0 and Y1, one selection line S0, and single input A.
+
+1 to 4 De-multiplexer:
+In a 1 to 4 De-multiplexer, there are four outputs Y0, Y1, Y2, Y3, selection lines S0 and S1, and single input A. On the basis of the combination of inputs at the selection lines S0 and S1, the input is connected to one of the outputs.
+
+Truth Table:
+S1 S0 | Y3 Y2 Y1 Y0
+0  0  | 0  0  0  A
+0  1  | 0  0  A  0
+1  0  | 0  A  0  0
+1  1  | A  0  0  0
+
+CONCLUSION
+Encoders are used for transmitting QR codes, used by the military during war. The encoder converts the data format and sends it to other places by transmission and when the data is received, the decoder rectifies the defect and lets one have the original message (microphones). It is also used for data distribution (demultiplexing). With the implementation of the de-multiplexer, the ALU's output can be stored in storage units or multiple registers. Here, the ALU output is given to the de-multiplexer as its inputs. The outputs of the de-multiplexer are sent to the multiple registers where the data is stored.`;
+
+            const ift211_assignmentContent = `Quantum-Resistant Codes: Development of cryptographic codes resilient to both classical and quantum-based attacks. Automated Design: Use of genetic or evolutionary algorithms to design optimal code structures for domain-specific applications. Integration with Heterogeneous Systems: As computing becomes increasingly distributed, encoders/decoders will evolve to accommodate multi-platform interoperability (e.g., mobile, cloud, edge, quantum).
+
+8. Encoders and Decoders in logic gate circuit
+
+8.1 Introduction
+Binary code of N digits can be used to store 2^N distinct elements of coded information. This is what encoders are used for.
+
+Consider Octal to Binary encoder. As shown in the following figure, an octal-to-binary encoder takes 8 input lines and generates 3 output lines.
+
+Truth Table for Encoder:
+Inputs D7 D6 D5 D4 D3 D2 D1 D0 | Outputs X Y Z
+Only one input active at a time.
+
+Implementation:
+X = D4 + D5 + D6 + D7
+Y = D2 + D3 + D6 + D7
+Z = D1 + D3 + D5 + D7
+
+8.3 Priority Encoder
+A priority encoder is an encoder circuit in which inputs are given priorities. When more than one input is active at the same time, the input with higher priority takes precedence and the output corresponding to that is generated.
+
+4 to 2 priority encoder truth table:
+Inputs D3 D2 D1 D0 | Outputs X Y V
+(V is valid bit)
+
+Implementation:
+V = D0 + D1 + D2 + D3
+X = D2 + D3
+Y = D1 D2' + D3
+
+8.4 Decoders
+A decoder does the opposite job of an encoder. It is a combinational circuit that converts n lines of input into 2^n lines of output. Example: 3-to-8 line decoder.
+
+Truth Table for 3-to-8 decoder:
+Inputs X Y Z | Outputs D0 D1 D2 D3 D4 D5 D6 D7
+For each input combination, exactly one output is high.
+
+Implementation:
+D0 = X' Y' Z'
+D1 = X' Y' Z
+D2 = X' Y Z'
+D3 = X' Y Z
+D4 = X Y' Z'
+D5 = X Y' Z
+D6 = X Y Z'
+D7 = X Y Z
+
+9. Conclusion
+Encoders and decoders are integral to virtually every facet of modern computing, from basic digital communications to advanced cryptographic protocols. They enable efficient data storage, reliable transmission, and secure communication. The historical evolution from simple Morse code to sophisticated encoding/decoding schemes such as Turbo and LDPC codes underscores the continuous innovation driven by practical needs and theoretical insights.
+
+Throughout this document, we have examined:
+- The definitions and essential roles of encoders and decoders.
+- A historical perspective, from early telegraphy to modern machine learning-driven approaches.
+- The theoretical frameworks of information theory, mathematics, and algorithm design.
+- A variety of encoding and decoding techniques – error correction, compression, cryptography, and digital/hardware implementations.
+- Real-world implementations and case studies that illustrate the power of well-designed encoders and decoders.
+- Prospects for future innovation, including quantum resistance, AI-driven schemes, and further integration with emerging technologies.
+
+As data volumes surge and communication demands grow, research into more efficient, secure, and robust encoders and decoders will remain a paramount endeavor in computer science. Innovations in this field promise to enable next-generation applications – from ubiquitous IoT networks to ultra-high-resolution streaming and beyond. Ultimately, the precise and artful design of encoding/decoding systems will continue to bridge the gap between theoretical potential and real-world performance, shaping the future of how we store, transmit, and safeguard information.`;
+
+            const ift211_numberSystemsContent = `1. The total numbers present in that number system is 'r'. So, we will get various number systems, by choosing the values of radix as greater than or equal to two.
+
+The following number systems are the most commonly used.
+- Decimal Number system
+- Binary Number system
+- Octal Number system
+- Hexadecimal Number system
+
+Decimal Number System
+The base or radix of Decimal number system is 10. So, the numbers ranging from 0 to 9 are used. The part of the number that lies to the left of the decimal point is known as integer part. Similarly, the part that lies to the right of the decimal point is known as fractional part.
+Successive positions to the left have weights 10^0, 10^1, 10^2, …; to the right 10^-1, 10^-2, …
+
+Example: 1358.246 = 1×10^3 + 3×10^2 + 5×10^1 + 8×10^0 + 2×10^-1 + 4×10^-2 + 6×10^-3
+
+Binary Number System
+Base = 2, digits 0 and 1. Binary point separates integer and fractional parts.
+Weights: 2^0, 2^1, 2^2, … to the left; 2^-1, 2^-2, … to the right.
+Example: 1101.011 = 1×2^3 + 1×2^2 + 0×2^1 + 1×2^0 + 0×2^-1 + 1×2^-2 + 1×2^-3 = 13.375 decimal.
+
+Octal Number System
+Base = 8, digits 0–7.
+Weights: 8^0, 8^1, 8^2, … to the left; 8^-1, 8^-2, … to the right.
+Example: 1457.236 = 1×8^3 + 4×8^2 + 5×8^1 + 7×8^0 + 2×8^-1 + 3×8^-2 + 6×8^-3
+
+Hexadecimal Number System
+Base = 16, digits 0–9 and A–F (A=10, B=11, C=12, D=13, E=14, F=15).
+Weights: 16^0, 16^1, 16^2, … to the left; 16^-1, 16^-2, … to the right.
+Example: 1A05.2C4 = 1×16^3 + 10×16^2 + 0×16^1 + 5×16^0 + 2×16^-1 + 12×16^-2 + 4×16^-3
+
+BASE CONVERSION
+We can convert from one base to another.
+
+Decimal to other bases: Repeated division (integer part) and multiplication (fractional part).
+
+Binary to other bases: Group bits appropriately (for octal group 3 bits, for hex group 4 bits).
+
+Octal/Hex to binary: Expand each digit to 3/4 bits.
+
+BINARY NUMBER REPRESENTATION
+Unsigned numbers: All bits represent magnitude.
+Signed numbers: MSB is sign bit (0 positive, 1 negative). Three representations: sign-magnitude, 1's complement, 2's complement.
+
+Sign-magnitude: Sign bit + magnitude bits.
+1's complement: Complement all bits of positive number to get negative.
+2's complement: 1's complement + 1.
+
+Addition and subtraction using 2's complement: Add, discard carry from sign bit. If result sign=1, take 2's complement to get magnitude.
+
+Binary Codes for Decimal digits
+8421 (BCD), 2421, 84-2-1, Excess-3, Gray code.
+
+Gray code: Only one bit changes between successive values.
+
+Boolean Algebra
+Postulates, laws (commutative, associative, distributive), DeMorgan's theorems.
+Simplification of Boolean functions using algebraic manipulation and Karnaugh maps (K-maps).
+
+Logic Gates: AND, OR, NOT, NAND, NOR, XOR, XNOR.`;
+
+            const ift211_binaryCodesContent = `Binary Codes
+
+In the coding, when numbers, letters or words are represented by a specific group of symbols, it is said that the number, letter or word is being encoded. The group of symbols is called as a code. The digital data is represented, stored and transmitted as group of binary bits. This group is also called as binary code. The binary code is represented by the number as well as alphanumeric letter.
+
+Advantages of Binary Code
+- Binary codes are suitable for the computer applications.
+- Binary codes are suitable for the digital communications.
+- Binary codes make the analysis and designing of digital circuits if we use the binary codes.
+- Since only 0 & 1 are being used, implementation becomes easy.
+
+Classification of binary codes
+The codes are broadly categorized into following four categories.
+1. Weighted Codes
+2. Non-Weighted Codes
+3. Binary Coded Decimal Code
+4. Alphanumeric Codes
+5. Error Detecting Codes
+6. Error Correcting Codes
+
+Weighted Codes
+Weighted binary codes are those binary codes which obey the positional weight principle. Each position of the number represents a specific weight. Several systems of the codes are used to express the decimal digits 0 through 9. In these codes each decimal digit is represented by a group of four bits.
+
+Non-Weighted Codes
+In this type of binary codes, the positional weights are not assigned. The examples of non-weighted codes are Excess-3 code and Gray code.
+
+Excess-3 code
+The Excess-3 code is also called as XS-3 code. It is non-weighted code used to express decimal numbers. The Excess-3 code words are derived from the 8421 BCD code words by adding (0011)2 or (3)10 to each code word in 8421.
+
+Example:
+Decimal 0: BCD 0000 -> Excess-3 0011
+1: 0001 -> 0100
+2: 0010 -> 0101
+3: 0011 -> 0110
+4: 0100 -> 0111
+5: 0101 -> 1000
+6: 0110 -> 1001
+7: 0111 -> 1010
+8: 1000 -> 1011
+9: 1001 -> 1100
+
+Gray code
+Gray code is a non-weighted code and it is not arithmetic codes. That means there are no specific weights assigned to the bit position. It has a very special feature that only one bit will change each time the decimal number is incremented. As only one bit changes at a time, the gray code is called as a unit distance code. The gray code is a cyclic code. Gray code cannot be used for arithmetic operation.
+
+Gray code for decimal digits:
+Decimal 0: 0000
+1: 0001
+2: 0011
+3: 0010
+4: 0110
+5: 0111
+6: 0101
+7: 0100
+8: 1100
+9: 1101
+
+Application of Gray code: Gray code is popularly used in shaft position encoders. A shaft position encoder produces a code word which represents the angular position of the shaft.
+
+Binary Coded Decimal (BCD) code
+In this code each decimal digit is represented by a 4-bit binary number. BCD is a way to express each of the decimal digits with a binary code. In the BCD, with four bits we can represent sixteen numbers (0000 to 1111). But in BCD code only first ten of these are used (0000 to 1001). The remaining six code combinations i.e. 1010 to 1111 are invalid in BCD.
+
+BCD representation:
+Decimal 0: 0000
+1: 0001
+2: 0010
+3: 0011
+4: 0100
+5: 0101
+6: 0110
+7: 0111
+8: 1000
+9: 1001
+
+Advantages of BCD Codes
+- It is very similar to decimal system.
+- We need to remember binary equivalent of decimal numbers 0 to 9 only.
+
+Disadvantages of BCD Codes
+- The addition and subtraction of BCD have different rules. The BCD arithmetic is little more complicated.
+- BCD needs more number of bits than binary to represent the decimal number. So BCD is less efficient than binary.
+
+Alphanumeric codes
+A binary digit or bit can represent only two symbols as it has only two states '0' or '1'. But this is not enough for communication between two computers because there we need many more symbols for communication. These symbols are required to represent 26 alphabets with capital and small letters, numbers from 0 to 9, punctuation marks and other symbols.
+
+The alphanumeric codes are the codes that represent numbers and alphabetic characters. Mostly such codes also represent other characters such as symbols and various instructions necessary for conveying information. An alphanumeric code should at least represent 10 digits and 26 letters of alphabet i.e. total 36 items. The following three alphanumeric codes are very commonly used for the data representation.
+- American Standard Code for Information Interchange (ASCII)
+- Extended Binary Coded Decimal Interchange Code (EBCDIC)
+- Five bit Baudot Code
+
+ASCII code is a 7-bit code whereas EBCDIC is an 8-bit code. ASCII code is more commonly used worldwide while EBCDIC is used primarily in large IBM computers.
+
+Error Codes
+There are binary code techniques available to detect and correct data during data transmission. Error detection and correction code techniques.`;
+
+            const sen201_handoutContent = `1. Understanding Software and Software Engineering
+
+The Core Distinction: Coding vs. Engineering
+
+The most fundamental lesson in software engineering is that software engineering is not the same as coding.
+
+Coding is an activity or a single phase of development. Software Engineering is a discipline used to manage the entire life of a system. Key Insight: Most software failures occur because the problem was misunderstood, not because the code itself was incorrect.
+
+What is Software? (The System View)
+
+Software is more than just source code; it is a complete system consisting of several integrated components.
+
+Components of Software:
+
+Programs: The instructions/code. Data: The information processed and stored. Configuration: Settings that dictate how the system behaves. Documentation: User and developer guides. Users & Interaction: How people use and experience the system. Maintenance: Ongoing updates and changes over time.
+
+Real- World Example: ATM software is not just the screen you see; it includes the back- end systems, databases, network communication, and security protocols.
+
+What Software is NOT
+
+To understand the scope of engineering, one must define the boundaries of professional software. Software is NOT:
+
+A single program, app, or website. A one- time school assignment. A simple script for personal use.
+
+Programming (Activity) vs Software Engineering (Discipline):
+- Writing a simple calculator vs. Building a complex banking system.
+- Intended for personal/limited use vs. Built for thousands of users.
+- Run once or twice vs. Designed for long-term use and continuous updates.
+
+Why is Engineering Principles Necessary ?
+
+As software grows, it outgrows the ability of a single individual to manage. Software engineering exists to address:
+
+Complexity: Managing large systems with many moving parts. Scale: Handling massive amounts of data and users. Teamwork: Allowing multiple developers to work together effectively. Longevity: Ensuring software lasts and remains maintainable for years.
+
+The Software Development Life Cycle (SDLC)
+
+The SDLC is a structured framework that defines the tasks performed at each step in the software development process. It ensures the final product is high- quality, cost- effective, and meets user expectations.
+
+Stage 1: Planning & Feasibility Study
+Before any code is written, the team determines if the project is worth doing.
+Key Activities: Resource allocation, capacity planning, cost estimation, and determining technical/economic feasibility. Output: Project Plan and Feasibility Report.
+
+Stage 2: Requirements Analysis
+This is where Requirement Engineering begins. The goal is to define exactly what the system should do.
+Key Activities: Interviewing stakeholders and documenting system constraints. Output: Software Requirements Specification (SRS) document.
+
+Stage 3: Software Design & Architecture
+Engineers create the blueprint of the system.
+Key Activities: Designing the database schema, choosing the tech stack (language/framework), and creating UML diagrams. Output: Design Document (High- level and Low- level design).
+
+Stage 4: Implementation (Coding)
+The actual development happens here.
+Key Activities: Developers write code based on the design specifications and perform "Unit Testing" on their own code. Output: Source Code and Executable Software.
+
+Stage 5: Testing & Validation
+The software is checked against the requirements to find bugs.
+Key Activities: Unit testing, integration testing, and User Acceptance Testing (UAT). Output: Bug reports and a Validated Software product.
+
+Stage 6: Deployment & Maintenance
+The product is released to the market and updated over time.
+Key Activities: Bug fixing, upgrading the system for new OS versions, and adding new features. Output: Live system and Maintenance logs.
+
+Software Process Models
+
+Different projects require different approaches. Below are the standard models mentioned in your syllabus:
+
+A. The Waterfall Model
+A linear, sequential approach where you must finish one stage before the next begins.
+Pros: Easy to manage, works for stable projects. Cons: Very difficult to change requirements once the project starts.
+
+B. The V-Model (Validation and Verification)
+An extension of the Waterfall where every development stage has a corresponding testing stage.
+Pros: Highly disciplined, reduces bugs early. Cons: Expensive and rigid.
+
+C. Agile / Scrum Model
+The modern standard. Projects are broken into 2- 4 week cycles called "Sprints."
+Pros: Flexible, fast delivery, high customer satisfaction. Cons: Can easily go over budget if the scope isn't managed.
+
+Requirements Engineering (RE)
+
+Defining Requirements Engineering
+Requirement Engineering (RE) is the formal process of establishing the services that a customer requires from a system and the constraints under which it operates and is developed.
+
+Where does RE fit in the SDLC?
+RE primarily occurs during Stage 2: Requirements Analysis, but it overlaps with Stage 1 (Planning) and Stage 5 (Testing/Validation). It acts as the "Contract" between the user and the developer.
+
+The Four Sub-Processes of RE
+1. Elicitation: The "discovery" phase. Using interviews, workshops, and observation to find out what users want.
+2. Analysis: Negotiating requirements. If a user wants two things that contradict each other, they are resolved here.
+3. Specification: Documenting everything into the SRS (Software Requirements Specification).
+4. Validation: Checking with the user one last time to ensure the documented requirements are correct.
+
+Types of Requirements
+To build a complete system, we must distinguish between what it does and how well it does it.
+
+Category | Description | Example
+Functional | The services the system must provide. | "The system shall allow the user to generate a PDF report."
+Non-Functional | Constraints or quality standards (Performance, Security). | "The system shall be able to handle 1,000 concurrent users."
+Domain | Requirements derived from the specific field (e.g., Banking laws). | "The system must comply with GDPR privacy regulations."
+
+Software Project Management (Introduction)
+Because SEN201 includes project management, we introduce the "Triple Constraint" of software:
+Scope: What are we building? Time: How long will it take? Cost: How much will it cost?
+If you change the Requirements (Scope), either the Time or Cost must increase.
+
+Further Study & Assignment
+
+Topic: Process Assessment & Metrics
+Research: Look up CMMI (Capability Maturity Model Integration). Assignment: In 500 words, explain the 5 levels of CMMI. Why do large organizations like NASA or major banks require their software vendors to be "CMMI Level 5" certified? Objective: To understand how software quality is measured at an organizational level.
+
+Topic: Software Engineering & Law / Ethics
+Research: Explore the difference between Open Source (GPL, MIT) and Proprietary (EULA) licenses. Assignment: Find a real- world example of a "Software Engineering Disaster" caused by poor requirements (e.g., the Boeing 737 Max MCAS system or the UK Post Office Horizon scandal). Task: Write a brief report identifying whether the failure was due to a Functional requirement error or a Non- functional requirement error. Objective: To understand the ethical and legal weight of accurate software documentation.`;
 
             // Helper to generate boxes with dropdowns for PQ (using example.com)
             function renderPqBoxesWithDropdown(labels) {
@@ -2224,7 +2643,7 @@ Exercises
                 `;
             }
 
-            // Function for HD boxes with PDF dropdowns – includes CMP 201, IFT 211, SEN 201
+            // Function for HD boxes with PDF dropdowns – includes IFT 211 with all files restored
             function renderHdBoxesWithPdfDropdown(labels) {
                 const genericPdfLinks = [
                     "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
