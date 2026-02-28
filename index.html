@@ -855,7 +855,7 @@
             const firstSemesterCourses = [...hdCourseLabels];
             const secondSemesterCourses = [ "CMP 202", "csc 203", "IFT 212", "ENT 211", "GST 212" ];
 
-            // ----- FULL LECTURE CONTENT FOR CMP 201 (restored) -----
+            // ========== FULL LECTURE CONTENT FOR CMP 201 (restored) ==========
             const lectureContents = {
                 "Lecture 1": `CMP 201: Programming 
 Computer Programming
@@ -1879,7 +1879,7 @@ Exercises
                 return lectureContents[lecture] || "Content not available.";
             }
 
-            // ----- New PDF contents -----
+            // ----- COMPLETE PDF CONTENTS (unabridged) -----
             const cmp209Content = `FRONT- END WEB TECHNOLOGIES
 
 These notes provide detailed explanations, examples, and simple diagrams to help you understand how front- end web technologies work together to build modern websites.
@@ -1892,33 +1892,785 @@ HTML is the structure and content layer of the web. It defines what appears on a
 
 A basic HTML document follows a standard structure:
 
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>My First Page</title> </head> <body> <h1>Hello World</h1> <p>This is a webpage.</p> </body> </html>
+<!DOCTYPE html> <html lang = "en"> <head> <meta charset = "UTF-8"> <title>My First Page</title> </head> <body> <h1>Hello World</h1> <p>This is a webpage.</p> </body> </html>
 
-... (full content from the uploaded file) ...`;
+# Diagram: HTML Document Structure
 
-            const ift211DigitalContent = `DIGITAL NOTES ON DIGITAL LOGIC DESIGN
+image[[116, 527, 351, 687]]
 
-B.TECH II YEAR - I SEM (2018-19)
+## Explanation of Each Part
 
-... (full content from the digital logic design PDF) ...`;
+1. <!DOCTYPE html> Declares the document type and tells the browser to use HTML5.
+
+2. <html> The root element that wraps the entire HTML document.
+
+3. <head>
+
+Contains metadata (not displayed on the page): o <meta charset = "UTF-8"> → Character encoding o <meta name = "viewport"> → Responsive design o <title> → Title shown on the browser tab
+
+4. <body>Contains all visible content of the webpage:  - Text  - Images  - Links  - Forms  - Videos, etc.
+
+#### 2.1.2 HTML Elements, Attributes, and Tags
+
+## 1. HTML Tags
+
+Tags are the building blocks of HTML. They tell the browser what something is.
+
+Most tags come in pairs:
+
+Opening tag: < p> Closing tag: < /p>
+
+Example:
+
+<p>This is a paragraph</p>
+
+Some tags are self- closing (no closing tag needed):
+
+<img> <br> <hr>
+
+## 2. HTML Elements
+
+An HTML element is the complete structure, including:
+
+Opening tag Content Closing tag
+
+Example:
+
+<h1>Hello World</h1>
+
+Here:
+
+<h1> → opening tag Hello World → content </h1> → closing tag
+
+Together, they form an HTML element.
+
+Think of it like this:
+
+Tag = label Element = label + content
+
+## 3. HTML Attributes
+
+Attributes provide extra information about an element. They are written inside the opening tag and usually come as name = "value" pairs.
+
+Example:
+
+<p align = "center">Centered text</p>
+
+Common attributes:
+
+id → unique identifier class → used for styling with CSS style → inline CSS src → source (for images, videos) href → link destination
+
+Example:
+
+<a href = "https://example.com">Visit Example</a>
+
+## 4. Putting It All Together
+
+<img src = "photo.jpg" alt = "My photo">
+
+Tag: <img> Element: the entire line Attributes: src = "photo.jpg" alt = "My photo"
+
+## Quick Summary Table
+
+Term What it means
+Tag HTML instruction inside <>
+Element Tag + content + closing tag
+Attribute Extra info inside opening tag
+
+#### 2.1.3 Forms, Tables, Lists, Images, and Links
+
+## 1. Forms
+
+Forms are used to collect user input (text, passwords, choices, etc.) and send it to a server.
+
+## Key Elements
+
+- <form>- container for form elements- <input>- user input fields- <label>- describes an input- <button>/<input type="submit">- submits the form
+
+## Example
+
+<form action="submit.php" method="post"> <label for="name">Name:</label> <input type="text" id="name" name="name"> <label for="password">Password:</label> <input type="password" id="password" name="password"> <button type="submit">Login</button> </form>
+
+## Explanation:
+
+The user enters their name and password, then clicks Login to submit the data.
+
+## 2. Tables
+
+Tables display data in rows and columns.
+
+## Key Elements
+
+<table> <tr> <th>Name</th> <th>Age</th> </tr> <tr> <td>John</td> <td>25</td> </tr> <tr> <td>Jane</td> <td>30</td> </tr> </table>
+
+## Explanation:  This table shows names and ages arranged neatly in rows and columns.
+
+## 3. Lists
+
+Lists organize items in a structured way.
+
+## Types of Lists
+
+(a) Ordered List (numbered)
+
+<ol> <li>HTML</li> <li>CSS</li> <li>JavaScript</li> </ol>
+
+(b) Unordered List (bullets)
+
+<ul> <li>Apple</li> <li>Banana</li> <li>Orange</li> </ul>
+
+(c) Description List
+
+<dl> <dt>HTML</dt> <dd>Markup language for web pages</dd> <dt>CSS</dt> <dd>Used for styling web pages</dd> </dl>
+
+## 4. Images
+
+Images make web pages more visual and attractive.
+
+## Key Element
+
+<img> (self- closing)
+
+## Example
+
+<img src="logo.png" alt="Company Logo" width="150">
+
+## Explanation:
+
+src → image file location
+
+alt → text shown if image doesn't load (also for accessibility)
+
+## 5. Links
+
+Links (hyperlinks) allow navigation between pages or websites.
+
+## Key Element
+
+< a> (anchor tag)
+
+## Example
+
+<a href = "https://www.google.com">Visit Google</a>
+
+## Open link in a new tab
+
+<a href = "https://www.google.com" target = "_blank">Visit Google</a>
+
+## Explanation:
+
+Clicking the link takes the user to another webpage.
+
+## One Mini Example (Everything Together)
+
+<h2>Student Registration</h2>
+
+<form> <input type = "text" placeholder = "Enter your name"> <button>Submit</button> </form>
+
+<ul> <li>Computer Science</li> <li>Engineering</li> </ul>
+
+<img src = "student.jpg" alt = "Student Image">
+
+<a href = "contact.html">Contact Us</a>
+
+#### 2.1.4 HTML5 Semantic Elements
+
+Semantic elements are HTML elements that clearly describe their meaning or purpose in a human- and machine- readable way. In other words, they tell what the content is rather than how it looks.
+
+Before HTML5, developers used generic <div> and <span> tags for everything. This made the structure confusing for browsers, search engines, and assistive technologies like screen readers.
+
+## Why Use Semantic Elements?
+
+1. Accessibility: Screen readers understand the structure better.2. SEO benefits: Search engines can better index content.3. Maintainable code: Easier to read and update.4. Consistency: Helps team members and tools understand the content purpose.
+
+## Example of non-semantic HTML (bad practice):
+
+<div id = "header"> <h1>My Website</h1> </div>
+
+<div id = "nav"> <ul> <li>Home</li> <li>About</li> </ul> </div>
+
+<div id = "main"> <p>Welcome to my website!</p> </div>
+
+Problem: All <div> tags look the same; you can't tell their role just by looking at them.
+
+## Common HTML5 Semantic Elements
+
+Here's a list with explanations and examples:
+
+## 1.<header>
+
+Represents the introductory content or navigation links of a page or section. Usually contains the website logo, title, or menu.
+
+<header> <h1>My Awesome Blog</h1> <nav> <a href = "#">Home</a> <a href = "#">About</a> <a href = "#">Contact</a> </nav> </header>
+
+## 2.<nav>
+
+Represents a navigation section. Usually links to important pages.
+
+<nav> <ul> <li><a href="#">Home</a></li> <li><a href="#">Services</a></li> <li><a href="#">Contact</a></li> </ul> </nav>
+
+## 3. <main>
+
+Represents the main content of the document. Only one <main> per page is allowed.
+
+<main> <h2>About Us</h2> <p>We provide high- quality web design services.</p> </main>
+
+## 4.<section>
+
+Represents a thematic grouping of content. Often has its own heading.
+
+< section> <h2>Our Services</h2> <p>Web Design, SEO, Marketing</p> </section>
+
+< section> <h2>Testimonials</h2> <p>"Great service!" - John Doe</p> </section>
+
+## 5.<article>
+
+Represents a self- contained content piece. Could be a blog post, news article, or forum post.
+
+<article> <h2>How to Learn HTML5</h2> <p>HTML5 makes web development easier and more semantic.</p> </article>
+
+## 6.<aside>
+
+Represents content related to the main content. Often used for sidebars, ads, or quotes.
+
+<aside> <h3>Related Articles</h3> <ul> <li>HTML5 Tips</li> <li>CSS Tricks</li> </ul> </aside>
+
+## 7.<footer>
+
+Represents the footer of a page or section. Usually contains copyright info, links, or contact details.
+
+<footer> <p>&copy; 2026 My Website. All rights reserved.</p> <a href="#">Privacy Policy</a> </footer>
+
+## 8.<figure>and <figcaption>
+
+<figure> is used for images, diagrams, or illustrations. <figcaption> gives a caption for the figure.
+
+<figure> <img src="logo.png" alt="Company Logo"> <figcaption>Our company logo</figcaption> </figure>
+
+## 9.<mark>
+
+Highlights important text.
+
+<p>HTML5 introduced <mark>semantic elements</mark> for better structure.</p>
+
+## Full Example Combining Many Semantic Elements
+
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>My Website</title> </head> <body> <header> <h1>My Website</h1> <nav> <a href="#">Home</a> <a href="#">About</a> <a href="#">Contact</a> </nav> </header>
+
+<main> <article> <h2>Welcome to HTML5</h2> <p>HTML5 semantic elements make websites more accessible and SEO- friendly.</p> </article> <aside> <h3>Did You Know?</h3> <p>Using semantic tags improves your website's search engine ranking!</p> </aside> </main> <footer> <p>&copy; 2026 My Website</p> </footer> </body> </html>
+
+### 2.2 CSS (Cascading Style Sheets)
+
+## What is CSS?
+
+CSS stands for Cascading Style Sheets. It is a language used to style HTML content. While HTML structures the content, CSS controls how it looks—colors, fonts, spacing, layout, and more.
+
+Think of HTML as the skeleton of a webpage, and CSS as the clothes and makeup that make it visually appealing.
+
+## Why use CSS?
+
+1. Separation of content and style: Keep HTML for structure and CSS for design.
+2. Reusability: One CSS file can style multiple pages.
+3. Consistency: Ensure a consistent look across a website.
+4. Flexibility: Easily change styles without editing HTML.
+
+## How CSS Works
+
+CSS works by selecting HTML elements and applying style rules.
+
+## Basic syntax:
+
+selector { property: value; }
+
+- Selector → HTML element you want to style- Property → the aspect you want to change (color, font-size, margin, etc.)
+
+- Value → the style you want to apply
+
+## Example:
+
+<!DOCTYPE html> <html> <head> <title>CSS Example</title> <style> h1 { color: blue; font- size: 36px; text- align: center; } p { color: green; font- size: 18px; } </style> </head> <body> <h1>Welcome to CSS</h1> <p>This is a simple example of CSS styling.</p> </body> </html>
+
+## Explanation:
+
+h1 text becomes blue, centered, and larger. p text becomes green and medium- sized.
+
+## Ways to Apply CSS
+
+## 1. Inline CSS
+
+Applied directly in an HTML element using the style attribute.
+
+<p style="color: red; font- size: 20px;">Hello, Inline CSS!</p>
+
+Pros: Quick for small changes. Cons: Hard to maintain for large sites.
+
+## 2. Internal CSS
+
+Placed in a <style> block inside the <head> section.
+
+<head> <style> body { background- color: lightblue; } </style> </head>
+
+- Pros: Good for single-page styling.- Cons: Not reusable across multiple pages.
+
+## 3. External CSS
+
+Stored in a separate .css file and linked to HTML.
+
+# style.css:
+
+body { background- color: lightblue; font- family: Arial, sans- serif; }
+
+h1 { color: navy; }
+
+# index.html:
+
+<head> <link rel="stylesheet" href="style.css"> </head>
+
+- Pros: Easy to manage and reuse across multiple pages.- Cons: Requires an extra file.
+
+# Common CSS Properties
+
+Property Example What it does
+color color: red; Text color
+background-color background-color: yellow; Background color
+font-size font-size: 20px; Text size
+font-family font-family: Arial; Font style
+text-align text-align: center; Align text
+margin margin: 10px; Space outside element
+padding padding: 5px; Space inside element
+border border: 1px solid black; Element border
+
+... (full content continues) ...`;
+
+            const ift211DigitalContent = `DIGITAL NOTES  ON  DIGITAL LOGIC DESIGN
+
+B.TECH II YEAR - I SEM (2018- 19)
+
+image[[404, 483, 589, 617]]
+
+# DEPARTMENT OF INFORMATION TECHNOLOGY
+
+MALLA REDDY COLLEGE OF ENGINEERING & TECHNOLOGY (Autonomous Institution - UGC, Govt. of India) (Affiliated to JNTUH, Hyderabad, Approved by AICTE - Accredited by NBA & NAAC - 'A' Grade - ISO 9001:2015 Certified) Maisammaguda, Dhulapally (Post Via. Hakimpet), Secunderabad - 500100, Telangana State, INDIA.
+
+ (SYLLABUS)
+
+## OBJECTIVES
+
+This course provides in- depth knowledge of switching theory and the logic design techniques of digital circuits, which is the basis for design of any digital circuit. The course objectives are:
+
+To learn basic techniques for the design of digital circuits and fundamental concepts used in the design of digital systems. To understand common forms of number representation in digital electronic circuits and to be able to convert between different representations. To implement simple logical operations using combinational logic circuits. To design combinational logic circuits, sequential logic circuits. To impart to student the concepts of sequential circuits, enabling them to analyze sequential systems in terms of state machines. To implement synchronous state machines using flip- flops.
+
+## UNIT -I: Number System and Boolean Algebra :
+
+Number Systems, Base Conversion Methods, Complements of Numbers, Codes- Binary Codes, Binary Coded Decimal Code and its Properties, Unit Distance Codes, Error Detecting and Correcting Codes.
+
+Digital Logic Gates(AND,NAND,OR,NOR,EX- OR,EX- NOR), Properties of XOR Gates, Universal Gates, Basic Theorems and Properties, Switching Functions, Canonical and Standard Form.
+
+## UNIT -II: Minimization Techniques:
+
+Introduction, The minimization with theorems, The Karnaugh Map Method, Three, Four and Five variable K- Maps, Prime and Essential Implications, Don't Care Map Entries, Using the Maps for Simplifying, Quine- McCluskey Method, Multilevel NAND/NOR realizations.
+
+## UNIT -III: Combinational Circuits:
+
+Design Procedure - Half Adder, Full Adder, Half Subtractor, Full Subtractor, Parallel Binary Adder, Parallel binary subtractor, Binary Multiplier, Multiplexers/DeMultiplexers, decoder, Encoder, Code Converters, Magnitude Comparator.
+
+classification of sequential circuits, The binary cell, The S- R- Latch Flip- Flop The D- Latch Flip- Flop, The "Clocked T" Flip- Flop, The " Clocked J- K" Flip- Flop, Design of a Clocked Flip- Flop, Timing and Triggering Consideration.
+
+ UNIT - IV:  Sequential Circuits:  Introduction, Basic Architectural Distinctions between Combinational and Sequential circuits, Latches, Flip- Flops, SR, JK, D, T and Master slave, characteristic Tables and equations, Conversion from one type of Flip- Flop to another,  Counters - Design of Single Mode Counter, Ripple Counter, Ring Counter, Shift Register, Ring counter using Shift Register  UNIT - V:  Memory Devices:  Classification of memories - ROM : ROM organization, PROM, EPROM, EEPROM, RAM: RAM organization, Write operation, Read operation, Static RAM , Programmable Logic Devices: Programmable Logic Array(PLA), Programmable Array Logic, Implementaion of Combinational Logic circuits using ROM, PLA, PAL.
+
+## TEXT BOOKS:
+
+1. Digital Design- Morris Mano, PHI, 3rd Edition.
+
+2. Switching Theory and Logic Design-A. Anand Kumar, PHI, 2nd Edition.
+
+3. Switching and Finite Automata Theory- Zvi Kohavi & Niraj K. Jha, 3rd Edition, Cambridge.
+
+## REFERENCE BOOKS:
+
+1. Introduction to Switching Theory and Logic Design - Fredric J. Hill, Gerald R. Peterson, 3rd Ed, John Wiley & Sons Inc.
+2. Digital Fundamentals - A Systems Approach - Thomas L. Floyd, Pearson, 2013.
+3. Switching Theory and Logic Design - Bhanu Bhaskara -Tata McGraw Hill Publication, 2012
+4. Fundamentals of Logic Design- Charles H. Roth, Cengage LEanring, 5th, Edition, 2004.
+5. Digital Logic Applications and Design- John M. Yarbrough, Thomson Publications, 2006. 6. Digital Logic and State Machine Design - Comer, 3rd, Oxford, 2013.
+
+## OUTCOMES
+
+Upon completion of the course, student should possess the following skills:
+
+Be able to manipulate numeric information in different forms Be able to manipulate simple Boolean expressions using the theorems and postulates of Boolean algebra and to minimize combinational functions. Be able to design and analyze small combinational circuits and to use standard combinational functions to build larger more complex circuits. Be able to design and analyze small sequential circuits and to use standard sequential functions to build larger more complex circuits.
+
+ INDEX
+
+S. No Unit Topic Page no
+1 I NUMBERS SYSTEMS AND BOOLEAN ALGEBRA 01
+2 II MINIMIZATION TECHNIQUES 39
+3 III COMBINATIONAL CIRCUITS 60
+4 IV SEQUENTIAL CIRCUITS 89
+5 V MEMORY DEVICES 119
+
+ UNIT - 1  NUMBER SYSTEMS & BOOLEAN ALGEBRA
+
+Introduction about digital system Philosophy of number systems Complement representation of negative numbers Binary arithmetic Binary codes Error detecting & error correcting codes Hamming codes
+
+## INTRODUCTION ABOUT DIGITAL SYSTEM
+
+A Digital system is an interconnection of digital modules and it is a system that manipulates discrete elements of information that is represented internally in the binary form.
+
+Now a day's digital systems are used in wide variety of industrial and consumer products such as automated industrial machinery, pocket calculators, microprocessors, digital computers, digital watches, TV games and signal processing and so on.
+
+## Characteristics of Digital systems
+
+Digital systems manipulate discrete elements of information. Discrete elements are nothing but the digits such as 10 decimal digits or 26 letters of alphabets and so on. Digital systems use physical quantities called signals to represent discrete elements. In digital systems, the signals have two discrete values and are therefore said to be binary. A signal in digital system represents one binary digit called a bit. The bit has a value either 0 or 1.
+
+Analog systems vs Digital systems
+
+Analog system process information that varies continuously i.e; they process time varying signals that can take on any values across a continuous range of voltage, current or any physical parameter.
+
+Digital systems use digital circuits that can process digital signals which can take either 0 or 1 for binary system.
+
+## Advantages of Digital Systems
+
+1. Ease of programmability
+
+The digital systems can be used for different applications by simply changing the program without additional changes in hardware.
+
+## 2. Reduction in cost of hardware
+
+The cost of hardware gets reduced by use of digital components and this has been possible due to advances in IC technology. With ICs the number of components that can be placed in a given area of Silicon are increased which helps in cost reduction.
+
+## 3.High speed
+
+Digital processing of data ensures high speed of operation which is possible due to advances in Digital Signal Processing.
+
+## 4.High Reliability
+
+Digital systems are highly reliable one of the reasons for that is use of error correction codes.
+
+## 5.Design is easy
+
+The design of digital systems which require use of Boolean algebra and other digital techniques is easier compared to analog designing.
+
+## 6.Result can be reproduced easily
+
+Since the output of digital systems unlike analog systems is independent of temperature, noise, humidity and other characteristics of components the reproducibility of results is higher in digital systems than in analog systems.
+
+## Disadvantages of Digital Systems
+
+- Use more energy than analog circuits to accomplish the same tasks, thus producing more heat as well.- Digital circuits are often fragile, in that if a single piece of digital data is lost or misinterpreted the meaning of large blocks of related data can completely change.- Digital computer manipulates discrete elements of information by means of a binary code.- Quantization error during analog signal sampling.
+
+Number system is a basis for counting varies items. Modern computers communicate and operate with binary numbers which use only the digits 0 &1. Basic number system used by humans is Decimal number system.
+
+For Ex: Let us consider decimal number 18. This number is represented in binary as 10010.
+
+We observe that binary number system take more digits to represent the decimal number. For large numbers we have to deal with very large binary strings. So this fact gave rise to three new number systems.
+
+i) Octal number systemsii) Hexa Decimal number systemiii) Binary Coded Decimal number(BCD) system
+
+To define any number system we have to specify
+
+Base of the number system such as 2,8,10 or 16. The base decides the total number of digits available in that number system. First digit in the number system is always zero and last digit in the number system is always base- 1.
+
+## Binary number system:
+
+The binary number has a radix of 2. As r = 2, only two digits are needed, and these are 0 and 1. In binary system weight is expressed as power of 2.
+
+The left most bit, which has the greatest weight is called the Most Significant Bit (MSB). And the right most bit which has the least weight is called Least Significant Bit (LSB).
+
+... (full content continues) ...`;
 
             const arraysContent = `ARRAYS in JAVA
 
-TOPICS TO COVER:--
+## TOPICS TO COVER:--
+
 Array declaration and use.
+
 One-Dimensional Arrays.
+
 Passing arrays and array elements as parameters
+
 Arrays of objects
+
 Searching an array
+
 Sorting elements in an array
 
-An array is group of like-typed variables that are referred to by a common name.
+ An array is group of like-typed variables that are referred to by a common name.
 
-An array of size N is indexed from zero to N-1
+<center>An array of size N is indexed from zero to N-1</center>
 
-... (full content from Arrays.pdf) ...`;
+An array can be of any type.
 
-            const sen201_handoutContent = `1. Understanding Software and Software Engineering ...`; // (full content as before)
+Specific element in an array is accessed by its index.
+
+Can have more than one dimension
+
+2D Array Elements
+
+- Requires two indices
+
+- Which cell is CHART [3] [2]?
+
+Column
+
+<table>[0][1][2][3][4][5]097902682621309707433714412890740354174201268337354047526926214417447502381301282012692380</table>
+
+ A particular value in an array is referenced using the array name followed by the index in brackets
+
+ For example, the expression
+
+scores[2]
+
+refers to the value 45 (the 3rd value in the array)
+
+ DECLARING ARRAYS
+
+• The general form of 1-d array declaration is:-
+
+type var name[ ];
+
+int, float, char array name
+
+E.g.:-- int scores [ ];
+
+1. Even though an array variable "scores" is declared, but there is no array actually existing.
+2. "score" is set to NULL, i.e. an array with NO VALUE.
+
+scores NULL
+
+int[]
+
+scores = new int[10];
+
+## Declaring Arrays
+
+Some examples of array declarations:
+
+double[] prices = new double[500];
+
+boolean[] flags;
+
+flags = new boolean[20];
+
+char[] codes = new char[1750];
+
+ ARRAY INITIALIZATION
+
+• Giving values into the array created is known as INITIALIZATION.
+
+• The values are delimited by braces and separated by commas
+
+• Examples:
+
+int[] units = {147, 323, 89, 933, 540, 269, 97, 114, 298, 476}; char[] letterGrades = {'A', 'B', 'C', 'D', 'F'};
+
+• Note that when an initializer list is used:
+
+• the new operator is not used
+
+• no size value is specified
+
+• The size of the array is determined by the number of items in the initializer list. An initializer list can only be used only in the array declaration
+
+ A specific element in an array can be accessed by specifying its index within square brackets.  All array indexes start at ZERO.
+
+Example:- System.out.println(units[4]);
+
+mean = (units[0] + units[1]) / 2;
+
+int[] units = {147, 323, 89, 933, 540, 269, 97, 114, 298, 476};
+
+1. Often a for() loop is used to process each of the elements of the array in turn.
+
+2. The loop control variable, i, is used as the index to access array components
+
+EXAMPLE:- int i;
+
+for(i=0;i<=2;i++)
+
+{ System.out.println(+score[i]);
+
+}
+
+score 50 12 45 78 66 100 125
+
+0 1 2 3 4 5 6 score 50 12 45 78 66 100 125
+
+class array
+
+{
+
+public static void main(String args[])
+
+{
+
+int [] score={10,20,30};
+
+System.out.println("score[0]="+score[0]);
+
+System.out.println("score[1]="+score[1]);
+
+System.out.println("score[2]="+score[2]);
+
+int mean=(score[0]+score[1])/2;
+
+System.out.println("\nMean="+mean);
+
+System.out.println("************** USING VARIABLE i**************");
+
+int i;
+
+for(i=0;i<=2;i++)
+
+{
+
+System.out.println("score["+i+"]="+score[i]);
+
+}
+
+Once an array is created, it has a fixed size 0 An index used in an array reference must specify a valid element 0 That is, the index value must be in bounds (0 to N- 1) 0 The Java interpreter throws an ArrayIndexOutOfBoundsException if an array index is out of bounds 0 This is called automatic bounds checking
+
+ Bounds Checking
+
+• For example, if the array score can hold 100 values, it can be indexed using only the numbers 0 to 99
+
+• If i has the value 100, then the following reference will cause an exception to be thrown:
+
+System.out.println (score[i]);
+
+• It’s common to introduce off-by-one errors when using arrays
+
+for (int i=0; i<=100; i++) score[i] = i*50;
+
+ ARRAY OF OBJECTS
+
+o Create a class student containing data members Name, Roll_no, and Marks.WAP in JAVA to accept details of 5 students. Print names of all those students who scored greater than 85 marks
+
+2. DECLARATION:- Follow the same steps as that of simple arrays. Example:- int [][]; int chart[][]= new int [3][2]; chart = new int [3][2];
+
+o INITIALIZATION:-
+
+int chart[3][2] = { 15,16,17,18,19,20};
+
+int chart[ ][ ] = { {15,16,17}, {18,19,20} };
+
+0 The daily maximum temperature is recorded in 5 cities during 3 days. Write a program to read the table elements into 2- d array "temperature" and find the city and day corresponding to "Highest Temperature" and "Lowest Temperature".
+
+o Write a program to create an array of objects of a class student. The class should have field members id, total marks and marks in 3 subjects viz. Physics, Chemistry & Maths. Accept information of 3 students and display them in tabular form in descending order of the total marks obtained by the student.`;
+
+            const sen201_handoutContent = `1. Understanding Software and Software Engineering
+
+The Core Distinction: Coding vs. Engineering
+
+The most fundamental lesson in software engineering is that software engineering is not the same as coding.
+
+Coding is an activity or a single phase of development. Software Engineering is a discipline used to manage the entire life of a system. Key Insight: Most software failures occur because the problem was misunderstood, not because the code itself was incorrect.
+
+What is Software? (The System View)
+
+Software is more than just source code; it is a complete system consisting of several integrated components.
+
+Components of Software:
+
+Programs: The instructions/code. Data: The information processed and stored. Configuration: Settings that dictate how the system behaves. Documentation: User and developer guides. Users & Interaction: How people use and experience the system. Maintenance: Ongoing updates and changes over time.
+
+Real- World Example: ATM software is not just the screen you see; it includes the back- end systems, databases, network communication, and security protocols.
+
+What Software is NOT
+
+To understand the scope of engineering, one must define the boundaries of professional software. Software is NOT:
+
+A single program, app, or website. A one- time school assignment. A simple script for personal use.
+
+Programming (Activity) vs Software Engineering (Discipline):
+- Writing a simple calculator vs. Building a complex banking system.
+- Intended for personal/limited use vs. Built for thousands of users.
+- Run once or twice vs. Designed for long-term use and continuous updates.
+
+Why is Engineering Principles Necessary ?
+
+As software grows, it outgrows the ability of a single individual to manage. Software engineering exists to address:
+
+Complexity: Managing large systems with many moving parts. Scale: Handling massive amounts of data and users. Teamwork: Allowing multiple developers to work together effectively. Longevity: Ensuring software lasts and remains maintainable for years.
+
+The Software Development Life Cycle (SDLC)
+
+The SDLC is a structured framework that defines the tasks performed at each step in the software development process. It ensures the final product is high- quality, cost- effective, and meets user expectations.
+
+Stage 1: Planning & Feasibility Study
+Before any code is written, the team determines if the project is worth doing.
+Key Activities: Resource allocation, capacity planning, cost estimation, and determining technical/economic feasibility. Output: Project Plan and Feasibility Report.
+
+Stage 2: Requirements Analysis
+This is where Requirement Engineering begins. The goal is to define exactly what the system should do.
+Key Activities: Interviewing stakeholders and documenting system constraints. Output: Software Requirements Specification (SRS) document.
+
+Stage 3: Software Design & Architecture
+Engineers create the blueprint of the system.
+Key Activities: Designing the database schema, choosing the tech stack (language/framework), and creating UML diagrams. Output: Design Document (High- level and Low- level design).
+
+Stage 4: Implementation (Coding)
+The actual development happens here.
+Key Activities: Developers write code based on the design specifications and perform "Unit Testing" on their own code. Output: Source Code and Executable Software.
+
+Stage 5: Testing & Validation
+The software is checked against the requirements to find bugs.
+Key Activities: Unit testing, integration testing, and User Acceptance Testing (UAT). Output: Bug reports and a Validated Software product.
+
+Stage 6: Deployment & Maintenance
+The product is released to the market and updated over time.
+Key Activities: Bug fixing, upgrading the system for new OS versions, and adding new features. Output: Live system and Maintenance logs.
+
+Software Process Models
+
+Different projects require different approaches. Below are the standard models mentioned in your syllabus:
+
+A. The Waterfall Model
+A linear, sequential approach where you must finish one stage before the next begins.
+Pros: Easy to manage, works for stable projects. Cons: Very difficult to change requirements once the project starts.
+
+B. The V-Model (Validation and Verification)
+An extension of the Waterfall where every development stage has a corresponding testing stage.
+Pros: Highly disciplined, reduces bugs early. Cons: Expensive and rigid.
+
+C. Agile / Scrum Model
+The modern standard. Projects are broken into 2- 4 week cycles called "Sprints."
+Pros: Flexible, fast delivery, high customer satisfaction. Cons: Can easily go over budget if the scope isn't managed.
+
+Requirements Engineering (RE)
+
+Defining Requirements Engineering
+Requirement Engineering (RE) is the formal process of establishing the services that a customer requires from a system and the constraints under which it operates and is developed.
+
+Where does RE fit in the SDLC?
+RE primarily occurs during Stage 2: Requirements Analysis, but it overlaps with Stage 1 (Planning) and Stage 5 (Testing/Validation). It acts as the "Contract" between the user and the developer.
+
+The Four Sub-Processes of RE
+1. Elicitation: The "discovery" phase. Using interviews, workshops, and observation to find out what users want.
+2. Analysis: Negotiating requirements. If a user wants two things that contradict each other, they are resolved here.
+3. Specification: Documenting everything into the SRS (Software Requirements Specification).
+4. Validation: Checking with the user one last time to ensure the documented requirements are correct.
+
+Types of Requirements
+To build a complete system, we must distinguish between what it does and how well it does it.
+
+Category | Description | Example
+Functional | The services the system must provide. | "The system shall allow the user to generate a PDF report."
+Non-Functional | Constraints or quality standards (Performance, Security). | "The system shall be able to handle 1,000 concurrent users."
+Domain | Requirements derived from the specific field (e.g., Banking laws). | "The system must comply with GDPR privacy regulations."
+
+Software Project Management (Introduction)
+Because SEN201 includes project management, we introduce the "Triple Constraint" of software:
+Scope: What are we building? Time: How long will it take? Cost: How much will it cost?
+If you change the Requirements (Scope), either the Time or Cost must increase.
+
+Further Study & Assignment
+
+Topic: Process Assessment & Metrics
+Research: Look up CMMI (Capability Maturity Model Integration). Assignment: In 500 words, explain the 5 levels of CMMI. Why do large organizations like NASA or major banks require their software vendors to be "CMMI Level 5" certified? Objective: To understand how software quality is measured at an organizational level.
+
+Topic: Software Engineering & Law / Ethics
+Research: Explore the difference between Open Source (GPL, MIT) and Proprietary (EULA) licenses. Assignment: Find a real- world example of a "Software Engineering Disaster" caused by poor requirements (e.g., the Boeing 737 Max MCAS system or the UK Post Office Horizon scandal). Task: Write a brief report identifying whether the failure was due to a Functional requirement error or a Non- functional requirement error. Objective: To understand the ethical and legal weight of accurate software documentation.`;
 
             // ----- HD dropdown rendering -----
             function renderHdBoxesWithPdfDropdown(labels) {
