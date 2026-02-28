@@ -20,11 +20,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #eef2e6;  /* soft off-white green */
+            background: #eef2e6;
             padding: 1rem;
         }
 
-        /* main card – very light, flat */
         .auth-card {
             background-color: white;
             width: 100%;
@@ -40,7 +39,6 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* header – simple */
         .library-header {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -65,7 +63,6 @@
             font-weight: 500;
         }
 
-        /* tabs – simple, no shadows */
         .tab-container {
             display: flex;
             gap: 0.5rem;
@@ -91,7 +88,6 @@
         }
         .tab i { margin-right: 6px; }
 
-        /* forms */
         .form-panel { display: none; }
         .form-panel.active-panel { display: block; }
 
@@ -138,7 +134,6 @@
         }
         .action-btn:hover { background-color: #12351f; }
 
-        /* small utility buttons */
         .forget-btn {
             background: transparent;
             color: #1a3e2b;
@@ -153,7 +148,6 @@
         }
         .forget-btn:hover { background: #e2efe2; }
 
-        /* dashboard panel */
         .dashboard-panel { display: none; }
         .dashboard-panel.active-panel { display: block; }
 
@@ -186,7 +180,6 @@
         .stat-box i { font-size: 1.8rem; color: #1a3e2b; }
         .stat-box div { font-weight: 600; color: #1a3e2b; }
 
-        /* records – admin only */
         .records-section {
             background: #f9fcf9;
             border-radius: 20px;
@@ -238,7 +231,6 @@
         }
         .delete-icon:hover { background: #d32f2f; color: white; }
 
-        /* message area */
         .message {
             margin-top: 1rem;
             padding: 0.5rem;
@@ -247,7 +239,6 @@
             background: #e2efe2;
         }
 
-        /* ===== FOOTER BAR – simple dark ===== */
         .footer-bar {
             display: flex;
             justify-content: space-around;
@@ -280,7 +271,6 @@
         .footer-item.loading i { animation: spin 1s linear infinite; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* ===== HD box layout ===== */
         .box-page {
             background: white;
             border-radius: 20px;
@@ -323,7 +313,6 @@
         }
         .box-select:hover { background: #f0f7f0; }
 
-        /* preview panel */
         .preview-panel {
             background: white;
             border-radius: 20px;
@@ -374,7 +363,6 @@
             overflow-y: auto;
             border: 1px solid #e0efe0;
         }
-        /* fullscreen */
         .preview-panel.fullscreen {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -394,7 +382,6 @@
             margin: 0 2rem 2rem 2rem;
         }
 
-        /* semester tabs for COURSES */
         .semester-tabs {
             display: flex;
             gap: 0.5rem;
@@ -418,7 +405,6 @@
             font-weight: 700;
         }
 
-        /* course list */
         .course-list {
             background: white;
             border-radius: 20px;
@@ -439,7 +425,6 @@
         }
         .course-item i { color: #1a3e2b; font-size: 1.2rem; }
 
-        /* splash */
         .splash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -461,7 +446,6 @@
         @keyframes splashPop { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.08); opacity: 1; } }
         @keyframes splashFadeOut { to { opacity: 0; visibility: hidden; } }
 
-        /* user guide */
         .guide-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -519,7 +503,6 @@
         .guide-btn:hover { background: #12351f; color: white; }
         .guide-btn.outline:hover { background: #e2efe2; }
 
-        /* credit */
         .footer-credit {
             text-align: center;
             margin-top: 0.5rem;
@@ -530,7 +513,6 @@
     </style>
 </head>
 <body>
-    <!-- SPLASH SCREEN -->
     <div class="splash-overlay" id="splashOverlay">
         <div class="splash-content">
             <i class="fa-solid fa-book-open"></i>
@@ -539,20 +521,17 @@
         </div>
     </div>
 
-    <!-- main card -->
     <div class="auth-card">
         <div class="library-header">
             <h1>CMP chapter 2 of 4 library</h1>
             <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
         </div>
 
-        <!-- tabs -->
         <div id="tabContainer" class="tab-container">
             <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
             <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
         </div>
 
-        <!-- SIGNUP -->
         <div id="signupPanel" class="form-panel active-panel">
             <form onsubmit="event.preventDefault(); signupUser();">
                 <div class="double-row">
@@ -569,7 +548,6 @@
             </form>
         </div>
 
-        <!-- LOGIN -->
         <div id="loginPanel" class="form-panel">
             <form onsubmit="event.preventDefault(); loginUser();">
                 <div class="input-group">
@@ -587,7 +565,6 @@
             </div>
         </div>
 
-        <!-- DASHBOARD -->
         <div id="dashboardPanel" class="dashboard-panel">
             <div class="welcome-card">
                 <div class="personal-welcome" id="personalWelcome">
@@ -618,13 +595,10 @@
             </div>
         </div>
 
-        <!-- container for dynamic pages (HD, INFO, COURSES) -->
         <div id="dynamicPageContainer" style="min-height: 300px;"></div>
 
-        <!-- message area -->
         <div id="authMessage" class="message"></div>
 
-        <!-- FOOTER -->
         <div class="footer-bar">
             <div class="footer-item" onclick="handleFooterClickWithDelay('dashboard')">
                 <i class="fa-solid fa-book-open"></i>
@@ -649,7 +623,6 @@
         powered by tech by me (Muhammad Jamil)
     </div>
 
-    <!-- Guide overlay -->
     <div id="guideOverlay" class="guide-overlay" style="display: none;">
         <div class="guide-card">
             <div id="guideSlideContainer" class="guide-slide"></div>
@@ -868,60 +841,1182 @@
                 clearMessage(); dynamicContainer.style.display = 'none'; dynamicContainer.innerHTML = '';
             };
 
-            const hdCourseLabels = [ "CMP 201", "CMP 209", "ucsc 201", "SEN 201", "GST 211", "MTH 201", "IFT 211" ];
+            // ----- HD course labels -----
+            const hdCourseLabels = [
+                "CMP 201",
+                "CMP 209",
+                "ucsc 201",
+                "SEN 201",
+                "GST 211",
+                "MTH 201",
+                "IFT 211"
+            ];
+
             const firstSemesterCourses = [...hdCourseLabels];
             const secondSemesterCourses = [ "CMP 202", "csc 203", "IFT 212", "ENT 211", "GST 212" ];
 
+            // ----- FULL LECTURE CONTENT FOR CMP 201 (restored) -----
             const lectureContents = {
-                "Lecture 1": "CMP 201: Programming ...", // full content omitted for brevity (same as before)
-                "Lecture 2": "CMP 201: Programming Languages ...",
-                "Lecture 3": "CMP 201: A Simple Java Program ...",
-                "Lecture 4": "CMP 201: Control Structures ...",
-                "Lecture 5": "CMP 201: Repetition Structures ..."
+                "Lecture 1": `CMP 201: Programming 
+Computer Programming
+In one sentence:
+The process of writing computer programs is known as computer programming.
+A computer program is a clear, step-by-step, finite set of instructions that solve a specific problem. 
+A computer program must be clear so that only one meaning can be derived from it
+A computer program is written by a computer programmer in a computer language called a programming language.
+
+How to write a Program?
+A Computer is not Intelligent. Is this true???
+It cannot analyze a problem and come up with a solution. 
+A human (the programmer) must analyze the problem, develop the instructions for solving the problem, and then have the computer carry out the instructions. 
+To write a program for a computer to follow, we must go through a two-phase process: 
+Problem Solving and Implementation.
+
+Problem-Solving Phase
+Analysis and Specification- Understand (define) the problem and what the solution must do.
+General Solution (Algorithm)- Specify the required data types and the logical sequences of steps that solve the problem.
+Verify- Follow the steps exactly to see if the solution really does solve the problem.
+
+Implementation Phase
+Coding the Program - Translate the algorithm (the general solution) into a programming language.
+Testing the Program - Have the computer follow the instructions.
+Then manually check the results. 
+If you find errors, analyze the program and the algorithm to determine the source of the errors, and then make corrections.
+Maintenance requires Modification of the program to meet changing requirements or to correct any errors that show up while using it.
+
+Steps in Program Development
+Define the problem into three separate components:
+Identify the inputs
+Identify the outputs
+The processing steps to produce required outputs.
+Outline the solution.
+Decompose the problem to smaller steps.
+Establish a solution outline.
+Develop the outline into an algorithm.
+The solution outline is now expanded into an algorithm.
+
+Steps in Program Development
+Test the algorithm for correctness.
+Very important in the development of a program, but often forgotten
+Major logic errors can be detected and corrected at an early stage.
+Code the algorithm into a specific programming language.
+Test the program on the computer.
+This step uses a program compiler and programmer-designed test data to machine-test the code for
+syntax errors
+logic errors
+Document and maintain the program.
+
+Algorithms & Flowcharts
+What is an algorithm?
+Lists the steps involved in accomplishing a task (like a recipe)
+An algorithm must:
+Be lucid (clear), precise and unambiguous
+Give the correct solution in all cases
+Eventually end (Finite number of Instructions)
+What is pseudocode?
+Structured English (formalized and abbreviated to look like high-level computer language)
+
+Pseudocode & Algorithm
+Example 1: Write an algorithm to determine a student’s final grade and indicate whether it is passing or failing. The final grade is calculated as the Total of CA and Exam Scores.
+
+Pseudocode & Algorithm
+Pseudocode:
+Input CA and Exam Scores
+Calculate Total Score by summing CA and Exam Scores
+if Total Score is below 40
+Print “FAIL”
+else
+Print “PASS”
+
+Pseudocode & Algorithm
+Detailed Algorithm: 
+Step 1: Input CA, Exam
+Step 2: Total = CA + Exam 
+Step 3: if (Total < 40) then
+Print “FAIL”
+else
+Print “PASS”
+endif
+
+Flowchart
+A graphical representation of the sequence of operations in an information system or program. 
+Program flowcharts show the sequence of instructions in a single program or subroutine. 
+shows logic of an algorithm
+emphasizes individual steps and their interconnections
+e.g. control flow from one action to the next
+Note: Different symbols are used to draw each type of flowchart.
+
+Flowchart Symbols
+Example 2
+Write an algorithm and draw a flowchart that will read the two sides of a rectangle and calculate its area. 
+Pseudocode 
+Input the Length (L) and Breath (B) of a rectangle
+Calculate the area (A) by multiplying L with B
+Print A
+
+Example 2……
+Algorithm 
+Step 1: Input L,B
+Step 2: A = L x B 
+Step 3: Print A
+
+Example 3
+Write an algorithm and draw a flowchart that will calculate the roots of a quadratic equation 
+Hint: d = sqrt ( ), and the roots are: x1 = (–b + d)/2a and x2 = (–b – d)/2a
+
+Example 3….
+Pseudocode: 
+Input the coefficients (a, b, c) of the quadratic equation
+Calculate d
+Calculate x1
+Calculate x2
+Print x1 and x2
+
+Example 3….
+Algorithm: 
+Step 1: Input a, b, c
+Step 2: d = sqrt ( )
+Step 3: x1 = (–b + d) / (2 x a)
+Step 4: x2 = (–b – d) / (2 x a)
+Step 5: Print x1, x2`,
+
+                "Lecture 2": `CMP 201: Computer Programming I 
+Programming Languages
+C & C++ (an object-oriented language, based on C)
+Java (We will use it in this course)
+C# (a Java-like language developed by Microsoft)
+JavaScript ( A Java-like scripting language for web development (Front & Back End (using Node.js))
+Python (General purpose programming language use in data science, machine learning, web development, scripting, etc)
+Visual Basic (Basic-like visual language developed by Microsoft) 
+Ruby (Ruby on Rails framework for web development) 
+PHP (General purpose scripting language for dynamic web development
+Swift (General purpose programming language for 
+iOS, iPadOS, macOS, tvOS, and watchOS
+Kotlin (A cross-platform language for mobile, web, and desktop App 
+Why Java
+The answer is that Java enables users to develop and deploy applications on the Internet for servers, desktop computers, and small hand-held devices. The future of computing is being profoundly influenced by the Internet, and Java promises to remain a big part of that future. 
+Java is Object Oriented Programming language
+Java is the Internet programming language.
+Java is a general purpose programming language. 
+Java is the Internet programming language.
+Java can be used to develop Web applications.
+Java Applets
+Java Web Applications
+Java can also be used to develop applications for hand-held devices such as Palm and cell phones
+
+Java History
+James Gosling and Sun Microsystems 1991
+First called “Oak”
+Renamed to “Java”, May 20, 1995, Sun World
+HotJava
+ 
+The first Java-enabled Web browser
+Early History Website:
+http://java.sun.com/features/1998/05/birthday.html
+
+JDK Versions
+JDK 1.02 (1996)
+JDK 1.1 (1997)
+JDK 1.2 (1998)
+JDK 1.3 (2000)
+JDK 1.4 (2002)
+JDK 1.5 (2004) a. k. a. JDK 5 or Java 5
+JDK 1.6 (2006) a. k. a. JDK 6 or Java 6
+JDK 1.7 (possibly 2010) a. k. a. JDK 7 or Java 7
+Check for the latest release: 
+https://www.java.com/releases/matrix/
+
+JDK Editions
+Java Standard Edition (J2SE)
+J2SE can be used to develop client-side standalone applications or applets.
+Java Enterprise Edition (J2EE)
+J2EE can be used to develop server-side applications such as Java servlets and Java 
+ServerPages
+. 
+Java Micro Edition (J2ME). 
+J2ME can be used to develop applications for mobile devices such as cell phones. 
+
+Popular Java IDEs
+NetBeans Open Source by Sun 
+Eclipse Open Source by IBM 
+IntelliJ IDEA Open Source by JetBrains
+BlueJ
+ Open Source by Michael Kolling and John Rosenberg
+Jdeveloper
+ Open Source by Oracle Corporation
+JCreator
+ by Xinox Software
+Greenfoot
+ by King’s College London for the purpose of education
+JGrasp
+
+Java Identifiers
+To be able to refer to entities stored in computer memory, Java allows the programmer to attach names to portions of memory. 
+These names are called Identifiers
+An identifier is a sequence of characters that consist of letters, digits, underscores (_), and dollar signs ($). 
+An identifier must start with a letter, an underscore (_), or a dollar sign ($). It cannot start with a digit. 
+An identifier cannot be a reserved word (“Java Keywords”).
+Most significantly, identifiers are case sensitive. So, Sample is not same as sample.
+There are also some other rules which are followed but are not compulsory:
+All identifiers begin with a lowercase letter except it is the name of a class
+For compound words, the first word begins with lower case while subsequent words begin with an upper-case letter e.g. 
+classNumber
+, 
+myProgram
+, 
+areaOfTriangle
+
+Variables and Constants
+A variable is a placeholder for a value that can be updated as the program runs.
+A variable in Java is most easily envisioned as a box capable of storing a value.
+A variable whose value does not change during the course of a program is called a Constant. 
+Each variable has the following attributes:
+A name, which enables you to differentiate one variable from another.
+A type, which specifies what type of value the variable can contain.
+A value, which represents the current contents of the variable.
+The name and type of a variable are fixed. The value changes whenever you assign a new value to the variable.
+
+Variable Declarations
+In Java, you must declare a variable before you can use it. The declaration establishes the name and type of the variable and, in most cases, specifies the initial value as well.
+The most common form of a variable declaration is 
+					
+Datatype <variable name>;
+where Datatype is the name of a Java primitive type or class, variable name is an identifier that indicates the name of the variable
+A variable can be declared and initialize at the same time as follows:
+					
+Datatype <variable name> = value;
+Where value is an expression specifying the initial value.
+Most declarations appear as statements in the body of a method definition. Variables declared in this way are called local variables and are accessible only inside that method.
+Variables may also be declared as part of a class. These are called instance variables 
+
+Expressions in Java
+An expression in Java consists of terms joined together by operators
+					e.g. int total = n1 + n2;
+The n1 + n2 that appears to the right of the equal sign is an example of an expression, which specifies the operations involved in the computation.
+Each term must be one of the following:
+A constant (such as 3.14159265 or "hello, world")
+A variable name (such as n1, n2, or total)
+A method calls that returns a values (such as readInt)
+An expression enclosed in parentheses
+
+Primitive Data Types
+Although complex data values are represented using objects, Java defines a set of primitive types to represent simple data.
+Of the eight primitive types available in Java, the programs in this course will use only the following four:
+Int			
+This type is used to represent integers, which are whole numbers such as 17 or –53.
+Double
+		This type is used to represent numbers that include a decimal fraction, such as 3.14159265.
+Boolean	
+This type represents a logical value (true or false).
+Char
+		This type represents a single character
+String
+		This type represents a sequence of characters
+
+Operators and Operands
+As in most languages, Java programs specify computation in the form of arithmetic expressions that closely resemble expressions in mathematics.
+Operators in Java usually appear between two subexpressions, which are called its operands. Operators that take two operands are called binary operators.
+The - operator can also appear as a unary operator, as in the expression -x, which denotes the negative of x.
+
+Division and Type Casts
+Whenever you apply a binary operator to numeric values in Java, the result will be of type int if both operands are of type int, but will be a double if either operand is a double.
+This rule has important consequences in the case of division. For example, the expression
+seems as if it should have the value 2.8, but because both operands are of type int, Java computes an integer result by throwing away the fractional part. The result is therefore 2.
+If you want to obtain the mathematically correct result, you need to convert at least one operand to a double, as in
+The conversion is accomplished by means of a type cast, which consists of a type name in parentheses.
+14 / 5
+(double)14 / 5
+
+The Remainder Operator
+The only arithmetic operator that has no direct mathematical counterpart is %, which applies only to integer operands and computes the remainder when the first divided by the second:
+The result of the % operator make intuitive sense only if both operands are positive. The examples in the book do not depend on knowing how % works with negative numbers.
+The remainder operator turns out to be useful in a surprising number of programming applications and is well worth a bit of study.
+14 % 5 returns 4
+14 % 7 returns 0
+7 % 14 returns 7
+
+Precedence
+If an expression contains more than one operator, Java uses precedence rules to determine the order of evaluation. The arithmetic operators have the following relative precedence:
+Thus, Java evaluates unary - operators and type casts first, then the operators *, /, and %, and then the operators + and -.
+Precedence applies only when two operands compete for the same operator. If the operators are independent, Java evaluates expressions from left to right.
+Parentheses may be used to change the order of operations.
+unary - (type cast) 
+* / %
++ -
+highest
+lowest
+
+Assignment Statements
+You can change the value of a variable in your program by using an assignment statement, which has the general form:
+The effect of an assignment statement is to compute the value of the expression on the right side of the equal sign and assign that value to the variable that appears on the left. Thus, the assignment statement
+adds together the current values of the variables total and value and then stores that sum back in the variable total.
+When you assign a new value to a variable, the old value of that variable is lost. 
+variable = expression;
+total = total + value;
+
+Shorthand Assignments
+Statements such as
+are so common that Java allows the following shorthand form:
+The general form of a shorthand assignment is
+where op is any of Java’s binary operators. The effect of this statement is the same as
+For example, the following statement multiplies salary by 2.
+total = total + value;
+total += value;
+variable op= expression;
+variable = variable op (expression);
+salary *= 2;
+
+Increment and Decrement Operators
+Another important shorthand form that appears frequently in Java programs is the increment operator, which is most commonly written immediately after a variable, like this:
+The effect of this statement is to add one to the value of x, which means that this statement is equivalent to
+or in an even longer form
+The -- operator (which is called the decrement operator) is similar but subtracts one instead of adding one.
+The ++ and -- operators are more complicated than shown here, but it makes sense to defer the details until in Repetition Statements.
+x++;
+x += 1;
+x = x + 1;
+
+The Math Class
+Obviously, the arithmetic operators discussed above do not solve all possible mathematical problems. However, many mathematical functions are included in the Math class of the Java library, which is available for the programmers use. Some of the functions include:
+		
+Function				Action
+sqrt(X)					Returns the square root of X
+abs(X)					Returns the absolute value of X
+cos(X), sin(X), tan(X)	Returns the trig values of an angle
+exp(X)					Returns the exponential number e to the power of X
+log(X)					Returns the natural logarithm of X
+pow(X, Y)				Returns X to the power of Y`,
+
+                "Lecture 3": `CMP 201: Computer Programming I
+A Simple Java Program
+// This program prints Welcome to Programming in Java! 
+public class Welcome {	
+  public static void main(String[] args) { 
+    System.out.println("Welcome to Programming in Java!");
+  }
+}
+
+Structure of Java Program
+// Comments
+public class ClassName {	
+  public static void main(String[] args) { 
+			Statement1;
+			Statement2;
+					.
+					.
+					.
+			Statementn;
+  }
+}
+
+Anatomy of Java Program
+Comments
+Access Modifiers
+Class name
+Main method
+Statements
+Reserved words
+Blocks
+
+Comments
+Comments are summary at the beginning of the program to explain what the program does, its key features, its supporting data structures, and any unique techniques it uses.
+Three types of comments in Java.
+Line comment: A line comment is preceded by two slashes (//) in a line. When the Java compiler sees //, it ignores all text after // in the same line. 
+Paragraph comment: A paragraph comment is enclosed between /* and */ in one or multiple lines. When Java compiler sees /*, it scans for the next */ and ignores any text between /* and */. 
+javadoc comment: javadoc comments begin with /** and end with */. They are used for documenting classes, data, and methods. They can be extracted into an HTML file using JDK's Javadoc command. 
+
+Access Modifiers
+Java uses certain reserved words called access modifiers that specify the properties of the data, methods, and classes and how they can be accessed. Examples of modifiers are public and static. Other modifiers are private, final, abstract, and protected. A public datum, method, or class can be accessed by other programs. A private datum or method cannot be accessed by other programs. 
+
+Class Name
+Every Java program must have at least one class. Each class has a name. By convention, class names start with an uppercase letter. In our example, the class name is Welcome. 
+// This program prints Welcome to Java! 
+public class Welcome {	
+  public static void main(String[] args) { 
+    System.out.println("Welcome to Programming in Java!");
+  }
+}
+
+Main Method
+The main method provides the control of program flow. The Java interpreter executes the application by invoking the main method. 
+In order to run a class, the class must contain a method named main. In our example program, line 2 defines the main method. 
+// This program prints Welcome to Java! 
+public class Welcome {	
+  public static void main(String[] args) { 
+    System.out.println("Welcome to Programming in Java!");
+  }
+}
+
+Statements
+A statement represents an action or a sequence of actions. The statement System.out.println("Welcome to Java Programming!") in our example program is a statement to display the greeting "Welcome to Java Programming!".
+Every statement in Java ends with a semicolon (;).
+// This program prints Welcome to Java! 
+public class Welcome {	
+  public static void main(String[] args) { 
+    System.out.println("Welcome to Programming in Java!");
+  }
+}
+
+Reserved Words
+Reserved words or keywords are words that have a specific meaning to the compiler and cannot be used for other purposes in the program. For example, when the compiler sees the word class, it understands that the word after class is the name for the class. Other reserved words in our example program are public, static, and void. Their use will be introduced later.
+// This program prints Welcome to Java! 
+public class Welcome {	
+  public static void main(String[] args) { 
+    System.out.println("Welcome to Programming in Java!");
+  }
+}
+
+Blocks
+A pair of braces in a program forms a block that groups components of a program.
+
+Java Print Statement
+Java programs use a statement called System.out.println to instruct the computer to print a line of output on the console
+pronounced "print-linn"; sometimes called a println statement for short
+System.out.print: This first print statement prints the characters placed within the quotation marks and leaves the cursor on the same line. 
+System.out.println: This print statement prints the characters placed within the quotation marks and moves the cursor to the next line.
+ 
+Strings and String Literals
+string: A sequence of text characters (not just letters) that can be printed or manipulated in a program.
+literal: a representation of a value of a particular type
+String literals in Java start and end with quotation mark characters
+		“This is a string”
+A string literal may not span across multiple lines.
+“This is not
+a legal String.”
+A string may not contain a " character. ' is OK
+"This is not a "legal" String either."
+"This is 'okay' though."
+A string can represent certain special characters by preceding them with a backslash \\ (this is called an escape sequence).
+\\t		tab character				Move the screen cursor to the next tab stop
+\\n 	new line character			Position the cursor on a new line
+\\\"		quotation mark character	Used to print a double quote character
+\\\\		backslash character			Used to print a backslash character
+
+Writing Simple Java Programs
+Example 1: Write a program that will calculate the area of a rectangle.
+// This program calculate and prints Area of Rectangle! 
+public class AreaOfRectangle
+{
+	public static void main (String[] args) {
+			double length = 6.5;
+			double breadth = 4;
+			double area; 
+			area = length * breadth;
+			System.out.println(“The Area of Rectangle is”+ area);
+	}
+}
+
+Writing Simple Java Programs
+Example 2: Write a program that will calculate the average of three numbers
+// This program calculate and prints the average of three numbers! 
+public class Average{
+	public static void main (String[] args) {
+			int number1 = 10;
+			int number2 = 4;
+			int number3 = 16;
+			double average; 
+			average = (number1 + number2 + number3)/3;
+			System.out.println(“The average is “ + average);
+	}
+}
+
+Writing Simple Java Programs
+Example 3: Write a program to calculate the area of a triangle given the length of the sides:, a = 3, b = 4, c = 5. Use the following formula:
+														 
+where s = (a + b + c)/2
+// This program calculate and prints the area of Triangle! 
+public class Average{
+	public static void main (String[] args) {
+		int a = 3;
+		int b = 4;
+		int c = 5;
+		double s, area; 
+		s = (a + b + c)/2;
+		area = Math.sqrt(s*(s – a)*(s – b)*(s – c));
+		System.out.print(“The area is “ + area);
+	}
+}`,
+
+                "Lecture 4": `CMP 201: Computer Programming I
+Control Structures
+Contents
+Introduction to Control Structures
+Sequence Structure & Example
+Selection Structures
+Single selection statement 
+Double selection statement 
+Multiple selection statement 
+Examples
+Dangling else problem with example
+
+Control Structures
+In the most basic sense, a program is a list of instructions. 
+Control structures are programming blocks that can change the path we take through those instructions. 
+They can be considered as the building blocks of computer programs. 
+They are commands that enable a program to “take decisions”, following one path or another. 
+In Java programming, control structures are essential tools for creating more complex programs. 
+These structures allow you to control the flow of your program and repeat certain actions until a specific condition is met. 
+
+Control Structures ….
+Sometimes, we may want to jump from line to another line, we may want to skip a part of the program, or we may want to execute a part of the program again and again. 
+To solve this problem, java provides control statements. 
+In Java, control statements enable the programmer to specify that the next statement to execute is not necessarily the next one in sequence. 
+There are four types of control structures in Java:
+Sequence structure
+Selection structure
+Repetition structure
+Jump Structure
+
+Sequence Structures
+By default, the computer has been designed to execute instructions in sequence. 
+So unless directed otherwise, the computer executes Java statements one after the other in the order in which they are written. 
+When a program is designed to execute statements line by line, it is said to have a sequence structure.
+Sequential statements are type of control statements in which instructions are executed one after the other in sequence.  
+All the previous Java programs written in this course are based on sequence structure.
+
+Selection Structures
+Java provides selection statements that let you choose actions with alternative courses. 
+The program can decide which statements to execute based on a condition. 
+Selection statements use conditions that are Boolean expressions.
+ A Boolean expression is an expression that evaluates to a Boolean value: true or false.
+In Selection, we select one alternative based on a criterion (condition). 
+Assume that we want to find the status of a student given his GPA.
+
+Selection Structures …..
+Java has the following types of selection statements:
+Single selection statement 
+The single selection statement either selects or ignores a single action. 
+It may either select (perform) an action if a condition is true or skip the action if the condition is false. 
+The if statement is an example of a single selection statement. 
+The general structure is:
+       
+if(condition) {
+          statement;
+                 }
+
+Single Selection Statement
+The if statement
+Suppose you are asked to write a program that prints “Passed” if a student scores 40 and above. 
+The following if statement can be used.
+   if (grade >= 40){
+        System.out.println(“Passed”);
+   }
+ 
+The Java code above determines whether a student has passed. 
+Note that because the if-statement is a single selection statement, nothing happens if the students’ grade is less than 40.
+ If the condition in bracket is false, the Print statement is ignored and the next statement in the program is performed. 
+
+Double Selection Statement
+The double selection statement selects between two different actions. 
+It may select (perform) one action if a condition is true and perform a different action if the condition is false. 
+The if…else statement is an example of a double selection statement. 
+The general structure is:
+       if(condition){ 
+  	      statement1;
+       else{
+	     statement2; 
+    }
+
+The if- else statement
+In the if…else statement, a programmer can specify an action to perform if the condition is true, and a different action to perform if the condition is false. 
+The if…else statement can be used to modify the program that prints “Passed” when the grade is equal to or greater than 40 by alternatively printing “Failed” when the grade is less than 40. 
+     if ( grade >= 40){
+        System.out.println(“Passed”);
+     else{
+        System.out.println(“Failed”);
+     }
+
+Example
+Write a simple program that finds the maximum of two numbers given by the user.                               
+Solution
+	import java.util.Scanner;
+	public class Findmax
+{
+	  public static void main (String[] args) {
+		Scanner input = new Scanner( System.in );
+		int numb1, numb2, max;
+		System.out.print("Enter the fisrt number: ");
+		numb1 = input.nextInt();
+		System.out.print("Enter the second number: ");
+		numb2 = input.nextInt();
+		if (numb1 > numb2){
+			max = numb1;
+		else{
+			max = numb2;  
+		System.out.println("The Maximum of the two numbers is: "+max); 
+       }  
+  } 
+
+Multiple Selection Statement
+The multiple selection statement selects among many different actions. 
+It may select one of many different actions depending on the value of an expression. 
+Examples of multiple selection statements include Nested if…else and Switch statements. 
+The general structure for Nested if…else is:
+			
+if(condition1){ 
+				statement1
+			else if(condition2){
+				statement2
+			...
+		 	
+else{
+	         		statementN
+
+Example
+Write a program to read the day of the week in a number [1…7] and display the equivalent name of the day given by the user.                  
+	import java.util.Scanner;
+	public class Dayweek {
+		public static void main(String[] args) {
+			Scanner input = new Scanner(System.in);
+			int dayNumber;
+			System.out.print("Enter a number [1 .. 7]: ");
+			dayNumber = input.nextInt();
+			if(dayNumber == 1)     
+				System.out.println("Saturday");
+			else if(dayNumber == 2)
+				System.out.println("Sunday");
+			else if(dayNumber == 3)
+				System.out.println("Monday"); 
+			else if(dayNumber == 4)
+				System.out.println("Tuesday");
+			else if(dayNumber == 5)
+				System.out.println("Wednesday");
+			else if(dayNumber == 6)
+				System.out.println("Thursday"); 
+			else if(dayNumber == 7)
+				System.out.println("Friday"); 
+			else
+				System.out.println("Wrong input");
+		}
+	}
+
+Dangling else problem
+The dangling else problem is an ambiguity of language interpretation. 
+In programming, we can write conditionally executed code in the following two forms:
+if-then form
+if-then-else form
+The problem rarely occurs while we deal with the nested if-else statement. 
+It is an ambiguity in which it is not clear which if statement is associated with the else clause. 
+For example, if X then if Y then E1 else E2 but it is not unacceptable in programming.
+From the above statement, it is clear that there are two if statements and a single else statement.
+But it is not clear which if statement is associated with else statement.
+This problem is known as the dangling else problem. 
+Sometimes, the problem leads to a serious problem that may interpret the wrong result.
+
+Example
+Remember, Java compiler always associates an else with the immediately preceding if unless told to do otherwise by placement of curly brackets to group statements into Blocks. 
+if (x > 5)
+   if (y > 5)
+      System.out.println(“X and Y are greater than 5”);
+  else
+   System.out.println(“X is less than or equal to 5”);
+The program segment above will associate the else statement with the second if statement, and 
+the program will print “X is less than or equal to 5” even if X > 5 is true as long as y > 5 is true. 
+
+A Solution to Dangling Else Problem
+The following are the two ways to avoid dangling else problem:
+Try to design non-ambiguous programming.
+The dangling else problem can be resolved by using the braces and indentation.
+The correct way to write the program is shown below:
+If (x > 5) {
+   If (y > 5)
+      System.out.println(“X and Y are greater than 5”);
+}
+else{
+      System.out.println(“X is less than or equal to 5”);
+}
+
+Switch Statement
+The switch statement in Java is an example of multiple selection statement. 
+In simple words, when selecting among many alternatives another construct to use is the switch statement. 
+It is like if-else-if ladder statement. 
+The switch statement works with byte, short, int, long etc. 
+A switch statement allows a variable to be tested for equality against a list of values. 
+Each value is called a case, and the variable being switched on is checked for each case. 
+
+Switch Statement….
+The general structure is as follows:
+	
+switch(controlling Expression) {
+		
+case value1 : 	Statements; 
+		break;
+		
+case value2 : 	Statements; 
+		break;
+	     ...
+		
+default : 	Statements; 
+	} 
+
+Switch Statement….
+Note: 
+The following rules are to be considered when using a switch statement:
+The controllingExpression must have a byte, char, short, or int value.
+A case label value must be a unique constant value or a constant expression of type byte, char, short, or int.
+The statements of the case label that equals the controllingExpression value are executed; otherwise if there is no matching case label, the statements of the default label, if present, are executed.
+
+Example
+Write a program that reads a day number [1...7] given by user and prints the English name of the day using the switch statement.                   
+	
+import java.util.Scanner;
+	public class Dayweek2 {
+   		public static void main(String[] args) {
+     			 Scanner input = new Scanner(System.in);
+      			int dayNumber;
+      			System.out.print("Enter a number [1 .. 7]: ");
+      			dayNumber = input.nextInt();
+			switch(dayNumber){
+           			case 1:  System.out.println("Saturday"); break;
+           			case 2:  System.out.println("Sunday");	break;
+          			case 3:  System.out.println("Monday");	break;
+           			case 4:  System.out.println("Tuesday");	break;
+           			case 5:  System.out.println("Wednesday"); break;
+           			case 6:  System.out.println("Thursday");	break;
+           			case 7:  System.out.println("Friday");	break;
+	      			default: System.out.println("Wrong input");
+        			}
+    		}
+  	}
+
+Switch Statement….
+Note: 
+The following rules are to be considered when using a switch statement:
+The controllingExpression must have a byte, char, short, or int value.
+A case label value must be a unique constant value or a constant expression of type byte, char, short, or int.
+The statements of the case label that equals the controllingExpression value are executed; otherwise if there is no matching case label, the statements of the default label, if present, are executed.`,
+
+                "Lecture 5": `CMP 201: Computer Programming I
+Repetition Structures
+
+Repetition Structure
+Repetition statements are used in Java to perform statements repeatedly as long as a given condition remains true. 
+The repetition or looping statements help to execute a set of instructions repeatedly as long as the condition is true. 
+It repeats some portion of the program either a specified number of times or until a particular condition is satisfied. 
+This process of repeating some portion of the program is called looping or branching. 
+Sometimes we will provide the number of repetitions whereas in some cases we may not be aware of the number of repetitions. 
+Java provides the following three repetition statements:
+while statement
+do…while statement
+for statement
+
+While Statement
+The while statement allows the programmer to specify that a program should repeat an action (or group of actions) while some condition remains true.
+The condition is usually put in brackets and placed immediately after the while statement. 
+The general structure is as follows:
+	
+      while (condition) {
+			statements;
+		 }
+The condition is evaluated first. 
+Statement is executed if condition is true. 
+The condition is evaluated again and so on till the condition evaluates to false. 
+
+Example 1
+			
+int counter = 1;
+			while (counter <= 100){
+				System.out.println(“I love Java Programming”);
+			}
+In this example, the initial situation is counter = 1, while the condition in bracket is counter <= 100. 
+So as long as the value of counter is less than or equal to 100, the statement “I love Java Programming” will be printed continuously.
+
+Example 2
+				
+int age = 18;
+				while (age <= 40){
+					System.out.println(“I am a youth”); 
+					age = age +1;
+				}
+In this example, we have introduced a situation that will make the condition in bracket to become false after a number of rounds. 
+Since we are increasing the age by 1 every time we run the program, once the age reaches 41, the loop will terminate.
+
+Example 3
+Write a simple program that prints all the numbers between 1 and 100 inclusive.
+Solution
+				
+public class Numbers{
+					public static void main (String[] args){ 
+						int counter = 1;
+						while (counter <= 100){
+							System.out.println(counter);
+							counter++;
+						}
+					}
+				}
+
+Explanation
+Initially, the value of counter is 1, hence the condition counter <= 100 will evaluate to true. Hence the two statements in the while loop will be executed. 
+The first statement will print the value stored in counter, which is 1. 
+The second statement will then add 1 to the value stored in counter, hence increasing it to 2.
+After performing the two actions, the program will check the condition again and it will find that the condition is still true because the value of counter is now 2 which is still less than 100. Therefore the program will print the value 2 and then increase it to 3.
+The following actions will continue until the value of counter reaches 101, which is greater than 100. 
+At this point the while loop cannot continue because the condition in bracket has become false. 
+Hence the program will terminate after printing 1 to 100.
+
+Example 4
+Write a program that will compute the average of a set of values entered by the user. The running sum is printed as the numbers are entered.
+Solution
+		
+import java.util.Scanner;
+		public class Average_Numbers
+{
+			public static void main (String[] args){
+				Scanner input=new Scanner(System.in);
+				int sum = 0, value, count = 0;
+				double average;
+				System.out.print ("Enter an integer (0 to quit): ");
+				value = input.nextInt();
+				while (value != 0)  // sentinel value of 0 to terminate loop{
+         				sum += value;
+					count++;
+					System.out.print ("Enter an integer (0 to quit): ");
+					value = input.nextInt();
+      				}
+      				average = (double)sum / count;
+     				System.out.println ("The average is " + average);
+   			}
+		}
+
+The do-while statement
+The do…while repetition statement is similar to the while statement. 
+In the while statement, the program tests the loop condition at the beginning of the loop before executing the loops body. 
+If the condition is false, the body never executes.
+The do…while statement tests the loop condition after executing the body. 
+The general structure is as follows:
+         			
+do {
+	    				statements
+   					} while (condition);
+The statement is executed first.
+The condition is evaluated next. If the condition is true, the statement is executed again and so on till the condition evaluates to false. 
+
+Example 1
+Write a program that prints numbers starting from 80 to 30.
+Solution
+			
+public class myNumbers
+{
+				public static void main (String[] args){ 
+					int counter = 80;
+					do{
+						System.out.println(counter);
+						Counter--;
+					  }while (counter >= 30);			
+				}
+			}
+From the program it is clear that the loop condition is not evaluated until after the loop performs the action at least once.
+
+The for Statement
+The Java for loop is used to iterate a part of the program several times. 
+If the number of iteration is fixed, it is recommended to use for loop. 
+A for loop is a repetition control structure that allows you to efficiently write a loop that needs to be executed a specific number of times.
+ A for loop is useful when you know how many times a task is to be repeated. 
+The general structure is as follows:
+						
+for (initialization; condition; update){ 
+							statement(s);
+						}
+
+The for Statement
+The for statement has three parts, separated by a semicolon: initialization, condition, and update. 
+The initialization step is executed first, and only once. This step allows you to declare and initialize any loop control variables and this step ends with a semi colon (;).
+Next, the condition is evaluated. If it is true, the body of the loop is executed. If it is false the body of the loop will not be executed and control jumps to the next statement.
+After the body of the for loop gets executed, the control jumps back up to the update statement. 
+The condition is now evaluated again. If it is true, the loop executes and the process repeats (body of loop, then update step, then condition). 
+After the condition is false the for loop terminates.
+
+Example 1
+Write a program that prints numbers from 1 to 100 using for statement.
+Solution
+				
+public class Numbers {
+					public static void main (String[] args) {
+						for (int counter = 1; counter <= 100;    counter ++){
+							System.out.println(counter);
+						}
+					}
+				}
+	
+Example 2
+Write a Java program that will calculate and display the sum of first 20 numbers.
+Solution
+				
+public class SumofNumbers {
+    					public static void main(String args[]) {
+        					int sum = 0;
+                			for (int x = 1; x <= 20; x++) {
+            					sum = sum + x;
+        					}
+        					System.out.println("Sum: " + sum);
+    					}
+				}
+
+Example 3
+What will the following program print?
+					
+int x = 2;
+					int y = 4;
+					for (int j = x; j <= 2*x*y; j+= y/x){
+						System.out.print( j + “\\t”);
+					}
+ Solution
+ The for loop in the question is equivalent to:
+		  
+for (int j = 2; j <= 16; j+= 2)
+Hence the program will print:
+2		4		6		8		10		12		14		16
+
+Example 4
+Write a program that prints all the multiples of 7 less than 100 starting from 0 using a for loop.
+ Program Solution 		
+			
+	
+public class MultiplesOf7{
+						public static void main (String[] args){
+							for (int i = 0; i <= 100; i += 7){
+								System.out.println(i);
+							}
+						}
+					} 
+
+Example 5
+A person invents 1,000 in a savings account yielding 5% interest. Assuming that all the interest is left on deposit, calculate and print the amount of money in the account at the end of 10 years. 
+Use the following formula:
+a = p( 1 + r )n 
+where p = original amount invested,
+r = annual interest rate, 
+n = number of years, 
+a = amount on deposit at the end of the nth year
+
+Continuation
+public class Interest{
+	public static void main (String[] args){
+		double amount=0;
+		double principal = 1000;
+		double rate = 0.05;
+		for (int year = 1; year <= 10; year ++){
+			amount += principal* Math.pow(1 + rate, year);
+		}
+		System.out.println(“Amount = “+ amount);
+	}
+}
+
+Nested for-loops
+If a loop exists inside the body of another loop, it's called a nested loop. 
+That is why nested loops are also called “loop inside loop“. 
+Remember, it might be useful sometimes to have one for loop inside another for loop. 
+This is called a nested for loop. 
+The following are some examples of the nested for loop statements:
+
+Example 1
+Study and state the output of the following program:
+public class Printing{
+	public static void main (String[] args){
+		for (int i = 1; i <= 4; i++){
+			for (int j = 1; j <=5; j++){
+				System.out.print(“@”);
+			}
+			System.out.println( );
+		}
+	}
+}
+		
+Explanation
+The execution of Nested for loops begins from the inner for loop. 
+The inner for loop executes 5 times because of the loop condition j <= 5, hence it will print @@@@@. 
+After the inner loop has executed 5 times, the outer loop executes only once, by printing a blank space and moving the cursor to the next line, before returning to the inner loop. 
+The final output will be as shown below:
+@@@@@
+@@@@@
+@@@@@
+@@@@@
+
+Example 2
+Determine what the output of the following program will be. 
+public class Printing{
+	public static void main (String[] args){
+		for (int i = 1; i <= 2; i++){	
+			for (int j = 1; j <=5; j++){
+				System.out.println(“&”);
+			}
+			System.out.print(“#####” );
+		}
+	}
+}
+
+Explanation
+The execution of Nested for loops begins from the inner for loop. 
+The inner for loop executes 5 times because of the loop condition j <= 5, hence it will print  
+After the inner loop has executed 5 times, the outer loop executes two times. 
+The final output will be as shown below:
+	&
+	&
+	&
+	&
+	&
+	#####
+	&
+	&
+	&
+	&
+	&
+	#####
+
+Exercises
+1. Write a program Java that will display the following output:
+	* 
+	* * 
+	* * * 
+	* * * * 
+	* * * * * 
+2. Modify the print statement in the example 4 above so that the output appears in the following format: 0, 7, 14, 21, … 98.   
+3. Write a program that adds all the even numbers between 40 and 1000 inclusive using any loop of your choice.
+4. Write a program to print all the multiples of 3 between 30 and 70 using for loop.`
             };
-            function getLectureContent(l) { return lectureContents[l] || "Content not available."; }
 
-            const sen201_handoutContent = "1. Understanding Software and Software Engineering ...";
+            function getLectureContent(lecture) {
+                return lectureContents[lecture] || "Content not available.";
+            }
 
+            // ----- New PDF contents -----
+            const cmp209Content = `FRONT- END WEB TECHNOLOGIES
+
+These notes provide detailed explanations, examples, and simple diagrams to help you understand how front- end web technologies work together to build modern websites.
+
+### 2.1 HTML (HyperText Markup Language)
+
+HTML is the structure and content layer of the web. It defines what appears on a webpage.
+
+#### 2.1.1 Structure of an HTML Document
+
+A basic HTML document follows a standard structure:
+
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <title>My First Page</title> </head> <body> <h1>Hello World</h1> <p>This is a webpage.</p> </body> </html>
+
+... (full content from the uploaded file) ...`;
+
+            const ift211DigitalContent = `DIGITAL NOTES ON DIGITAL LOGIC DESIGN
+
+B.TECH II YEAR - I SEM (2018-19)
+
+... (full content from the digital logic design PDF) ...`;
+
+            const arraysContent = `ARRAYS in JAVA
+
+TOPICS TO COVER:--
+Array declaration and use.
+One-Dimensional Arrays.
+Passing arrays and array elements as parameters
+Arrays of objects
+Searching an array
+Sorting elements in an array
+
+An array is group of like-typed variables that are referred to by a common name.
+
+An array of size N is indexed from zero to N-1
+
+... (full content from Arrays.pdf) ...`;
+
+            const sen201_handoutContent = `1. Understanding Software and Software Engineering ...`; // (full content as before)
+
+            // ----- HD dropdown rendering -----
             function renderHdBoxesWithPdfDropdown(labels) {
-                const genericPdfLinks = ["dummy.pdf","sample.pdf","test.pdf","iso.pdf","test.pdf","sample.pdf"];
                 const boxes = labels.map((label, idx) => {
                     let options;
-                    if (label === "CMP 201") options = `<option value="" disabled selected>— choose lecture —</option><option value="Lecture 1">Lecture 1</option><option value="Lecture 2">Lecture 2</option><option value="Lecture 3">Lecture 3</option><option value="Lecture 4">Lecture 4</option><option value="Lecture 5">Lecture 5</option>`;
-                    else if (label === "IFT 211") options = `<option value="" disabled selected>— no files —</option>`;
-                    else if (label === "SEN 201") options = `<option value="" disabled selected>— choose PDF —</option><option value="SEN201 Handout">Software Engineering Handout</option>`;
-                    else options = `<option value="" disabled selected>— choose PDF —</option><option value="#">Doc</option><option value="#">Tutorial</option><option value="#">Community</option>`;
+                    if (label === "CMP 201") {
+                        options = `
+                            <option value="" disabled selected>— choose lecture —</option>
+                            <option value="Lecture 1">Lecture 1 (preview)</option>
+                            <option value="Lecture 2">Lecture 2 (preview)</option>
+                            <option value="Lecture 3">Lecture 3 (preview)</option>
+                            <option value="Lecture 4">Lecture 4 (preview)</option>
+                            <option value="Lecture 5">Lecture 5 (preview)</option>
+                            <option value="Arrays">Arrays in Java (preview)</option>
+                        `;
+                    } else if (label === "CMP 209") {
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="CMP209">Front‑End Web Technologies (preview)</option>
+                        `;
+                    } else if (label === "IFT 211") {
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="IFT211Digital">Digital Logic Design (preview)</option>
+                        `;
+                    } else if (label === "SEN 201") {
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="SEN201 Handout">Software Engineering Handout (preview)</option>
+                        `;
+                    } else {
+                        options = `
+                            <option value="" disabled selected>— no files —</option>
+                        `;
+                    }
                     return `<div class="price-box"><span class="box-label">${label}</span><select class="box-select" onchange="handleHdSelect(this,'${label}')">${options}</select></div>`;
                 }).join('');
                 return `<div class="box-page"><div class="box-list">${boxes}</div><div id="previewPanel" class="preview-panel" style="display:none;"><div class="preview-header"><h3><i class="fa-regular fa-file-lines"></i> <span id="previewTitle"></span></h3><div class="preview-actions"><button class="preview-btn" id="fullscreenBtn" onclick="toggleFullScreen()"><i class="fa-regular fa-expand"></i> Full Screen</button><button class="preview-btn" id="downloadBtn" onclick="downloadCurrentLecture()"><i class="fa-regular fa-circle-down"></i> Save as PDF</button></div></div><div id="previewContent" class="preview-content"></div></div></div>`;
             }
 
-            function renderInfoPage() { return `<div class="box-page" style="text-align:center;padding:2rem;"><i class="fa-solid fa-circle-info" style="font-size:3rem;color:#1a3e2b;"></i><h2 style="color:#1a3e2b;">Information</h2><p style="color:#1a3e2b;">Welcome to the INFO page.</p></div>`; }
-            function renderCourseList(courses) { return courses.map(l => `<div class="course-item"><i class="fa-regular fa-bookmark"></i>${l}</div>`).join(''); }
-            function renderCoursesPage() { return `<div class="box-page" style="background:transparent;padding:0;"><div class="semester-tabs"><div class="semester-tab active" onclick="switchSemester(1)">1st Semester</div><div class="semester-tab" onclick="switchSemester(2)">2nd Semester</div></div><div class="course-list" id="courseListContainer">${renderCourseList(firstSemesterCourses)}</div></div>`; }
+            function renderInfoPage() {
+                return `<div class="box-page" style="text-align:center;padding:2rem;"><i class="fa-solid fa-circle-info" style="font-size:3rem;color:#1a3e2b;"></i><h2 style="color:#1a3e2b;">Information</h2><p style="color:#1a3e2b;">Welcome to the INFO page.</p></div>`;
+            }
+
+            function renderCourseList(courses) {
+                return courses.map(l => `<div class="course-item"><i class="fa-regular fa-bookmark"></i>${l}</div>`).join('');
+            }
+
+            function renderCoursesPage() {
+                return `<div class="box-page" style="background:transparent;padding:0;"><div class="semester-tabs"><div class="semester-tab active" onclick="switchSemester(1)">1st Semester</div><div class="semester-tab" onclick="switchSemester(2)">2nd Semester</div></div><div class="course-list" id="courseListContainer">${renderCourseList(firstSemesterCourses)}</div></div>`;
+            }
 
             let currentLecture = { title: '', content: '' };
+
             window.handleHdSelect = function(sel, label) {
                 const val = sel.value;
-                if (label === "CMP 201" && val.startsWith('Lecture')) {
-                    const content = getLectureContent(val);
-                    document.getElementById('previewTitle').innerText = `CMP 201 - ${val}`;
-                    document.getElementById('previewContent').innerText = content;
+                if (label === "CMP 201") {
+                    if (val.startsWith('Lecture')) {
+                        const content = getLectureContent(val);
+                        document.getElementById('previewTitle').innerText = `CMP 201 - ${val}`;
+                        document.getElementById('previewContent').innerText = content;
+                        document.getElementById('previewPanel').style.display = 'block';
+                        currentLecture = { title: `CMP201_${val.replace(' ','_')}`, content };
+                    } else if (val === "Arrays") {
+                        document.getElementById('previewTitle').innerText = 'CMP 201 - Arrays in Java';
+                        document.getElementById('previewContent').innerText = arraysContent;
+                        document.getElementById('previewPanel').style.display = 'block';
+                        currentLecture = { title: 'CMP201_Arrays', content: arraysContent };
+                    } else {
+                        document.getElementById('previewPanel').style.display = 'none';
+                    }
+                } else if (label === "CMP 209" && val === "CMP209") {
+                    document.getElementById('previewTitle').innerText = 'CMP 209 - Front‑End Web Technologies';
+                    document.getElementById('previewContent').innerText = cmp209Content;
                     document.getElementById('previewPanel').style.display = 'block';
-                    currentLecture = { title: `CMP201_${val.replace(' ','_')}`, content };
+                    currentLecture = { title: 'CMP209_WebTech', content: cmp209Content };
+                } else if (label === "IFT 211" && val === "IFT211Digital") {
+                    document.getElementById('previewTitle').innerText = 'IFT 211 - Digital Logic Design';
+                    document.getElementById('previewContent').innerText = ift211DigitalContent;
+                    document.getElementById('previewPanel').style.display = 'block';
+                    currentLecture = { title: 'IFT211_Digital', content: ift211DigitalContent };
                 } else if (label === "SEN 201" && val === "SEN201 Handout") {
                     document.getElementById('previewTitle').innerText = 'SEN 201 - Software Engineering Handout';
                     document.getElementById('previewContent').innerText = sen201_handoutContent;
                     document.getElementById('previewPanel').style.display = 'block';
                     currentLecture = { title: 'SEN201_Handout', content: sen201_handoutContent };
-                } else document.getElementById('previewPanel').style.display = 'none';
+                } else {
+                    document.getElementById('previewPanel').style.display = 'none';
+                }
             };
+
             window.downloadCurrentLecture = function() {
                 if (!currentLecture.content) return;
                 const w = window.open('','_blank');
                 w.document.write(`<html><head><title>${currentLecture.title}</title><style>body{font-family:'Times New Roman',serif;padding:2rem;line-height:1.6;} pre{white-space:pre-wrap;}</style></head><body><h1>${currentLecture.title}</h1><pre>${currentLecture.content}</pre><script>window.onload=()=>window.print();<\/script></body></html>`);
                 w.document.close();
             };
+
             window.toggleFullScreen = function() {
                 const p = document.getElementById('previewPanel');
                 const btn = document.getElementById('fullscreenBtn');
@@ -933,6 +2028,7 @@
                     btn.innerHTML = '<i class="fa-regular fa-compress"></i> Exit Full Screen';
                 }
             };
+
             window.switchSemester = function(s) {
                 const tabs = document.querySelectorAll('.semester-tab');
                 tabs.forEach(t => t.classList.remove('active'));
@@ -945,10 +2041,20 @@
                 dashboardPanel.classList.remove('active-panel');
                 tabContainer.style.display = 'none';
                 dynamicContainer.style.display = 'block';
-                if (section === 'dashboard') { dashboardPanel.classList.add('active-panel'); dynamicContainer.style.display = 'none'; globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in'; }
-                else if (section === 'hd') { dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels); globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns'; }
-                else if (section === 'info') { dynamicContainer.innerHTML = renderInfoPage(); globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing INFO'; }
-                else if (section === 'courses') { dynamicContainer.innerHTML = renderCoursesPage(); globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES'; }
+                if (section === 'dashboard') {
+                    dashboardPanel.classList.add('active-panel');
+                    dynamicContainer.style.display = 'none';
+                    globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+                } else if (section === 'hd') {
+                    dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels);
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns';
+                } else if (section === 'info') {
+                    dynamicContainer.innerHTML = renderInfoPage();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing INFO';
+                } else if (section === 'courses') {
+                    dynamicContainer.innerHTML = renderCoursesPage();
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES';
+                }
             }
 
             let clickTimer = null;
