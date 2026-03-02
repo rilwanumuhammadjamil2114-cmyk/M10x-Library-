@@ -319,6 +319,7 @@
             padding: 1.5rem;
             margin-top: 1.5rem;
             border: 1px solid #e0efe0;
+            display: none; /* hidden by default */
         }
         .preview-header {
             display: flex;
@@ -739,7 +740,6 @@
             window.guidePrev = function() { if (currentSlide > 0) { currentSlide--; updateGuide(); } };
             window.guideJumpTo = function(index) { currentSlide = index; updateGuide(); };
 
-            // Update user's guideSeen flag in localStorage
             function markGuideAsSeen() {
                 if (!currentUser) return;
                 const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
@@ -747,13 +747,13 @@
                 if (index !== -1) {
                     users[index].guideSeen = true;
                     localStorage.setItem('m10xUsers', JSON.stringify(users));
-                    currentUser.guideSeen = true; // update current object
+                    currentUser.guideSeen = true;
                 }
             }
 
             window.guideFinish = function() {
                 guideOverlay.style.display = 'none';
-                markGuideAsSeen(); // remember that this user has seen the guide
+                markGuideAsSeen();
                 showDashboard();
             };
 
@@ -780,12 +780,11 @@
                 guideOverlay.style.display = 'flex';
             }
 
-            // This function is called after login/signup to transition to logged-in state
             function transitionToLoggedIn(showGuide) {
                 tabContainer.style.display = 'none';
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
-                dashboardPanel.classList.remove('active-panel'); // ensure dashboard hidden initially
+                dashboardPanel.classList.remove('active-panel');
                 globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> welcome · loading';
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
@@ -798,20 +797,18 @@
                 clearMessage();
             }
 
-            // signup
             window.signupUser = function() {
                 const admission = document.getElementById('signupAdmission').value.trim();
                 const passkey = document.getElementById('signupPasskey').value.trim();
                 if (!admission || !passkey) { showMessage('❌ Both fields required', false); return; }
                 if (passkey.length < 4) { showMessage('❌ Passkey min 4 chars', false); return; }
                 const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-                // check duplicate? optional
                 const newEntry = {
                     id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
                     admission,
                     passkey,
                     timestamp: new Date().toLocaleString(),
-                    guideSeen: false          // new users haven't seen the guide
+                    guideSeen: false
                 };
                 users.push(newEntry);
                 localStorage.setItem('m10xUsers', JSON.stringify(users));
@@ -820,7 +817,6 @@
                 showMessage('✅ Signup successful! You can now log in.', true);
             };
 
-            // login
             window.loginUser = function() {
                 const admission = document.getElementById('loginAdmission').value.trim();
                 const passkey = document.getElementById('loginPasskey').value.trim();
@@ -828,21 +824,18 @@
                 const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
                 let matched = users.find(u => u.admission === admission && u.passkey === passkey);
                 if (matched) {
-                    // For existing users that don't have guideSeen (old accounts), set it to true so they don't see guide
                     if (matched.guideSeen === undefined) {
                         matched.guideSeen = true;
-                        // update in storage
                         const index = users.findIndex(u => u.id === matched.id);
                         users[index].guideSeen = true;
                         localStorage.setItem('m10xUsers', JSON.stringify(users));
                     }
-                    currentUser = { ...matched }; // copy to avoid reference issues
+                    currentUser = { ...matched };
                     localStorage.setItem('savedAdmission', admission);
                     localStorage.setItem('savedPasskey', passkey);
                     document.getElementById('loginAdmission').value = '';
                     document.getElementById('loginPasskey').value = '';
 
-                    // Decide whether to show guide
                     const needsGuide = !currentUser.guideSeen;
                     transitionToLoggedIn(needsGuide);
                 } else {
@@ -852,7 +845,6 @@
 
             window.logout = function() {
                 currentUser = null;
-                // reset UI to logged out state
                 tabContainer.style.display = 'flex';
                 dashboardPanel.classList.remove('active-panel');
                 globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
@@ -872,8 +864,7 @@
                     users = users.filter(e => e.id != id);
                     localStorage.setItem('m10xUsers', JSON.stringify(users));
                     localStorage.removeItem('savedAdmission'); localStorage.removeItem('savedPasskey');
-                    currentUser = null; 
-                    // logout
+                    currentUser = null;
                     tabContainer.style.display = 'flex';
                     dashboardPanel.classList.remove('active-panel');
                     globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
@@ -889,9 +880,9 @@
                 localStorage.setItem('m10xUsers', JSON.stringify(users));
                 if (currentUser) {
                     const stillExists = users.find(u => u.id === currentUser.id);
-                    if (!stillExists) { 
+                    if (!stillExists) {
                         localStorage.removeItem('savedAdmission'); localStorage.removeItem('savedPasskey');
-                        currentUser = null; 
+                        currentUser = null;
                         tabContainer.style.display = 'flex';
                         dashboardPanel.classList.remove('active-panel');
                         globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
@@ -900,8 +891,7 @@
                         dynamicContainer.innerHTML = '';
                         guideOverlay.style.display = 'none';
                         adminRecordsSection.style.display = 'none';
-                    }
-                    else if (currentUser.admission === ADMIN_ADMISSION) renderDashboardRecords();
+                    } else if (currentUser.admission === ADMIN_ADMISSION) renderDashboardRecords();
                 }
                 clearMessage();
             };
@@ -927,55 +917,15 @@
             const firstSemesterCourses = [...hdCourseLabels];
             const secondSemesterCourses = [ "CMP 202", "csc 203", "IFT 212", "ENT 211", "GST 212" ];
 
-            // Lecture content (unchanged – kept for completeness)
-            const lectureContents = {
-                "Lecture 1": `CMP 201: Programming ...`, // (full content omitted for brevity, same as previous)
-                "Lecture 2": `CMP 201: Computer Programming I ...`,
-                "Lecture 3": `CMP 201: A Simple Java Program ...`,
-                "Lecture 4": `CMP 201: Control Structures ...`,
-                "Lecture 5": `CMP 201: Repetition Structures ...`
-            };
-            function getLectureContent(lecture) { return lectureContents[lecture] || "Content not available."; }
-
-            const cmp209Content = `FRONT- END WEB TECHNOLOGIES ...`; // full content
-            const ift211DigitalContent = `DIGITAL NOTES ON DIGITAL LOGIC DESIGN ...`; // full content
-            const arraysContent = `ARRAYS in JAVA ...`; // full content
-            const sen201_handoutContent = `1. Understanding Software and Software Engineering ...`; // full content
+            // ----- All PDF content removed – placeholders only -----
 
             function renderHdBoxesWithPdfDropdown(labels) {
                 const boxes = labels.map((label, idx) => {
-                    let options;
-                    if (label === "CMP 201") {
-                        options = `
-                            <option value="" disabled selected>— choose lecture —</option>
-                            <option value="Lecture 1">Lecture 1 (preview)</option>
-                            <option value="Lecture 2">Lecture 2 (preview)</option>
-                            <option value="Lecture 3">Lecture 3 (preview)</option>
-                            <option value="Lecture 4">Lecture 4 (preview)</option>
-                            <option value="Lecture 5">Lecture 5 (preview)</option>
-                            <option value="Arrays">Arrays in Java (preview)</option>
-                        `;
-                    } else if (label === "CMP 209") {
-                        options = `
-                            <option value="" disabled selected>— choose PDF —</option>
-                            <option value="CMP209">Front‑End Web Technologies (preview)</option>
-                        `;
-                    } else if (label === "IFT 211") {
-                        options = `
-                            <option value="" disabled selected>— choose PDF —</option>
-                            <option value="IFT211Digital">Digital Logic Design (preview)</option>
-                        `;
-                    } else if (label === "SEN 201") {
-                        options = `
-                            <option value="" disabled selected>— choose PDF —</option>
-                            <option value="SEN201 Handout">Software Engineering Handout (preview)</option>
-                        `;
-                    } else {
-                        options = `<option value="" disabled selected>— no files —</option>`;
-                    }
+                    // Single placeholder option – no files
+                    const options = `<option value="" disabled selected>— no files —</option>`;
                     return `<div class="price-box"><span class="box-label">${label}</span><select class="box-select" onchange="handleHdSelect(this,'${label}')">${options}</select></div>`;
                 }).join('');
-                return `<div class="box-page"><div class="box-list">${boxes}</div><div id="previewPanel" class="preview-panel" style="display:none;"><div class="preview-header"><h3><i class="fa-regular fa-file-lines"></i> <span id="previewTitle"></span></h3><div class="preview-actions"><button class="preview-btn" id="fullscreenBtn" onclick="toggleFullScreen()"><i class="fa-regular fa-expand"></i> Full Screen</button><button class="preview-btn" id="downloadBtn" onclick="downloadCurrentLecture()"><i class="fa-regular fa-circle-down"></i> Save as PDF</button></div></div><div id="previewContent" class="preview-content"></div></div></div>`;
+                return `<div class="box-page"><div class="box-list">${boxes}</div><div id="previewPanel" class="preview-panel"></div></div>`;
             }
 
             function renderInfoPage() {
@@ -990,62 +940,9 @@
                 return `<div class="box-page" style="background:transparent;padding:0;"><div class="semester-tabs"><div class="semester-tab active" onclick="switchSemester(1)">1st Semester</div><div class="semester-tab" onclick="switchSemester(2)">2nd Semester</div></div><div class="course-list" id="courseListContainer">${renderCourseList(firstSemesterCourses)}</div></div>`;
             }
 
-            let currentLecture = { title: '', content: '' };
-
             window.handleHdSelect = function(sel, label) {
-                const val = sel.value;
-                if (label === "CMP 201") {
-                    if (val.startsWith('Lecture')) {
-                        const content = getLectureContent(val);
-                        document.getElementById('previewTitle').innerText = `CMP 201 - ${val}`;
-                        document.getElementById('previewContent').innerText = content;
-                        document.getElementById('previewPanel').style.display = 'block';
-                        currentLecture = { title: `CMP201_${val.replace(' ','_')}`, content };
-                    } else if (val === "Arrays") {
-                        document.getElementById('previewTitle').innerText = 'CMP 201 - Arrays in Java';
-                        document.getElementById('previewContent').innerText = arraysContent;
-                        document.getElementById('previewPanel').style.display = 'block';
-                        currentLecture = { title: 'CMP201_Arrays', content: arraysContent };
-                    } else {
-                        document.getElementById('previewPanel').style.display = 'none';
-                    }
-                } else if (label === "CMP 209" && val === "CMP209") {
-                    document.getElementById('previewTitle').innerText = 'CMP 209 - Front‑End Web Technologies';
-                    document.getElementById('previewContent').innerText = cmp209Content;
-                    document.getElementById('previewPanel').style.display = 'block';
-                    currentLecture = { title: 'CMP209_WebTech', content: cmp209Content };
-                } else if (label === "IFT 211" && val === "IFT211Digital") {
-                    document.getElementById('previewTitle').innerText = 'IFT 211 - Digital Logic Design';
-                    document.getElementById('previewContent').innerText = ift211DigitalContent;
-                    document.getElementById('previewPanel').style.display = 'block';
-                    currentLecture = { title: 'IFT211_Digital', content: ift211DigitalContent };
-                } else if (label === "SEN 201" && val === "SEN201 Handout") {
-                    document.getElementById('previewTitle').innerText = 'SEN 201 - Software Engineering Handout';
-                    document.getElementById('previewContent').innerText = sen201_handoutContent;
-                    document.getElementById('previewPanel').style.display = 'block';
-                    currentLecture = { title: 'SEN201_Handout', content: sen201_handoutContent };
-                } else {
-                    document.getElementById('previewPanel').style.display = 'none';
-                }
-            };
-
-            window.downloadCurrentLecture = function() {
-                if (!currentLecture.content) return;
-                const w = window.open('','_blank');
-                w.document.write(`<html><head><title>${currentLecture.title}</title><style>body{font-family:'Times New Roman',serif;padding:2rem;line-height:1.6;} pre{white-space:pre-wrap;}</style></head><body><h1>${currentLecture.title}</h1><pre>${currentLecture.content}</pre><script>window.onload=()=>window.print();<\/script></body></html>`);
-                w.document.close();
-            };
-
-            window.toggleFullScreen = function() {
-                const p = document.getElementById('previewPanel');
-                const btn = document.getElementById('fullscreenBtn');
-                if (p.classList.contains('fullscreen')) {
-                    p.classList.remove('fullscreen');
-                    btn.innerHTML = '<i class="fa-regular fa-expand"></i> Full Screen';
-                } else {
-                    p.classList.add('fullscreen');
-                    btn.innerHTML = '<i class="fa-regular fa-compress"></i> Exit Full Screen';
-                }
+                // No files to show – hide preview panel
+                document.getElementById('previewPanel').style.display = 'none';
             };
 
             window.switchSemester = function(s) {
@@ -1066,7 +963,7 @@
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
                     dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels);
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns';
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · placeholders';
                 } else if (section === 'info') {
                     dynamicContainer.innerHTML = renderInfoPage();
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing INFO';
