@@ -231,6 +231,14 @@
         }
         .delete-icon:hover { background: #d32f2f; color: white; }
 
+        .admin-announcement {
+            background: #eef2e6;
+            border-radius: 20px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #cde0d3;
+        }
+
         .message {
             margin-top: 1rem;
             padding: 0.5rem;
@@ -319,7 +327,7 @@
             padding: 1.5rem;
             margin-top: 1.5rem;
             border: 1px solid #e0efe0;
-            display: none; /* hidden by default */
+            display: none;
         }
         .preview-header {
             display: flex;
@@ -592,6 +600,15 @@
                         <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
                     </div>
                     <div id="dashboardRecordsContainer"></div>
+                    <!-- Admin announcement tool -->
+                    <div class="admin-announcement">
+                        <div style="font-weight:600; margin-bottom:0.5rem;"><i class="fa-regular fa-bullhorn"></i> Announcement</div>
+                        <input type="text" id="announcementInput" class="input-field" placeholder="Enter announcement..." value="">
+                        <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+                            <button class="action-btn" style="padding:0.5rem; font-size:0.9rem;" onclick="setAnnouncement()">Set Announcement</button>
+                            <button class="action-btn" style="padding:0.5rem; font-size:0.9rem; background:#c94f4f;" onclick="clearAnnouncement()">Clear</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -639,6 +656,7 @@
     <script>
         (function() {
             let currentUser = null;
+            let lastBaseHint = '<i class="fa-regular fa-bookmark"></i> sign in / create account'; // default
             const ADMIN_ADMISSION = "ADMIN001";
             if (!localStorage.getItem('m10xUsers')) localStorage.setItem('m10xUsers', JSON.stringify([]));
 
@@ -672,6 +690,17 @@
             const dashboardAdmission = document.getElementById('dashboardAdmission');
             const dashboardSince = document.getElementById('dashboardSince');
             const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
+
+            // Helper to update globalHint with possible admin announcement
+            function setGlobalHint(baseHint) {
+                lastBaseHint = baseHint; // store for later updates
+                const announcement = localStorage.getItem('adminAnnouncement');
+                if (currentUser && currentUser.admission === ADMIN_ADMISSION && announcement) {
+                    globalHint.innerHTML = `📢 ${announcement} · ${baseHint}`;
+                } else {
+                    globalHint.innerHTML = baseHint;
+                }
+            }
 
             function loadSavedLogin() {
                 const savedAdmission = localStorage.getItem('savedAdmission');
@@ -762,13 +791,16 @@
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
                 dashboardPanel.classList.add('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+                setGlobalHint('<i class="fa-regular fa-circle-user"></i> dashboard · logged in');
                 welcomeAdmission.textContent = currentUser.admission;
                 dashboardAdmission.textContent = currentUser.admission;
                 dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
                 if (currentUser.admission === ADMIN_ADMISSION) {
                     adminRecordsSection.style.display = 'block';
                     renderDashboardRecords();
+                    // Load existing announcement into input
+                    const annInput = document.getElementById('announcementInput');
+                    if (annInput) annInput.value = localStorage.getItem('adminAnnouncement') || '';
                 } else adminRecordsSection.style.display = 'none';
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
@@ -785,7 +817,7 @@
                 signupPanel.classList.remove('active-panel');
                 loginPanel.classList.remove('active-panel');
                 dashboardPanel.classList.remove('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> welcome · loading';
+                setGlobalHint('<i class="fa-regular fa-circle-user"></i> welcome · loading');
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
 
@@ -847,7 +879,7 @@
                 currentUser = null;
                 tabContainer.style.display = 'flex';
                 dashboardPanel.classList.remove('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
+                setGlobalHint('<i class="fa-regular fa-bookmark"></i> sign in / create account');
                 switchPanel('signup');
                 dynamicContainer.style.display = 'none';
                 dynamicContainer.innerHTML = '';
@@ -867,7 +899,7 @@
                     currentUser = null;
                     tabContainer.style.display = 'flex';
                     dashboardPanel.classList.remove('active-panel');
-                    globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
+                    setGlobalHint('<i class="fa-regular fa-bookmark"></i> sign in / create account');
                     switchPanel('signup');
                     dynamicContainer.style.display = 'none';
                     dynamicContainer.innerHTML = '';
@@ -885,7 +917,7 @@
                         currentUser = null;
                         tabContainer.style.display = 'flex';
                         dashboardPanel.classList.remove('active-panel');
-                        globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
+                        setGlobalHint('<i class="fa-regular fa-bookmark"></i> sign in / create account');
                         switchPanel('signup');
                         dynamicContainer.style.display = 'none';
                         dynamicContainer.innerHTML = '';
@@ -900,7 +932,25 @@
                 if (currentUser) return;
                 if (panel === 'signup') { signupPanel.classList.add('active-panel'); loginPanel.classList.remove('active-panel'); tabSignup.classList.add('active'); tabLogin.classList.remove('active'); }
                 else { loginPanel.classList.add('active-panel'); signupPanel.classList.remove('active-panel'); tabLogin.classList.add('active'); tabSignup.classList.remove('active'); }
-                clearMessage(); dynamicContainer.style.display = 'none'; dynamicContainer.innerHTML = '';
+                setGlobalHint('<i class="fa-regular fa-bookmark"></i> sign in / create account');
+                dynamicContainer.style.display = 'none'; dynamicContainer.innerHTML = '';
+            };
+
+            // Admin announcement functions
+            window.setAnnouncement = function() {
+                const input = document.getElementById('announcementInput');
+                const msg = input.value.trim();
+                if (msg) {
+                    localStorage.setItem('adminAnnouncement', msg);
+                    // Refresh current hint
+                    if (lastBaseHint) setGlobalHint(lastBaseHint);
+                }
+            };
+
+            window.clearAnnouncement = function() {
+                localStorage.removeItem('adminAnnouncement');
+                document.getElementById('announcementInput').value = '';
+                if (lastBaseHint) setGlobalHint(lastBaseHint);
             };
 
             // ----- HD course labels -----
@@ -923,7 +973,6 @@
             const ift211Link = "https://drive.google.com/file/d/1ZHh7q-1YLwyjvkyAk0PdPP0P8F6uaZr1/preview";
             const mth201Link = "https://drive.google.com/file/d/1Xj5JNnp4VuKaeyY8nwIuGfFHHvv0Xb4O/preview";
 
-            // New CMP 201 links (provided by user)
             const cmp201Link1 = "https://docs.google.com/presentation/d/13KZzWQGqcJVzwtl947g1RyxaWqSwRuAS/view";
             const cmp201Link2 = "https://docs.google.com/presentation/d/1B_4A9LcI_aoOoq0C2OVlULHliD3aC5bO/view";
             const cmp201Link3 = "https://docs.google.com/presentation/d/1mxa_yHJGRnof24MeMHuVIJDOrIVdRaXb/view";
@@ -986,11 +1035,9 @@
 
             window.handleHdSelect = function(sel, label) {
                 const val = sel.value;
-                // If a URL is selected, navigate to it in the same tab (reliable, no pop-up blockers)
                 if (val && val.startsWith('http')) {
                     window.location.href = val;
                 }
-                // Hide the preview panel (not used)
                 document.getElementById('previewPanel').style.display = 'none';
             };
 
@@ -1009,16 +1056,16 @@
                 if (section === 'dashboard') {
                     dashboardPanel.classList.add('active-panel');
                     dynamicContainer.style.display = 'none';
-                    globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+                    setGlobalHint('<i class="fa-regular fa-circle-user"></i> dashboard · logged in');
                 } else if (section === 'hd') {
                     dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels);
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns';
+                    setGlobalHint('<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns');
                 } else if (section === 'info') {
                     dynamicContainer.innerHTML = renderInfoPage();
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing INFO';
+                    setGlobalHint('<i class="fa-regular fa-eye"></i> viewing INFO');
                 } else if (section === 'courses') {
                     dynamicContainer.innerHTML = renderCoursesPage();
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing COURSES';
+                    setGlobalHint('<i class="fa-regular fa-eye"></i> viewing COURSES');
                 }
             }
 
