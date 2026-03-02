@@ -923,6 +923,14 @@
             const ift211Link = "https://drive.google.com/file/d/1ZHh7q-1YLwyjvkyAk0PdPP0P8F6uaZr1/preview";
             const mth201Link = "https://drive.google.com/file/d/1Xj5JNnp4VuKaeyY8nwIuGfFHHvv0Xb4O/preview";
 
+            // New CMP 201 links (provided by user)
+            const cmp201Link1 = "https://docs.google.com/presentation/d/13KZzWQGqcJVzwtl947g1RyxaWqSwRuAS/view";
+            const cmp201Link2 = "https://docs.google.com/presentation/d/1B_4A9LcI_aoOoq0C2OVlULHliD3aC5bO/view";
+            const cmp201Link3 = "https://docs.google.com/presentation/d/1mxa_yHJGRnof24MeMHuVIJDOrIVdRaXb/view";
+            const cmp201Link4 = "https://docs.google.com/presentation/d/17F_SPmww50uXSYXMGuLAj-_hhFPRRuGy/view";
+            const cmp201Link5 = "https://docs.google.com/presentation/d/1BiuDgmFsGhcq58weHSa4bZxMtf7agSzX/view";
+            const cmp201Link6 = "https://drive.google.com/file/d/1S47c_aOghFAUPzcLZsbLKViSFVZ5xi4I/preview";
+
             function renderHdBoxesWithPdfDropdown(labels) {
                 const boxes = labels.map((label, idx) => {
                     let options;
@@ -945,6 +953,16 @@
                         options = `
                             <option value="" disabled selected>— choose PDF —</option>
                             <option value="${mth201Link}">MTH 201 Handout – Preview</option>
+                        `;
+                    } else if (label === "CMP 201") {
+                        options = `
+                            <option value="" disabled selected>— choose material —</option>
+                            <option value="${cmp201Link1}">CMP 201 – Presentation 1</option>
+                            <option value="${cmp201Link2}">CMP 201 – Presentation 2</option>
+                            <option value="${cmp201Link3}">CMP 201 – Presentation 3</option>
+                            <option value="${cmp201Link4}">CMP 201 – Presentation 4</option>
+                            <option value="${cmp201Link5}">CMP 201 – Presentation 5</option>
+                            <option value="${cmp201Link6}">CMP 201 – File Preview</option>
                         `;
                     } else {
                         options = `<option value="" disabled selected>— no files —</option>`;
