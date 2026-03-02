@@ -968,11 +968,11 @@
 
             window.handleHdSelect = function(sel, label) {
                 const val = sel.value;
-                // If a URL is selected, open it in a new tab
+                // If a URL is selected, navigate to it in the same tab (reliable, no pop-up blockers)
                 if (val && val.startsWith('http')) {
-                    window.open(val, '_blank');
+                    window.location.href = val;
                 }
-                // Hide the preview panel (no embedded content)
+                // Hide the preview panel (not used)
                 document.getElementById('previewPanel').style.display = 'none';
             };
 
