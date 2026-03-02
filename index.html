@@ -903,7 +903,7 @@
                 clearMessage(); dynamicContainer.style.display = 'none'; dynamicContainer.innerHTML = '';
             };
 
-            // ----- HD course labels (same as before) -----
+            // ----- HD course labels -----
             const hdCourseLabels = [
                 "CMP 201",
                 "CMP 209",
@@ -917,12 +917,26 @@
             const firstSemesterCourses = [...hdCourseLabels];
             const secondSemesterCourses = [ "CMP 202", "csc 203", "IFT 212", "ENT 211", "GST 212" ];
 
-            // ----- All PDF content removed – placeholders only -----
+            // ----- Google Drive links for the two courses -----
+            const gst211Link = "https://drive.google.com/file/d/1I2zTmX7uFWqbt6JuicrIbIh-wmZtbon4/preview";
+            const sen201Link = "https://drive.google.com/file/d/1caI50PTYXuxgaj4eTGzyzxCYJ0LFID1_/preview";
 
             function renderHdBoxesWithPdfDropdown(labels) {
                 const boxes = labels.map((label, idx) => {
-                    // Single placeholder option – no files
-                    const options = `<option value="" disabled selected>— no files —</option>`;
+                    let options;
+                    if (label === "GST 211") {
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="${gst211Link}">GST 212 (Intro to Philosophy) – Preview</option>
+                        `;
+                    } else if (label === "SEN 201") {
+                        options = `
+                            <option value="" disabled selected>— choose PDF —</option>
+                            <option value="${sen201Link}">SEN 201 Handout – Preview</option>
+                        `;
+                    } else {
+                        options = `<option value="" disabled selected>— no files —</option>`;
+                    }
                     return `<div class="price-box"><span class="box-label">${label}</span><select class="box-select" onchange="handleHdSelect(this,'${label}')">${options}</select></div>`;
                 }).join('');
                 return `<div class="box-page"><div class="box-list">${boxes}</div><div id="previewPanel" class="preview-panel"></div></div>`;
@@ -941,7 +955,12 @@
             }
 
             window.handleHdSelect = function(sel, label) {
-                // No files to show – hide preview panel
+                const val = sel.value;
+                // If a URL is selected, open it in a new tab
+                if (val && val.startsWith('http')) {
+                    window.open(val, '_blank');
+                }
+                // Hide the preview panel (no embedded content)
                 document.getElementById('previewPanel').style.display = 'none';
             };
 
@@ -963,7 +982,7 @@
                     globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
                 } else if (section === 'hd') {
                     dynamicContainer.innerHTML = renderHdBoxesWithPdfDropdown(hdCourseLabels);
-                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · placeholders';
+                    globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing HD · PDF dropdowns';
                 } else if (section === 'info') {
                     dynamicContainer.innerHTML = renderInfoPage();
                     globalHint.innerHTML = '<i class="fa-regular fa-eye"></i> viewing INFO';
