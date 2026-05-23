@@ -376,7 +376,7 @@
             line-height: 1.4;
         }
 
-        /* --- CATALOG MODULES (Updated Action Button) --- */
+        /* --- CATALOG MODULES --- */
         .library-card {
             background: var(--app-shell);
             border: 1px solid var(--card-border);
@@ -404,7 +404,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.6rem;
+            font-size: 1.4rem;
             box-shadow: 2px 4px 8px rgba(15, 23, 42, 0.06);
         }
 
@@ -529,7 +529,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             box-shadow: 2px 6px 12px rgba(15, 23, 42, 0.08);
         }
 
@@ -820,11 +820,11 @@
         // --- DATA & CORE ENGINE LAYERS ---
 
         let inventory = [
-            { id: "BK001", title: "The Great Gatsby", creator: "F. Scott Fitzgerald", classification: "Fiction", icon: "🍸", state: "Available", desc: "A classic portrait of the Jazz Age, exploring theme lines of idealism, wealth, resistance, and social change in 1920s Long Island." },
-            { id: "BK002", title: "A Brief History of Time", creator: "Stephen Hawking", classification: "Science", icon: "🌌", state: "Borrowed", desc: "A landmark deep-dive explanation of cosmology, black holes, space-time matrices, and the fundamental laws binding our universe structure." },
-            { id: "BK003", title: "To Kill a Mockingbird", creator: "Harper Lee", classification: "Fiction", icon: "🌿", state: "Available", desc: "An institutional coming-of-age study focused squarely on racial inequality, human compassion, and justice systems within the American South." },
-            { id: "BK004", title: "Introduction to Algorithms", creator: "Thomas H. Cormen", classification: "Tech", icon: "💻", state: "Available", desc: "The definitive textbook guide detailing analytical algorithm designs, data indexing architectures, and foundational computer workflows." },
-            { id: "BK005", title: "Principles of Economics", creator: "N. Gregory Mankiw", classification: "Finance", icon: "📈", state: "Available", desc: "A comprehensive introductory overview handling classic market frameworks, macroeconomic modeling, and microeconomic choices." }
+            { id: "BK001", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", state: "Available", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
+            { id: "BK002", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", state: "Borrowed", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
+            { id: "BK003", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", state: "Available", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
+            { id: "BK004", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", state: "Available", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
+            { id: "BK005", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", state: "Available", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
         ];
 
         let checkedOutItems = [];
