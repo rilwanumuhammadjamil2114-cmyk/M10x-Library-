@@ -139,7 +139,7 @@
             background-color: #047857;
         }
 
-        /* --- MAIN DASHBOARD VIEW (Hidden until auth) --- */
+        /* --- MAIN INTERFACE VIEW --- */
         .dashboard-view {
             display: none;
             flex-direction: column;
@@ -183,6 +183,7 @@
 
         .search-deck {
             padding: 0 24px 20px 24px;
+            display: none; /* Appears only inside Discover catalog */
         }
 
         .search-container {
@@ -219,7 +220,7 @@
 
         main {
             flex: 1;
-            padding: 0 24px 110px 24px; /* Generous bottom padding so text never goes under fixed bar */
+            padding: 0 24px 110px 24px; 
         }
 
         .view-pane {
@@ -238,7 +239,132 @@
             letter-spacing: -0.3px;
         }
 
-        /* Minimalist Book Cards */
+        /* --- DASHBOARD VIEW MODULES --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .stat-widget {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 18px;
+            box-shadow: var(--pill-shadow);
+        }
+
+        .stat-widget .widget-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .stat-widget .widget-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-top: 6px;
+        }
+
+        .stat-widget.full-width {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .status-dot-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--brand-color);
+            background-color: var(--brand-light);
+            padding: 6px 12px;
+            border-radius: 12px;
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--brand-color);
+            border-radius: 50%;
+        }
+
+        /* Visual Analytics Chart Placeholder */
+        .chart-visualizer {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 24px;
+            padding: 20px;
+            color: white;
+            margin-bottom: 24px;
+        }
+
+        .chart-visualizer h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            opacity: 0.8;
+            margin-bottom: 14px;
+        }
+
+        .bar-chart-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            height: 80px;
+            padding: 0 10px;
+        }
+
+        .chart-bar {
+            width: 32px;
+            background: linear-gradient(to top, var(--brand-color), #34d399);
+            border-radius: 6px 6px 0 0;
+            transition: height 0.5s ease;
+        }
+
+        .chart-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 10px 0 10px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        /* Informative Notification Strip */
+        .announcement-strip {
+            background-color: #fffbeb;
+            border: 1px solid #fef3c7;
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .announcement-strip span.icon {
+            font-size: 1.3rem;
+        }
+
+        .announcement-strip div h5 {
+            font-size: 0.9rem;
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .announcement-strip div p {
+            font-size: 0.8rem;
+            color: #d97706;
+            margin-top: 2px;
+            line-height: 1.4;
+        }
+
+        /* --- CATALOG & CARD MODULES --- */
         .library-card {
             background: var(--app-shell);
             border: 1px solid var(--card-border);
@@ -295,7 +421,6 @@
             border-radius: 12px;
             font-size: 0.7rem;
             font-weight: 700;
-            letter-spacing: -0.1px;
         }
 
         .status-pill.available {
@@ -343,7 +468,7 @@
             font-weight: 700;
         }
 
-        /* Fixed Navigation Menu Bar (Locks securely to the viewport bottom) */
+        /* --- STABLE FOOTER BAR NAVIGATION --- */
         .tab-bar {
             position: fixed;
             bottom: 20px;
@@ -352,15 +477,15 @@
             width: 90%;
             max-width: 432px;
             height: 68px;
-            background-color: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(16px);
+            background-color: rgba(15, 23, 42, 0.96);
+            backdrop-filter: blur(20px);
             border-radius: 24px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 0 10px;
-            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3);
-            z-index: 90;
+            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.4);
+            z-index: 999; /* Completely isolated above screen layouts */
         }
 
         .tab-trigger {
@@ -443,7 +568,7 @@
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
-                    <h1 id="view-title">Discover</h1>
+                    <h1 id="view-title">Dashboard</h1>
                     <p>Hello, <span id="display-name">Student</span> 👋</p>
                 </div>
                 <div class="user-profile" id="user-initials">ST</div>
@@ -457,8 +582,52 @@
             </div>
 
             <main>
+                <!-- Dashboard Frame View -->
+                <section id="dashboard-pane" class="view-pane active">
+                    <div class="stats-grid">
+                        <div class="stat-widget">
+                            <p class="widget-label">Books Checked Out</p>
+                            <p class="widget-value" id="dash-loan-count">0</p>
+                        </div>
+                        <div class="stat-widget">
+                            <p class="widget-label">Reservations</p>
+                            <p class="widget-value">0</p>
+                        </div>
+                        <div class="stat-widget full-width">
+                            <div>
+                                <p class="widget-label">Account Standing</p>
+                            </div>
+                            <div class="status-dot-indicator">
+                                <span class="pulse-dot"></span> Active
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-visualizer">
+                        <h4>Library Visits (Weekly Analysis)</h4>
+                        <div class="bar-chart-row">
+                            <div class="chart-bar" style="height: 40%;"></div>
+                            <div class="chart-bar" style="height: 75%;"></div>
+                            <div class="chart-bar" style="height: 90%;"></div>
+                            <div class="chart-bar" style="height: 25%;"></div>
+                            <div class="chart-bar" style="height: 60%;"></div>
+                        </div>
+                        <div class="chart-labels">
+                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
+                        </div>
+                    </div>
+
+                    <div class="announcement-strip">
+                        <span class="icon">📢</span>
+                        <div>
+                            <h5>Midterm Hours Update</h5>
+                            <p>Starting next Monday, the main library wings will remain open 24/7 for study groups.</p>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Catalog Frame -->
-                <section id="catalog-pane" class="view-pane active">
+                <section id="catalog-pane" class="view-pane">
                     <h2 class="pane-title">Available Titles</h2>
                     <div id="book-feed-target"></div>
                 </section>
@@ -468,16 +637,15 @@
                     <h2 class="pane-title">Your Current Handouts</h2>
                     <div id="my-vault-target"></div>
                 </section>
-
-                <!-- New Dashboard Frame (Left Blank) -->
-                <section id="dashboard-pane" class="view-pane">
-                    <!-- Placeholder space for future structural metrics -->
-                </section>
             </main>
 
-            <!-- Fixed Menu Navigation Deck -->
+            <!-- Fixed Isolated Navigation Menu Deck -->
             <nav class="tab-bar">
-                <button class="tab-trigger active" id="trigger-catalog" onclick="changeView('catalog')">
+                <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
+                    <span class="icon-gfx">📊</span>
+                    <span>Dashboard</span>
+                </button>
+                <button class="tab-trigger" id="trigger-catalog" onclick="changeView('catalog')">
                     <span class="icon-gfx">📖</span>
                     <span>Discover</span>
                 </button>
@@ -485,10 +653,6 @@
                     <span class="icon-gfx">🔖</span>
                     <span>My Books</span>
                     <span class="counter-dot" id="shelf-counter">0</span>
-                </button>
-                <button class="tab-trigger" id="trigger-dashboard" onclick="changeView('dashboard')">
-                    <span class="icon-gfx">📊</span>
-                    <span>Dashboard</span>
                 </button>
             </nav>
         </div>
@@ -534,7 +698,12 @@
             const interactiveDeck = document.getElementById('search-deck-panel');
             const titleElement = document.getElementById('view-title');
 
-            if (targetPane === 'catalog') {
+            if (targetPane === 'dashboard') {
+                document.getElementById('dashboard-pane').classList.add('active');
+                document.getElementById('trigger-dashboard').classList.add('active');
+                interactiveDeck.style.display = "none";
+                titleElement.innerText = "Dashboard";
+            } else if (targetPane === 'catalog') {
                 document.getElementById('catalog-pane').classList.add('active');
                 document.getElementById('trigger-catalog').classList.add('active');
                 interactiveDeck.style.display = "block";
@@ -545,11 +714,6 @@
                 interactiveDeck.style.display = "none";
                 titleElement.innerText = "My Shelf";
                 buildVaultView();
-            } else if (targetPane === 'dashboard') {
-                document.getElementById('dashboard-pane').classList.add('active');
-                document.getElementById('trigger-dashboard').classList.add('active');
-                interactiveDeck.style.display = "none";
-                titleElement.innerText = "Dashboard";
             }
         }
 
@@ -616,7 +780,9 @@
                     returnDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                 });
 
+                // Dynamically sync metrics between navbar tabs and internal dashboard cards
                 document.getElementById('shelf-counter').innerText = checkedOutItems.length;
+                document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
                 filterBooks();
             }
         }
