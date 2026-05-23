@@ -3,29 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Premium Student Library App</title>
+    <title>Modern Campus Library App</title>
     <style>
-        /* --- MODERN ULTRA-CLEAN STYLING --- */
+        /* --- HYPER-MODERN LIGHT DESIGN SYSTEM --- */
         :root {
-            --bg-color: #0f172a;
-            --surface-color: #1e293b;
-            --accent-color: #6366f1;
-            --accent-hover: #4f46e5;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #10b981;
-            --warning: #f59e0b;
+            --bg-canvas: #f1f5f9;
+            --app-shell: #ffffff;
+            --card-bg: #f8fafc;
+            --card-border: #e2e8f0;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --brand-color: #059669; /* Emerald Green */
+            --brand-light: #ecfdf5;
+            --warning-amber: #d97706;
+            --warning-light: #fffbeb;
+            --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: #020617;
+            background-color: var(--bg-canvas);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -33,476 +36,503 @@
             padding: 20px;
         }
 
-        /* Smartphone Container Simulation */
-        .app-container {
-            background-color: var(--bg-color);
-            color: var(--text-main);
+        /* Smartphone Hardware Mockup Frame */
+        .phone-frame {
+            background-color: var(--app-shell);
             width: 100%;
-            max-width: 412px;
-            height: 840px;
-            border-radius: 40px;
-            border: 8px solid #334155;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            height: 820px;
+            border-radius: 48px;
+            border: 12px solid #0f172a; /* Device Edge */
+            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.2);
             overflow: hidden;
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
-        /* Top Status Bar Notch Space */
-        .notch {
-            height: 30px;
-            background: var(--bg-color);
+        /* Top Dynamic Speaker Bar */
+        .phone-speaker {
+            height: 28px;
+            background: var(--app-shell);
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            z-index: 10;
         }
-        .notch::before {
+        .phone-speaker::before {
             content: '';
-            width: 120px;
-            height: 15px;
-            background: #334155;
-            border-radius: 0 0 15px 15px;
+            width: 60px;
+            height: 5px;
+            background: #e2e8f0;
+            border-radius: 10px;
         }
 
+        /* App Header */
         header {
-            padding: 20px 24px;
+            padding: 12px 24px 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         header h1 {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.8px;
+            color: var(--text-primary);
         }
 
         header p {
             font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 2px;
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
-        .avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, #6366f1, #a855f7);
+        .user-profile {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #34d399, #059669);
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: bold;
-            font-size: 0.9rem;
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
         }
 
-        /* Search & Filter Section */
-        .search-section {
-            padding: 0 24px 16px 24px;
+        /* Interactive Search Deck */
+        .search-deck {
+            padding: 0 24px 20px 24px;
         }
 
-        .search-wrapper {
+        .search-container {
             position: relative;
-            display: flex;
-            align-items: center;
         }
 
         #search-bar {
             width: 100%;
-            padding: 14px 16px;
-            background-color: var(--surface-color);
-            border: 1px solid #334155;
-            border-radius: 14px;
-            color: var(--text-main);
+            padding: 14px 16px 14px 44px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            color: var(--text-primary);
             font-size: 0.95rem;
+            font-weight: 500;
             outline: none;
-            transition: border 0.2s;
+            transition: all 0.2s ease;
         }
 
         #search-bar:focus {
-            border-color: var(--accent-color);
+            background-color: #ffffff;
+            border-color: var(--brand-color);
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
         }
 
-        /* Main Content Scrollable Area */
+        .search-icon-marker {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Main Viewport Window */
         main {
             flex: 1;
             padding: 0 24px;
             overflow-y: auto;
-            padding-bottom: 90px;
+            padding-bottom: 100px;
         }
 
-        /* Hide Scrollbar for Chrome, Safari and Opera */
         main::-webkit-scrollbar {
+            display: none; /* Clean presentation look */
+        }
+
+        .view-pane {
             display: none;
         }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
+        .view-pane.active {
             display: block;
         }
 
-        .section-title {
-            font-size: 1.1rem;
+        .pane-title {
+            font-size: 1.05rem;
             font-weight: 700;
             margin-bottom: 16px;
-            color: var(--text-main);
+            color: var(--text-primary);
+            letter-spacing: -0.3px;
         }
 
-        /* Premium Book Cards */
-        .book-card {
-            background-color: var(--surface-color);
-            border-radius: 16px;
+        /* Premium Minimalist Cards */
+        .library-card {
+            background: var(--app-shell);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
             padding: 16px;
             margin-bottom: 14px;
             display: flex;
             gap: 16px;
             align-items: center;
-            border: 1px solid #334155;
-            transition: transform 0.2s;
+            box-shadow: var(--pill-shadow);
+            transition: all 0.2s ease;
         }
 
-        .book-card:active {
-            transform: scale(0.98);
+        .library-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
         }
 
-        .book-cover-art {
-            width: 50px;
-            height: 70px;
-            background: linear-gradient(135deg, #334155, #475569);
-            border-radius: 8px;
+        .book-jacket-spine {
+            width: 52px;
+            height: 74px;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            font-size: 1.6rem;
+            box-shadow: 2px 4px 8px rgba(15, 23, 42, 0.06);
         }
 
-        .book-info {
+        .book-details {
             flex: 1;
         }
 
-        .book-info h3 {
+        .book-details h3 {
             font-size: 0.95rem;
-            font-weight: 600;
+            font-weight: 700;
+            color: var(--text-primary);
             margin-bottom: 2px;
             line-height: 1.3;
         }
 
-        .book-info p {
+        .book-details p {
             font-size: 0.8rem;
-            color: var(--text-muted);
+            color: var(--text-secondary);
+            font-weight: 500;
             margin-bottom: 8px;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 4px 8px;
-            border-radius: 20px;
+        /* Status Pills */
+        .status-pill {
+            display: inline-flex;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 0.7rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: -0.1px;
         }
 
-        .badge.available {
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--success);
+        .status-pill.available {
+            background-color: var(--brand-light);
+            color: var(--brand-color);
         }
 
-        .badge.borrowed {
-            background-color: rgba(245, 158, 11, 0.15);
-            color: var(--warning);
+        .status-pill.borrowed {
+            background-color: var(--warning-light);
+            color: var(--warning-amber);
         }
 
         /* Action Buttons */
-        .action-btn {
-            background-color: var(--accent-color);
+        .action-control {
+            background-color: var(--brand-color);
             color: white;
             border: none;
-            padding: 8px 14px;
-            border-radius: 10px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
-        .action-btn:hover {
-            background-color: var(--accent-hover);
+        .action-control:hover {
+            background-color: #047857;
         }
 
-        .action-btn:disabled {
-            background-color: #334155;
-            color: var(--text-muted);
+        .action-control:disabled {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-secondary);
             cursor: not-allowed;
         }
 
-        /* Loan Specific Style */
-        .loan-meta {
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        /* Loan Metadata Info */
+        .loan-deadline {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
             margin-top: 4px;
+            font-weight: 500;
         }
         
-        .loan-meta strong {
-            color: var(--warning);
+        .loan-deadline span {
+            color: var(--warning-amber);
+            font-weight: 700;
         }
 
-        /* Bottom Floating Navigation Bar */
-        .bottom-nav {
+        /* Bottom Floating Bar Navigation */
+        .tab-bar {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 76px;
-            background-color: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(12px);
-            border-top: 1px solid #334155;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 88%;
+            height: 68px;
+            background-color: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(16px);
+            border-radius: 24px;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding-bottom: 10px;
+            padding: 0 10px;
+            box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3);
         }
 
-        .nav-item {
+        .tab-trigger {
             background: none;
             border: none;
-            color: var(--text-muted);
+            color: #94a3b8;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 4px;
             cursor: pointer;
-            width: 80px;
+            width: 75px;
+            position: relative;
             transition: color 0.2s;
         }
 
-        .nav-item span.icon {
-            font-size: 1.3rem;
+        .tab-trigger .icon-gfx {
+            font-size: 1.2rem;
         }
 
-        .nav-item.active {
-            color: var(--accent-color);
+        .tab-trigger.active {
+            color: #34d399;
         }
 
-        .badge-count {
+        /* Badge Counters */
+        .counter-dot {
             position: absolute;
-            top: 12px;
-            right: 115px;
-            background-color: var(--accent-color);
-            color: white;
+            top: -4px;
+            right: 12px;
+            background-color: #34d399;
+            color: #0f172a;
             font-size: 0.65rem;
             padding: 2px 6px;
-            border-radius: 10px;
-            font-weight: 700;
+            border-radius: 8px;
+            font-weight: 800;
         }
 
-        .empty-state {
+        .empty-illustration {
             text-align: center;
-            color: var(--text-muted);
-            margin-top: 60px;
+            color: var(--text-secondary);
+            margin-top: 80px;
             font-size: 0.9rem;
         }
 
-        .empty-state .icon {
+        .empty-illustration .symbol {
             font-size: 3rem;
             display: block;
             margin-bottom: 12px;
-            opacity: 0.5;
+            opacity: 0.4;
         }
     </style>
 </head>
 <body>
 
-    <div class="app-container">
-        <div class="notch"></div>
+    <div class="phone-frame">
+        <div class="phone-speaker"></div>
         
-        <!-- App Header -->
+        <!-- App Top Bar Header -->
         <header>
             <div>
-                <h1 id="app-title-text">Explore Books</h1>
-                <p>Welcome back, Alex</p>
+                <h1 id="view-title">Discover</h1>
+                <p>Hello, Alex 👋</p>
             </div>
-            <div class="avatar">AS</div>
+            <div class="user-profile">AS</div>
         </header>
 
-        <!-- Dynamic Search Section (Hidden on My Books tab) -->
-        <div class="search-section" id="search-section">
-            <div class="search-wrapper">
-                <input type="text" id="search-bar" placeholder="Search by title, author, genre..." oninput="filterBooks()">
+        <!-- Search Deck Infrastructure -->
+        <div class="search-deck" id="search-deck-panel">
+            <div class="search-container">
+                <span class="search-icon-marker">🔍</span>
+                <input type="text" id="search-bar" placeholder="Titles, creators, or keywords..." oninput="filterBooks()">
             </div>
         </div>
 
-        <!-- Main Viewports -->
+        <!-- Scrollable Active Space -->
         <main>
-            <!-- Catalog Tab View -->
-            <section id="catalog-tab" class="tab-content active">
-                <h2 class="section-title">Available in Library</h2>
-                <div id="book-list"></div>
+            <!-- Catalog Feed -->
+            <section id="catalog-pane" class="view-pane active">
+                <h2 class="pane-title">Available Titles</h2>
+                <div id="book-feed-target"></div>
             </section>
 
-            <!-- Loans Tab View -->
-            <section id="loans-tab" class="tab-content">
-                <h2 class="section-title">Your Active Loans</h2>
-                <div id="my-loans-list"></div>
+            <!-- Personal Vault Feed -->
+            <section id="loans-pane" class="view-pane">
+                <h2 class="pane-title">Your Current Handouts</h2>
+                <div id="my-vault-target"></div>
             </section>
         </main>
 
-        <!-- Bottom Tab Bar Navigation -->
-        <nav class="bottom-nav">
-            <button class="nav-item active" id="nav-catalog" onclick="switchTab('catalog')">
-                <span class="icon">🔍</span>
+        <!-- Fixed Device Tab Switch Deck -->
+        <nav class="tab-bar">
+            <button class="tab-trigger active" id="trigger-catalog" onclick="changeView('catalog')">
+                <span class="icon-gfx">📖</span>
                 <span>Discover</span>
             </button>
-            <button class="nav-item" id="nav-loans" onclick="switchTab('loans')">
-                <span class="icon">📚</span>
+            <button class="tab-trigger" id="trigger-loans" onclick="changeView('loans')">
+                <span class="icon-gfx">🔖</span>
                 <span>My Books</span>
-                <span class="badge-count" id="loan-count">0</span>
+                <span class="counter-dot" id="shelf-counter">0</span>
             </button>
         </nav>
     </div>
 
     <script>
-        // --- REACTIVE APPLICATION LOGIC ---
+        // --- REACTIVE TRANSFORMATION SYSTEM ---
 
-        // Mock Database with extra meta details
-        let books = [
-            { id: "BK001", title: "The Great Gatsby", author: "F. Scott Fitzgerald", category: "Fiction", emoji: "🍸", status: "Available" },
-            { id: "BK002", title: "A Brief History of Time", author: "Stephen Hawking", category: "Science", emoji: "🌌", status: "Borrowed" },
-            { id: "BK003", title: "To Kill a Mockingbird", author: "Harper Lee", category: "Fiction", emoji: "🌿", status: "Available" },
-            { id: "BK004", title: "Introduction to Algorithms", author: "Thomas H. Cormen", category: "Tech", emoji: "💻", status: "Available" },
-            { id: "BK005", title: "Principles of Economics", author: "N. Gregory Mankiw", category: "Finance", emoji: "📈", status: "Available" }
+        // Extended mock memory bank array
+        let inventory = [
+            { id: "BK001", title: "The Great Gatsby", creator: "F. Scott Fitzgerald", classification: "Fiction", icon: "🍸", state: "Available" },
+            { id: "BK002", title: "A Brief History of Time", creator: "Stephen Hawking", classification: "Science", icon: "🌌", state: "Borrowed" },
+            { id: "BK003", title: "To Kill a Mockingbird", creator: "Harper Lee", classification: "Fiction", icon: "🌿", state: "Available" },
+            { id: "BK004", title: "Introduction to Algorithms", creator: "Thomas H. Cormen", classification: "Tech", icon: "💻", state: "Available" },
+            { id: "BK005", title: "Principles of Economics", creator: "N. Gregory Mankiw", classification: "Finance", icon: "📈", state: "Available" }
         ];
 
-        let loans = [];
+        let checkedOutItems = [];
 
-        // Tab Switch Styling & Routing Logic
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+        // Smooth Tab Routing & Layout Adaptation
+        function changeView(targetPane) {
+            document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
+            document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
 
-            const searchSec = document.getElementById('search-section');
-            const appTitle = document.getElementById('app-title-text');
+            const interactiveDeck = document.getElementById('search-deck-panel');
+            const titleElement = document.getElementById('view-title');
 
-            if (tabName === 'catalog') {
-                document.getElementById('catalog-tab').classList.add('active');
-                document.getElementById('nav-catalog').classList.add('active');
-                searchSec.style.display = "block";
-                appTitle.innerText = "Explore Books";
+            if (targetPane === 'catalog') {
+                document.getElementById('catalog-pane').classList.add('active');
+                document.getElementById('trigger-catalog').classList.add('active');
+                interactiveDeck.style.display = "block";
+                titleElement.innerText = "Discover";
             } else {
-                document.getElementById('catalog-tab').classList.remove('active');
-                document.getElementById('loans-tab').classList.add('active');
-                document.getElementById('nav-loans').classList.add('active');
-                searchSec.style.display = "none";
-                appTitle.innerText = "My Digital Bag";
-                renderLoans();
+                document.getElementById('loans-pane').classList.add('active');
+                document.getElementById('trigger-loans').classList.add('active');
+                interactiveDeck.style.display = "none";
+                titleElement.innerText = "My Shelf";
+                buildVaultView();
             }
         }
 
-        // Render Books dynamically with premium design UI injections
-        function renderCatalog(booksToRender) {
-            const bookList = document.getElementById('book-list');
-            bookList.innerHTML = '';
+        // Structural Rendering Engine for Catalog Feed
+        function populateCatalog(itemsToLoad) {
+            const container = document.getElementById('book-feed-target');
+            container.innerHTML = '';
 
-            if(booksToRender.length === 0) {
-                bookList.innerHTML = `
-                    <div class="empty-state">
-                        <span class="icon">🔍</span>
-                        <p>No matches found for your search.</p>
+            if(itemsToLoad.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-illustration">
+                        <span class="symbol">🌪️</span>
+                        <p>No titles match your lookup.</p>
                     </div>`;
                 return;
             }
 
-            booksToRender.forEach(book => {
-                const isAvailable = book.status === 'Available';
-                const card = document.createElement('div');
-                card.className = 'book-card';
-                card.innerHTML = `
-                    <div class="book-cover-art">${book.emoji}</div>
-                    <div class="book-info">
-                        <h3>${book.title}</h3>
-                        <p>by ${book.author}</p>
-                        <span class="badge ${isAvailable ? 'available' : 'borrowed'}">
-                            ${book.status}
-                        </span>
+            itemsToLoad.forEach(item => {
+                const isReady = item.state === 'Available';
+                const pillClass = isReady ? 'available' : 'borrowed';
+                
+                const frameElement = document.createElement('div');
+                frameElement.className = 'library-card';
+                frameElement.innerHTML = `
+                    <div class="book-jacket-spine">${item.icon}</div>
+                    <div class="book-details">
+                        <h3>${item.title}</h3>
+                        <p>by ${item.creator}</p>
+                        <span class="status-pill ${pillClass}">${item.state}</span>
                     </div>
-                    <button class="action-btn" ${!isAvailable ? 'disabled' : ''} onclick="borrowBook('${book.id}')">
-                        ${isAvailable ? 'Get' : 'Out'}
+                    <button class="action-control" ${!isReady ? 'disabled' : ''} onclick="processCheckout('${item.id}')">
+                        ${isReady ? 'Borrow' : 'Out'}
                     </button>
                 `;
-                bookList.appendChild(card);
+                container.appendChild(frameElement);
             });
         }
 
-        // Search feature engine 
+        // Functional Dynamic Multi-term Filter Engine
         function filterBooks() {
-            const query = document.getElementById('search-bar').value.toLowerCase();
-            const filtered = books.filter(book => 
-                book.title.toLowerCase().includes(query) || 
-                book.author.toLowerCase().includes(query) ||
-                book.category.toLowerCase().includes(query)
+            const expression = document.getElementById('search-bar').value.toLowerCase();
+            const matching = inventory.filter(item => 
+                item.title.toLowerCase().includes(expression) || 
+                item.creator.toLowerCase().includes(expression) ||
+                item.classification.toLowerCase().includes(expression)
             );
-            renderCatalog(filtered);
+            populateCatalog(matching);
         }
 
-        // Handle structural borrow transactions
-        function borrowBook(bookId) {
-            const bookIndex = books.findIndex(b => b.id === bookId);
+        // Processing transaction logs
+        function processCheckout(idIndex) {
+            const recordMatch = inventory.findIndex(target => target.id === idIndex);
             
-            if (bookIndex !== -1 && books[bookIndex].status === 'Available') {
-                books[bookIndex].status = 'Borrowed';
+            if (recordMatch !== -1 && inventory[recordMatch].state === 'Available') {
+                inventory[recordMatch].state = 'Borrowed';
                 
-                const dueDate = new Date();
-                dueDate.setDate(dueDate.getDate() + 14);
+                const operationalDate = new Date();
+                operationalDate.setDate(operationalDate.getDate() + 14);
                 
-                loans.push({
-                    title: books[bookIndex].title,
-                    author: books[bookIndex].author,
-                    emoji: books[bookIndex].emoji,
-                    dueDate: dueDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+                checkedOutItems.push({
+                    title: inventory[recordMatch].title,
+                    creator: inventory[recordMatch].creator,
+                    icon: inventory[recordMatch].icon,
+                    returnDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                 });
 
-                document.getElementById('loan-count').innerText = loans.length;
+                document.getElementById('shelf-counter').innerText = checkedOutItems.length;
                 filterBooks();
             }
         }
 
-        // Render borrowed book wallet view
-        function renderLoans() {
-            const loansList = document.getElementById('my-loans-list');
-            loansList.innerHTML = '';
+        // Vault Display Assembly
+        function buildVaultView() {
+            const targetContainer = document.getElementById('my-vault-target');
+            targetContainer.innerHTML = '';
 
-            if (loans.length === 0) {
-                loansList.innerHTML = `
-                    <div class="empty-state">
-                        <span class="icon">📖</span>
-                        <p>Your shelf is empty.<br>Go grab some books!</p>
+            if (checkedOutItems.length === 0) {
+                targetContainer.innerHTML = `
+                    <div class="empty-illustration">
+                        <span class="symbol">📂</span>
+                        <p>No books checked out.<br>Your virtual shelf is free.</p>
                     </div>`;
                 return;
             }
 
-            loans.forEach(loan => {
-                const card = document.createElement('div');
-                card.className = 'book-card';
-                card.innerHTML = `
-                    <div class="book-cover-art">${loan.emoji}</div>
-                    <div class="book-info">
+            checkedOutItems.forEach(loan => {
+                const cardBlock = document.createElement('div');
+                cardBlock.className = 'library-card';
+                cardBlock.innerHTML = `
+                    <div class="book-jacket-spine">${loan.icon}</div>
+                    <div class="book-details">
                         <h3>${loan.title}</h3>
-                        <p>by ${loan.author}</p>
-                        <div class="loan-meta">Return by: <strong>${loan.dueDate}</strong></div>
+                        <p>by ${loan.creator}</p>
+                        <div class="loan-deadline">Return before: <span>${loan.returnDate}</span></div>
                     </div>
                 `;
-                loansList.appendChild(card);
+                targetContainer.appendChild(cardBlock);
             });
         }
 
-        // Init App catalog render
-        renderCatalog(books);
+        // App Boot Trigger
+        populateCatalog(inventory);
     </script>
 </body>
 </html>
