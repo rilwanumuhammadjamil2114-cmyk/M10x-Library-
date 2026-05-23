@@ -219,7 +219,7 @@
 
         main {
             flex: 1;
-            padding: 0 24px 100px 24px;
+            padding: 0 24px 110px 24px; /* Generous bottom padding so text never goes under fixed bar */
         }
 
         .view-pane {
@@ -343,7 +343,7 @@
             font-weight: 700;
         }
 
-        /* Fixed Navigation Menu Bar */
+        /* Fixed Navigation Menu Bar (Locks securely to the viewport bottom) */
         .tab-bar {
             position: fixed;
             bottom: 20px;
@@ -468,9 +468,14 @@
                     <h2 class="pane-title">Your Current Handouts</h2>
                     <div id="my-vault-target"></div>
                 </section>
+
+                <!-- New Dashboard Frame (Left Blank) -->
+                <section id="dashboard-pane" class="view-pane">
+                    <!-- Placeholder space for future structural metrics -->
+                </section>
             </main>
 
-            <!-- Menu Navigation Deck -->
+            <!-- Fixed Menu Navigation Deck -->
             <nav class="tab-bar">
                 <button class="tab-trigger active" id="trigger-catalog" onclick="changeView('catalog')">
                     <span class="icon-gfx">📖</span>
@@ -480,6 +485,10 @@
                     <span class="icon-gfx">🔖</span>
                     <span>My Books</span>
                     <span class="counter-dot" id="shelf-counter">0</span>
+                </button>
+                <button class="tab-trigger" id="trigger-dashboard" onclick="changeView('dashboard')">
+                    <span class="icon-gfx">📊</span>
+                    <span>Dashboard</span>
                 </button>
             </nav>
         </div>
@@ -504,15 +513,11 @@
             event.preventDefault();
             
             const emailValue = document.getElementById('student-email').value;
-            // Split out email prefix to make a clean parsed handle name
-            const explicitName = emailValue.split('@')[0];
-            const cleanName = explicitName.charAt(0).toUpperCase() + explicitName.slice(1);
+            const cleanName = emailValue.split('@')[0].charAt(0).toUpperCase() + emailValue.split('@')[0].slice(1);
             
-            // Set values inside dashboard profile elements
             document.getElementById('display-name').innerText = cleanName;
             document.getElementById('user-initials').innerText = cleanName.substring(0,2).toUpperCase();
 
-            // Transition UI views elegantly
             document.getElementById('login-screen').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('login-screen').style.display = 'none';
@@ -534,12 +539,17 @@
                 document.getElementById('trigger-catalog').classList.add('active');
                 interactiveDeck.style.display = "block";
                 titleElement.innerText = "Discover";
-            } else {
+            } else if (targetPane === 'loans') {
                 document.getElementById('loans-pane').classList.add('active');
                 document.getElementById('trigger-loans').classList.add('active');
                 interactiveDeck.style.display = "none";
                 titleElement.innerText = "My Shelf";
                 buildVaultView();
+            } else if (targetPane === 'dashboard') {
+                document.getElementById('dashboard-pane').classList.add('active');
+                document.getElementById('trigger-dashboard').classList.add('active');
+                interactiveDeck.style.display = "none";
+                titleElement.innerText = "Dashboard";
             }
         }
 
