@@ -31,54 +31,131 @@
             background-color: var(--bg-canvas);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 20px;
+            padding: 0;
         }
 
-        /* Smartphone Hardware Mockup Frame */
-        .phone-frame {
+        /* Clean, borderless application wrapper that scales beautifully */
+        .app-container {
             background-color: var(--app-shell);
             width: 100%;
-            max-width: 400px;
-            height: 820px;
-            border-radius: 48px;
-            border: 12px solid #0f172a; /* Device Edge */
-            box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.2);
-            overflow: hidden;
+            max-width: 480px;
+            min-height: 100vh;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
             display: flex;
             flex-direction: column;
             position: relative;
         }
 
-        /* Top Dynamic Speaker Bar */
-        .phone-speaker {
-            height: 28px;
-            background: var(--app-shell);
+        /* --- LOGIN SCREEN VIEW --- */
+        .login-view {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-        }
-        .phone-speaker::before {
-            content: '';
-            width: 60px;
-            height: 5px;
-            background: #e2e8f0;
-            border-radius: 10px;
+            padding: 40px 32px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--app-shell);
+            z-index: 100;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        /* App Header */
+        .login-header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .login-header .logo-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .login-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.8px;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: var(--brand-color);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
+        }
+
+        .login-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--brand-color);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+            transition: background 0.2s;
+        }
+
+        .login-submit-btn:hover {
+            background-color: #047857;
+        }
+
+        /* --- MAIN DASHBOARD VIEW (Hidden until auth) --- */
+        .dashboard-view {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100vh;
+        }
+
         header {
-            padding: 12px 24px 16px 24px;
+            padding: 32px 24px 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -0.8px;
             color: var(--text-primary);
@@ -104,7 +181,6 @@
             box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
         }
 
-        /* Interactive Search Deck */
         .search-deck {
             padding: 0 24px 20px 24px;
         }
@@ -141,16 +217,9 @@
             opacity: 0.5;
         }
 
-        /* Main Viewport Window */
         main {
             flex: 1;
-            padding: 0 24px;
-            overflow-y: auto;
-            padding-bottom: 100px;
-        }
-
-        main::-webkit-scrollbar {
-            display: none; /* Clean presentation look */
+            padding: 0 24px 100px 24px;
         }
 
         .view-pane {
@@ -169,7 +238,7 @@
             letter-spacing: -0.3px;
         }
 
-        /* Premium Minimalist Cards */
+        /* Minimalist Book Cards */
         .library-card {
             background: var(--app-shell);
             border: 1px solid var(--card-border);
@@ -220,7 +289,6 @@
             margin-bottom: 8px;
         }
 
-        /* Status Pills */
         .status-pill {
             display: inline-flex;
             padding: 4px 10px;
@@ -240,7 +308,6 @@
             color: var(--warning-amber);
         }
 
-        /* Action Buttons */
         .action-control {
             background-color: var(--brand-color);
             color: white;
@@ -264,7 +331,6 @@
             cursor: not-allowed;
         }
 
-        /* Loan Metadata Info */
         .loan-deadline {
             font-size: 0.78rem;
             color: var(--text-secondary);
@@ -277,13 +343,14 @@
             font-weight: 700;
         }
 
-        /* Bottom Floating Bar Navigation */
+        /* Fixed Navigation Menu Bar */
         .tab-bar {
-            position: absolute;
-            bottom: 24px;
+            position: fixed;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            width: 88%;
+            width: 90%;
+            max-width: 432px;
             height: 68px;
             background-color: rgba(15, 23, 42, 0.95);
             backdrop-filter: blur(16px);
@@ -293,6 +360,7 @@
             align-items: center;
             padding: 0 10px;
             box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.3);
+            z-index: 90;
         }
 
         .tab-trigger {
@@ -319,7 +387,6 @@
             color: #34d399;
         }
 
-        /* Badge Counters */
         .counter-dot {
             position: absolute;
             top: -4px;
@@ -349,59 +416,79 @@
 </head>
 <body>
 
-    <div class="phone-frame">
-        <div class="phone-speaker"></div>
+    <div class="app-container">
         
-        <!-- App Top Bar Header -->
-        <header>
-            <div>
-                <h1 id="view-title">Discover</h1>
-                <p>Hello, Alex 👋</p>
+        <!-- MODULE 1: AUTH ENGINES -->
+        <div class="login-view" id="login-screen">
+            <div class="login-header">
+                <span class="logo-icon">📚</span>
+                <h2>Campus Library</h2>
+                <p>Sign in with your student dashboard account</p>
             </div>
-            <div class="user-profile">AS</div>
-        </header>
-
-        <!-- Search Deck Infrastructure -->
-        <div class="search-deck" id="search-deck-panel">
-            <div class="search-container">
-                <span class="search-icon-marker">🔍</span>
-                <input type="text" id="search-bar" placeholder="Titles, creators, or keywords..." oninput="filterBooks()">
-            </div>
+            
+            <form id="login-form" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="student-email">Email Address</label>
+                    <input type="email" id="student-email" placeholder="alex@university.edu" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-password">Password</label>
+                    <input type="password" id="student-password" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="login-submit-btn">Authorize Account</button>
+            </form>
         </div>
 
-        <!-- Scrollable Active Space -->
-        <main>
-            <!-- Catalog Feed -->
-            <section id="catalog-pane" class="view-pane active">
-                <h2 class="pane-title">Available Titles</h2>
-                <div id="book-feed-target"></div>
-            </section>
+        <!-- MODULE 2: DASHBOARD MANAGEMENT HOOK -->
+        <div class="dashboard-view" id="dashboard-screen">
+            <header>
+                <div>
+                    <h1 id="view-title">Discover</h1>
+                    <p>Hello, <span id="display-name">Student</span> 👋</p>
+                </div>
+                <div class="user-profile" id="user-initials">ST</div>
+            </header>
 
-            <!-- Personal Vault Feed -->
-            <section id="loans-pane" class="view-pane">
-                <h2 class="pane-title">Your Current Handouts</h2>
-                <div id="my-vault-target"></div>
-            </section>
-        </main>
+            <div class="search-deck" id="search-deck-panel">
+                <div class="search-container">
+                    <span class="search-icon-marker">🔍</span>
+                    <input type="text" id="search-bar" placeholder="Titles, creators, or keywords..." oninput="filterBooks()">
+                </div>
+            </div>
 
-        <!-- Fixed Device Tab Switch Deck -->
-        <nav class="tab-bar">
-            <button class="tab-trigger active" id="trigger-catalog" onclick="changeView('catalog')">
-                <span class="icon-gfx">📖</span>
-                <span>Discover</span>
-            </button>
-            <button class="tab-trigger" id="trigger-loans" onclick="changeView('loans')">
-                <span class="icon-gfx">🔖</span>
-                <span>My Books</span>
-                <span class="counter-dot" id="shelf-counter">0</span>
-            </button>
-        </nav>
+            <main>
+                <!-- Catalog Frame -->
+                <section id="catalog-pane" class="view-pane active">
+                    <h2 class="pane-title">Available Titles</h2>
+                    <div id="book-feed-target"></div>
+                </section>
+
+                <!-- Vault View Frame -->
+                <section id="loans-pane" class="view-pane">
+                    <h2 class="pane-title">Your Current Handouts</h2>
+                    <div id="my-vault-target"></div>
+                </section>
+            </main>
+
+            <!-- Menu Navigation Deck -->
+            <nav class="tab-bar">
+                <button class="tab-trigger active" id="trigger-catalog" onclick="changeView('catalog')">
+                    <span class="icon-gfx">📖</span>
+                    <span>Discover</span>
+                </button>
+                <button class="tab-trigger" id="trigger-loans" onclick="changeView('loans')">
+                    <span class="icon-gfx">🔖</span>
+                    <span>My Books</span>
+                    <span class="counter-dot" id="shelf-counter">0</span>
+                </button>
+            </nav>
+        </div>
+
     </div>
 
     <script>
-        // --- REACTIVE TRANSFORMATION SYSTEM ---
+        // --- DATA & CORE ENGINE LAYERS ---
 
-        // Extended mock memory bank array
         let inventory = [
             { id: "BK001", title: "The Great Gatsby", creator: "F. Scott Fitzgerald", classification: "Fiction", icon: "🍸", state: "Available" },
             { id: "BK002", title: "A Brief History of Time", creator: "Stephen Hawking", classification: "Science", icon: "🌌", state: "Borrowed" },
@@ -412,7 +499,29 @@
 
         let checkedOutItems = [];
 
-        // Smooth Tab Routing & Layout Adaptation
+        // Auth Submission Interceptor
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const emailValue = document.getElementById('student-email').value;
+            // Split out email prefix to make a clean parsed handle name
+            const explicitName = emailValue.split('@')[0];
+            const cleanName = explicitName.charAt(0).toUpperCase() + explicitName.slice(1);
+            
+            // Set values inside dashboard profile elements
+            document.getElementById('display-name').innerText = cleanName;
+            document.getElementById('user-initials').innerText = cleanName.substring(0,2).toUpperCase();
+
+            // Transition UI views elegantly
+            document.getElementById('login-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('dashboard-screen').style.display = 'flex';
+                populateCatalog(inventory);
+            }, 300);
+        }
+
+        // Standard Navigation Routing System
         function changeView(targetPane) {
             document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
             document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
@@ -434,7 +543,7 @@
             }
         }
 
-        // Structural Rendering Engine for Catalog Feed
+        // Construct Library Feed items
         function populateCatalog(itemsToLoad) {
             const container = document.getElementById('book-feed-target');
             container.innerHTML = '';
@@ -469,7 +578,7 @@
             });
         }
 
-        // Functional Dynamic Multi-term Filter Engine
+        // Live Input Search Processing Pipeline
         function filterBooks() {
             const expression = document.getElementById('search-bar').value.toLowerCase();
             const matching = inventory.filter(item => 
@@ -480,7 +589,7 @@
             populateCatalog(matching);
         }
 
-        // Processing transaction logs
+        // Transaction Checkout logs
         function processCheckout(idIndex) {
             const recordMatch = inventory.findIndex(target => target.id === idIndex);
             
@@ -502,7 +611,7 @@
             }
         }
 
-        // Vault Display Assembly
+        // Render Checkout inventory to individual profile shelf 
         function buildVaultView() {
             const targetContainer = document.getElementById('my-vault-target');
             targetContainer.innerHTML = '';
@@ -530,9 +639,6 @@
                 targetContainer.appendChild(cardBlock);
             });
         }
-
-        // App Boot Trigger
-        populateCatalog(inventory);
     </script>
 </body>
 </html>
