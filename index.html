@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Modern Campus Library App</title>
     <style>
         /* --- HYPER-MODERN LIGHT DESIGN SYSTEM --- */
@@ -25,6 +25,8 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            /* Prevents blue tap highlights on mobile devices */
+            -webkit-tap-highlight-color: transparent; 
         }
 
         body {
@@ -33,19 +35,24 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 0;
+            overflow: hidden; /* Prevents global page body bounce/scroll */
         }
 
-        /* Clean, borderless application wrapper that scales beautifully */
+        /* Rigid application wrapper that acts as a true frozen viewport container */
         .app-container {
             background-color: var(--app-shell);
             width: 100%;
             max-width: 480px;
-            min-height: 100vh;
+            height: 100vh;
+            position: fixed; /* Locks structural layout box strictly in place */
+            top: 0;
+            bottom: 0;
             box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
             display: flex;
             flex-direction: column;
-            position: relative;
+            overflow: hidden; /* Completely prevents overall view shifting */
+            user-select: none; /* Prevents text/image drag highlights from moving layouts */
+            -webkit-user-select: none;
         }
 
         /* --- LOGIN SCREEN VIEW --- */
@@ -112,6 +119,8 @@
             font-size: 0.95rem;
             outline: none;
             transition: all 0.2s;
+            user-select: text; /* Allows normal typing selection */
+            -webkit-user-select: text;
         }
 
         .form-group input:focus {
@@ -144,7 +153,8 @@
             display: none;
             flex-direction: column;
             width: 100%;
-            min-height: 100vh;
+            height: 100%;
+            overflow: hidden;
         }
 
         header {
@@ -152,6 +162,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-shrink: 0; /* Prevents header compression */
         }
 
         header h1 {
@@ -183,7 +194,8 @@
 
         .search-deck {
             padding: 0 24px 20px 24px;
-            display: none; /* Appears only inside Discover catalog */
+            display: none; 
+            flex-shrink: 0;
         }
 
         .search-container {
@@ -201,6 +213,8 @@
             font-weight: 500;
             outline: none;
             transition: all 0.2s ease;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         #search-bar:focus {
@@ -218,9 +232,12 @@
             opacity: 0.5;
         }
 
+        /* Crucial Scrolling Anchor: Only items inside this container are allowed to move */
         main {
             flex: 1;
             padding: 0 24px 110px 24px; 
+            overflow-y: auto; /* Isolates vertical scrolling mechanics directly inside list pane */
+            -webkit-overflow-scrolling: touch; /* Butter-smooth scrolling physics for iOS webviews */
         }
 
         .view-pane {
@@ -296,7 +313,7 @@
             border-radius: 50%;
         }
 
-        /* Visual Analytics Chart Placeholder */
+        /* Visual Analytics Chart */
         .chart-visualizer {
             background: linear-gradient(135deg, #1e293b, #0f172a);
             border-radius: 24px;
@@ -336,7 +353,7 @@
             font-weight: 600;
         }
 
-        /* Informative Notification Strip */
+        /* Announcement Panel */
         .announcement-strip {
             background-color: #fffbeb;
             border: 1px solid #fef3c7;
@@ -468,9 +485,9 @@
             font-weight: 700;
         }
 
-        /* --- STABLE FOOTER BAR NAVIGATION --- */
+        /* --- FIXED FOOTER NAVIGATION (Perfectly isolated and static) --- */
         .tab-bar {
-            position: fixed;
+            position: absolute; /* Anchor directly inside base shell coordinate matrix */
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
@@ -479,13 +496,14 @@
             height: 68px;
             background-color: rgba(15, 23, 42, 0.96);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 24px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 0 10px;
             box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.4);
-            z-index: 999; /* Completely isolated above screen layouts */
+            z-index: 99; 
         }
 
         .tab-trigger {
@@ -564,7 +582,7 @@
             </form>
         </div>
 
-        <!-- MODULE 2: DASHBOARD MANAGEMENT HOOK -->
+        <!-- MODULE 2: APP CONTROLLER FRAMEWORK -->
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
@@ -581,6 +599,7 @@
                 </div>
             </div>
 
+            <!-- Content Panel (The only scrollable window region) -->
             <main>
                 <!-- Dashboard Frame View -->
                 <section id="dashboard-pane" class="view-pane active">
@@ -639,7 +658,7 @@
                 </section>
             </main>
 
-            <!-- Fixed Isolated Navigation Menu Deck -->
+            <!-- Menu Navigation Deck Layout -->
             <nav class="tab-bar">
                 <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
                     <span class="icon-gfx">📊</span>
@@ -672,6 +691,13 @@
 
         let checkedOutItems = [];
 
+        // Dynamic event controller logic to prevent mobile page pull-to-refresh movements completely
+        document.addEventListener('touchmove', function(e) {
+            if (!e.target.closest('main')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         // Auth Submission Interceptor
         function handleLogin(event) {
             event.preventDefault();
@@ -690,13 +716,16 @@
             }, 300);
         }
 
-        // Standard Navigation Routing System
+        // Navigation Engine Layer
         function changeView(targetPane) {
             document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
             document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
 
             const interactiveDeck = document.getElementById('search-deck-panel');
             const titleElement = document.getElementById('view-title');
+
+            // Reset current visual internal panel scroll position back up instantly when tabs swap
+            document.querySelector('main').scrollTop = 0;
 
             if (targetPane === 'dashboard') {
                 document.getElementById('dashboard-pane').classList.add('active');
@@ -717,7 +746,7 @@
             }
         }
 
-        // Construct Library Feed items
+        // Feed compiler rules
         function populateCatalog(itemsToLoad) {
             const container = document.getElementById('book-feed-target');
             container.innerHTML = '';
@@ -752,7 +781,6 @@
             });
         }
 
-        // Live Input Search Processing Pipeline
         function filterBooks() {
             const expression = document.getElementById('search-bar').value.toLowerCase();
             const matching = inventory.filter(item => 
@@ -763,7 +791,6 @@
             populateCatalog(matching);
         }
 
-        // Transaction Checkout logs
         function processCheckout(idIndex) {
             const recordMatch = inventory.findIndex(target => target.id === idIndex);
             
@@ -780,14 +807,12 @@
                     returnDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
                 });
 
-                // Dynamically sync metrics between navbar tabs and internal dashboard cards
                 document.getElementById('shelf-counter').innerText = checkedOutItems.length;
                 document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
                 filterBooks();
             }
         }
 
-        // Render Checkout inventory to individual profile shelf 
         function buildVaultView() {
             const targetContainer = document.getElementById('my-vault-target');
             targetContainer.innerHTML = '';
