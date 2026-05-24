@@ -165,7 +165,8 @@
             box-shadow: var(--pill-shadow);
         }
 
-        .login-view {
+        /* Auth Screen Container Styles */
+        .auth-view {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -180,32 +181,32 @@
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .login-header {
+        .auth-header {
             text-align: center;
-            margin-bottom: 36px;
+            margin-bottom: 30px;
         }
 
-        .login-header .logo-icon {
+        .auth-header .logo-icon {
             font-size: 3.5rem;
             display: block;
             margin-bottom: 12px;
         }
 
-        .login-header h2 {
+        .auth-header h2 {
             font-size: 1.8rem;
             font-weight: 800;
             color: var(--text-primary);
             letter-spacing: -0.8px;
         }
 
-        .login-header p {
+        .auth-header p {
             color: var(--text-secondary);
             font-size: 0.95rem;
             margin-top: 6px;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
@@ -237,7 +238,7 @@
             box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
         }
 
-        .login-submit-btn {
+        .auth-submit-btn {
             width: 100%;
             padding: 16px;
             background-color: var(--brand-color);
@@ -249,6 +250,20 @@
             cursor: pointer;
             margin-top: 10px;
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+        }
+
+        .auth-toggle-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-toggle-link span {
+            color: var(--brand-color);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: underline;
         }
 
         .dashboard-view {
@@ -409,6 +424,15 @@
             background-color: var(--brand-light);
             padding: 6px 12px;
             border-radius: 12px;
+        }
+
+        .status-dot-indicator.unpaid {
+            color: var(--danger-red);
+            background-color: var(--danger-light);
+        }
+
+        .status-dot-indicator.unpaid .pulse-dot {
+            background-color: var(--danger-red);
         }
 
         .pulse-dot {
@@ -710,12 +734,20 @@
             cursor: pointer;
             border: none;
             text-align: center;
+            text-decoration: none;
         }
 
         .modal-btn.primary {
             background-color: var(--brand-color);
             color: white;
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+            display: inline-block;
+        }
+
+        .modal-btn.paystack-btn {
+            background-color: #3bb75e;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 183, 94, 0.3);
         }
 
         .modal-btn.primary:disabled {
@@ -806,44 +838,62 @@
 
     <div class="app-container" data-theme="light">
         
-        <div class="login-view" id="login-screen">
-            <div class="login-header">
+        <div class="auth-view" id="login-screen">
+            <div class="auth-header">
                 <span class="logo-icon">📚</span>
                 <h2>Campus Library</h2>
-                <p>Sign in with your student dashboard account</p>
+                <p>Sign in with your student account</p>
             </div>
             
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="student-admission">Admission Number</label>
-                    <input 
-                        type="text" 
-                        id="student-admission" 
-                        placeholder="e.g. 2412101234" 
-                        maxlength="10" 
-                        inputmode="numeric" 
-                        pattern="[0-9]*" 
-                        required
-                    >
+                    <input type="text" id="student-admission" placeholder="e.g. 2412101234" maxlength="10" inputmode="numeric" required>
                 </div>
                 <div class="form-group">
                     <label for="student-password">Password</label>
                     <input type="password" id="student-password" placeholder="••••••••" required>
                 </div>
-                <button type="submit" class="login-submit-btn">Authorize Account</button>
+                <button type="submit" class="auth-submit-btn">Login</button>
             </form>
+            <div class="auth-toggle-link">
+                Don't have an account? <span onclick="toggleAuthScreens('register')">Create Account</span>
+            </div>
+        </div>
+
+        <div class="auth-view" id="register-screen" style="display: none;">
+            <div class="auth-header">
+                <span class="logo-icon">✨</span>
+                <h2>Create Account</h2>
+                <p>Register your admission folder instantly</p>
+            </div>
+            
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="reg-admission">Admission Number</label>
+                    <input type="text" id="reg-admission" placeholder="e.g. 2412101234" maxlength="10" inputmode="numeric" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Create Password</label>
+                    <input type="password" id="reg-password" placeholder="Minimum 6 characters" minlength="6" required>
+                </div>
+                <button type="submit" class="auth-submit-btn">Register & Enter</button>
+            </form>
+            <div class="auth-toggle-link">
+                Already registered? <span onclick="toggleAuthScreens('login')">Sign In</span>
+            </div>
         </div>
 
         <div class="loading-view" id="loading-screen">
             <div class="spinner-ring"></div>
-            <p id="loading-text">Syncing Academic Profile...</p>
+            <p id="loading-text">Configuring Secure Environment...</p>
         </div>
 
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
                     <h1 id="view-title">Dashboard</h1>
-                    <p>Hello, <span id="display-name">Student</span> 👋</p>
+                    <p>ID: <span id="display-name">Student</span> 👋</p>
                 </div>
                 <div class="header-actions-deck">
                     <div class="theme-selector-deck">
@@ -858,7 +908,7 @@
             <div class="search-deck" id="search-deck-panel">
                 <div class="search-container">
                     <span class="search-icon-marker">🔍</span>
-                    <input type="text" id="search-bar" placeholder="Titles, creators, or keywords..." oninput="filterBooks()">
+                    <input type="text" id="search-bar" placeholder="Titles, codes, or keywords..." oninput="filterBooks()">
                 </div>
             </div>
 
@@ -877,8 +927,8 @@
                             <div>
                                 <p class="widget-label">Account Standing</p>
                             </div>
-                            <div class="status-dot-indicator">
-                                <span class="pulse-dot"></span> Active
+                            <div class="status-dot-indicator" id="status-pill-indicator">
+                                <span class="pulse-dot"></span> Active (Paid)
                             </div>
                         </div>
                     </div>
@@ -942,7 +992,7 @@
                     <p class="modal-synopsis" id="modal-description"></p>
                     <div class="modal-actions">
                         <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
-                        <button class="modal-btn primary" id="modal-action-btn">View Handout</button>
+                        <a href="#" target="_blank" class="modal-btn" id="modal-action-btn">View Handout</a>
                     </div>
                 </div>
             </div>
@@ -971,13 +1021,23 @@
     </div>
 
     <script>
+        // CHANGE THIS STRING TO YOUR PAYSTACK PAYMENT PAGE URL LINK LINK
+        const PAYSTACK_PAYMENT_LINK = "https://paystack.com/pay/your-custom-link-id";
+
         let activeInventory = []; 
         let checkedOutItems = [];
-        let activelyViewedBookId = null;
+        let globalUserSession = { admissionNumber: "", paid: false };
 
-        document.getElementById('student-admission').addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
+        // Simple visibility switcher for auth cards
+        function toggleAuthScreens(target) {
+            if (target === 'register') {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('register-screen').style.display = 'flex';
+            } else {
+                document.getElementById('register-screen').style.display = 'none';
+                document.getElementById('login-screen').style.display = 'flex';
+            }
+        }
 
         function setAppTheme(themeName) {
             document.querySelector('.app-container').setAttribute('data-theme', themeName);
@@ -987,65 +1047,132 @@
             if(themeName === 'dark-green') document.getElementById('theme-green-btn').classList.add('active');
         }
 
+        // ACCOUNT CREATION SCRIPT
+        async function handleRegister(event) {
+            event.preventDefault();
+            const admissionValue = document.getElementById('reg-admission').value.trim();
+            const passwordValue = document.getElementById('reg-password').value;
+
+            const isValidPrefix = admissionValue.startsWith('241210') || admissionValue.startsWith('251210');
+            if (!isValidPrefix || admissionValue.length !== 10) {
+                alert("Invalid Format: Admission number must match university assignment formatting schema.");
+                return;
+            }
+
+            document.getElementById('register-screen').style.opacity = '0';
+            document.getElementById('loading-text').innerText = "Creating Secure Account Ledger...";
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            try {
+                const response = await fetch('/api/verify-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'register',
+                        admissionNumber: admissionValue,
+                        password: passwordValue
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    alert(result.message || "Registration failed.");
+                    resetAuthUI();
+                    return;
+                }
+
+                // Initialize user as unpaid upon registration
+                globalUserSession.admissionNumber = admissionValue;
+                globalUserSession.paid = false;
+
+                await mountApplicationWorkspace(admissionValue, false);
+
+            } catch (err) {
+                console.error(err);
+                alert("Network Fault: Remote endpoint rejected system payload creation registry step.");
+                resetAuthUI();
+            }
+        }
+
+        // SIGN IN SCRIPT
         async function handleLogin(event) {
             event.preventDefault();
             const admissionValue = document.getElementById('student-admission').value.trim();
-            
-            const isValidPrefix = admissionValue.startsWith('241210') || admissionValue.startsWith('251210');
-            if (!isValidPrefix || admissionValue.length !== 10) {
-                alert("Access Denied: Invalid Admission Number layout pattern.");
-                return;
-            }
-            
-            const targetLevel = admissionValue.startsWith('2512') ? 100 : 200;
+            const passwordValue = document.getElementById('student-password').value;
 
             document.getElementById('login-screen').style.opacity = '0';
-            setTimeout(async () => {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('loading-text').innerText = "Verifying Student Payment Record...";
-                document.getElementById('loading-screen').style.display = 'flex';
+            document.getElementById('loading-text').innerText = "Authenticating Key Records...";
+            document.getElementById('loading-screen').style.display = 'flex';
 
-                try {
-                    // Step 1: Hit backend verification. It creates user on-the-fly if missing!
-                    const verifyResponse = await fetch('/api/verify-login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ admissionNumber: admissionValue })
-                    });
+            try {
+                const response = await fetch('/api/verify-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'login',
+                        admissionNumber: admissionValue,
+                        password: passwordValue
+                    })
+                });
 
-                    const authResult = await verifyResponse.json();
+                const result = await response.json();
 
-                    if (!verifyResponse.ok) {
-                        alert(authResult.message || "Access blocked.");
-                        resetLoginUI();
-                        return;
-                    }
-
-                    // Step 2: Grab live content metrics directly out of PostgreSQL
-                    document.getElementById('loading-text').innerText = "Syncing Level Handouts Ledger...";
-                    const contentResponse = await fetch(`/api/get-handouts?level=${targetLevel}`);
-                    if (!contentResponse.ok) throw new Error("Database content mapping synchronization failed");
-                    
-                    activeInventory = await contentResponse.json();
-                    
-                    document.getElementById('display-name').innerText = admissionValue;
-                    document.getElementById('loading-screen').style.display = 'none';
-                    document.getElementById('dashboard-screen').style.display = 'flex';
-                    populateCatalog(activeInventory);
-                    changeView('dashboard');
-                    
-                } catch (error) {
-                    console.error(error);
-                    alert("Network architecture fault: Database interface failed to process handshake context.");
-                    resetLoginUI();
+                if (!response.ok) {
+                    alert(result.message || "Invalid account credentials.");
+                    resetAuthUI();
+                    return;
                 }
-            }, 300);
+
+                globalUserSession.admissionNumber = admissionValue;
+                globalUserSession.paid = result.paid;
+
+                await mountApplicationWorkspace(admissionValue, result.paid);
+                
+            } catch (error) {
+                console.error(error);
+                alert("Database Handshake Failure: Error establishing session state values.");
+                resetAuthUI();
+            }
         }
 
-        function resetLoginUI() {
+        // Bootstraps components post-auth
+        async function mountApplicationWorkspace(admission, isPaid) {
+            const targetLevel = admission.startsWith('2512') ? 100 : 200;
+
+            document.getElementById('loading-text').innerText = "Downloading Vault Directory Indexes...";
+            const contentResponse = await fetch(`/api/get-handouts?level=${targetLevel}`);
+            activeInventory = await contentResponse.json();
+
+            // Set up UI Initials profile indicator circle
+            if (admission.length >= 2) {
+                document.getElementById('user-initials').innerText = admission.substring(0, 2).toUpperCase();
+            }
+
+            // Setup Dashboard View state Indicators
+            document.getElementById('display-name').innerText = admission;
+            const statusIndicator = document.getElementById('status-pill-indicator');
+            if (!isPaid) {
+                statusIndicator.className = "status-dot-indicator unpaid";
+                statusIndicator.innerHTML = "<span class='pulse-dot'></span> Unpaid (Locked)";
+            } else {
+                statusIndicator.className = "status-dot-indicator";
+                statusIndicator.innerHTML = "<span class='pulse-dot'></span> Active (Paid)";
+            }
+
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('dashboard-screen').style.display = 'flex';
+            populateCatalog(activeInventory);
+            changeView('dashboard');
+        }
+
+        function resetAuthUI() {
             document.getElementById('loading-screen').style.display = 'none';
             document.getElementById('login-screen').style.display = 'flex';
-            setTimeout(() => { document.getElementById('login-screen').style.opacity = '1'; }, 10);
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('login-screen').style.opacity = '1';
         }
 
         function changeView(targetPane) {
@@ -1083,15 +1210,11 @@
             container.innerHTML = '';
 
             if(itemsToLoad.length === 0) {
-                container.innerHTML = `<div class="empty-illustration"><span class="symbol">🌪️</span><p>No content matches criteria.</p></div>`;
+                container.innerHTML = `<div class="empty-illustration"><span class="symbol">🌪️</span><p>No content listings matched structural queries.</p></div>`;
                 return;
             }
 
             itemsToLoad.forEach(item => {
-                const hasValidLink = item.link && item.link.trim() !== "";
-                const currentStatus = hasValidLink ? 'Available' : 'Unavailable';
-                const pillClass = hasValidLink ? 'available' : 'unavailable';
-                
                 const frameElement = document.createElement('div');
                 frameElement.className = 'library-card';
                 frameElement.innerHTML = `
@@ -1099,9 +1222,9 @@
                     <div class="book-details">
                         <h3>${item.title}</h3>
                         <p>by ${item.creator}</p>
-                        <span class="status-pill ${pillClass}">${currentStatus}</span>
+                        <span class="status-pill available">Available</span>
                     </div>
-                    <button class="action-control" onclick="openBookModal('${item.id}')">View</button>
+                    <button class="action-control" onclick="openBookModal('${item.id}')">Open</button>
                 `;
                 container.appendChild(frameElement);
             });
@@ -1111,30 +1234,37 @@
             const book = activeInventory.find(b => String(b.id) === String(bookId));
             if (!book) return;
 
-            activelyViewedBookId = bookId;
             document.getElementById('modal-jacket').innerText = book.icon || '📖';
             document.getElementById('modal-title').innerText = book.title;
             document.getElementById('modal-creator').innerText = `by ${book.creator}`;
             document.getElementById('modal-description').innerText = book.description || "No summary abstract uploaded.";
             
-            const statusBadge = document.getElementById('modal-status');
             const primaryBtn = document.getElementById('modal-action-btn');
-            const hasValidLink = book.link && book.link.trim() !== "";
-            
-            statusBadge.innerText = hasValidLink ? 'Available' : 'Unavailable';
-            statusBadge.className = `status-pill ${hasValidLink ? 'available' : 'unavailable'}`;
 
-            if (hasValidLink) {
-                primaryBtn.innerText = "View Handout";
-                primaryBtn.disabled = false;
-                primaryBtn.onclick = function() {
-                    processCheckout(bookId);
-                    window.open(book.link, '_blank');
-                    closeBookModal();
-                };
+            // IF UNPAID: Route handout access directly to your Paystack URL string
+            if (!globalUserSession.paid) {
+                primaryBtn.innerText = "💳 Pay to Unlock Handouts";
+                primaryBtn.className = "modal-btn paystack-btn";
+                primaryBtn.href = PAYSTACK_PAYMENT_LINK;
+                primaryBtn.onclick = function() { closeBookModal(); };
             } else {
-                primaryBtn.innerText = "Unavailable";
-                primaryBtn.disabled = true;
+                // IF PAID: Grant standard link reading permissions
+                const hasValidLink = book.link && book.link.trim() !== "";
+                if (hasValidLink) {
+                    primaryBtn.innerText = "View Handout 📁";
+                    primaryBtn.className = "modal-btn primary";
+                    primaryBtn.href = book.link;
+                    primaryBtn.removeAttribute('disabled');
+                    primaryBtn.onclick = function() {
+                        processCheckout(bookId);
+                        closeBookModal();
+                    };
+                } else {
+                    primaryBtn.innerText = "Link Empty";
+                    primaryBtn.className = "modal-btn primary";
+                    primaryBtn.setAttribute('disabled', 'true');
+                    primaryBtn.href = "#";
+                }
             }
 
             const overlay = document.getElementById('detail-modal');
@@ -1181,7 +1311,7 @@
             const container = document.getElementById('my-vault-target');
             container.innerHTML = '';
             if (checkedOutItems.length === 0) {
-                container.innerHTML = `<div class="empty-illustration"><span class="symbol">📂</span><p>No document reading history logs recorded yet.</p></div>`;
+                container.innerHTML = `<div class="empty-illustration"><span class="symbol">📂</span><p>No document reading logs recorded yet.</p></div>`;
                 return;
             }
             checkedOutItems.forEach(loan => {
