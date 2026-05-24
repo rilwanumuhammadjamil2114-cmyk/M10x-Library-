@@ -2,750 +2,336 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Campus Library - Live Database</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Library</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-
-        :root, [data-theme="light"] {
-            --bg-canvas: #f1f5f9;
-            --app-shell: #ffffff;
-            --card-bg: #f8fafc;
-            --card-border: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --brand-color: #059669;
-            --brand-light: #ecfdf5;
-            --danger-red: #dc2626;
-            --danger-light: #fef2f2;
-            --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(15, 23, 42, 0.96);
-            --spine-gradient-start: #f8fafc;
-            --spine-gradient-end: #e2e8f0;
-        }
-
-        [data-theme="dark"] {
-            --bg-canvas: #0f172a;
-            --app-shell: #1e293b;
-            --card-bg: #334155;
-            --card-border: #475569;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --brand-color: #10b981;
-            --brand-light: rgba(16, 185, 129, 0.15);
-        }
-
+        
         body {
-            background-color: var(--bg-canvas);
+            background: #f1f5f9;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
             min-height: 100vh;
         }
-
-        .app-container {
-            width: 100%;
+        
+        .app {
             max-width: 480px;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            background-color: var(--app-shell);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-        }
-
-        .auth-view {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 32px;
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: var(--app-shell);
-            z-index: 100;
-            overflow-y: auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
         }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 30px;
+        
+        .screen {
+            padding: 24px;
+            display: none;
         }
-
-        .auth-header .logo-icon {
-            font-size: 3.5rem;
+        
+        .screen.active {
             display: block;
-            margin-bottom: 12px;
         }
-
-        .auth-header h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-primary);
+        
+        h1 {
+            font-size: 28px;
             margin-bottom: 8px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .form-group input:focus {
-            border-color: var(--brand-color);
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
-        }
-
-        .auth-submit-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--brand-color);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        .auth-toggle-link {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .auth-toggle-link span {
-            color: var(--brand-color);
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        .dashboard-view {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        header {
-            padding: 32px 24px 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        header h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-primary);
-        }
-
-        header p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        .logout-btn {
-            background-color: var(--danger-light);
-            color: var(--danger-red);
-            border: 1px solid var(--card-border);
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 8px 12px;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .user-profile {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, #34d399, #059669);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: 700;
-        }
-
-        .search-deck {
-            padding: 0 24px 20px 24px;
-            display: none;
-            flex-shrink: 0;
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        #search-bar {
-            width: 100%;
-            padding: 14px 16px 14px 44px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        .search-icon-marker {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        main {
-            flex: 1;
-            padding: 0 24px 110px 24px;
-            overflow-y: auto;
-        }
-
-        .view-pane {
-            display: none;
-        }
-
-        .view-pane.active {
-            display: block;
-        }
-
-        .pane-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .stat-widget {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 18px;
-        }
-
-        .stat-widget .widget-label {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-        }
-
-        .stat-widget .widget-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-top: 6px;
-        }
-
-        .stat-widget.full-width {
-            grid-column: span 2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .status-dot-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--brand-color);
-            background-color: var(--brand-light);
-            padding: 6px 12px;
-            border-radius: 12px;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--brand-color);
-            border-radius: 50%;
-        }
-
-        .library-card {
-            background: var(--app-shell);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 14px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .book-jacket-spine {
-            width: 52px;
-            height: 74px;
-            background: linear-gradient(135deg, var(--spine-gradient-start), var(--spine-gradient-end));
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.4rem;
-            flex-shrink: 0;
-        }
-
-        .book-details {
-            flex: 1;
-        }
-
-        .book-details h3 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-        }
-
-        .book-details p {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 6px;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-
-        .status-pill.available {
-            background-color: var(--brand-light);
-            color: var(--brand-color);
-        }
-
-        .action-control {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--card-border);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .loan-deadline {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        .tab-bar {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 94%;
-            max-width: 450px;
-            height: 68px;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 99;
-        }
-
-        .tab-trigger {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 0.72rem;
-            font-weight: 700;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-        }
-
-        .tab-trigger.active {
-            color: #34d399;
-        }
-
-        .counter-dot {
-            background-color: #34d399;
             color: #0f172a;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 8px;
-            margin-left: 4px;
         }
-
-        .empty-illustration {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-top: 80px;
+        
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 32px;
         }
-
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
+        
+        input {
             width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(4px);
-            z-index: 200;
-            display: none;
+            padding: 14px;
+            margin-bottom: 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
         }
-
-        .modal-drawer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
+        
+        button {
             width: 100%;
-            background-color: var(--app-shell);
-            border-radius: 32px 32px 0 0;
-            padding: 32px 24px 40px 24px;
-            transform: translateY(100%);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 16px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-        }
-
-        .modal-btn.primary {
-            background-color: var(--brand-color);
+            padding: 14px;
+            background: #059669;
             color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
         }
-
-        .modal-btn.secondary {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
         }
-
-        .message {
-            margin-top: 12px;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
+        
+        .switch {
             text-align: center;
+            margin-top: 20px;
+            color: #64748b;
         }
-
+        
+        .switch span {
+            color: #059669;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 16px;
+            font-size: 14px;
+        }
+        
         .message.error {
             background: #fef2f2;
             color: #dc2626;
         }
-
+        
         .message.success {
             background: #ecfdf5;
             color: #059669;
         }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid white;
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
-            margin-right: 8px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .portal-redirect-box {
-            background-color: var(--card-bg);
-            border: 2px dashed var(--card-border);
-            border-radius: 24px;
-            padding: 32px 24px;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .portal-launch-btn {
-            display: inline-flex;
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 8px;
-            background-color: var(--brand-color);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-weight: 700;
-            text-decoration: none;
-            margin-top: 16px;
+            padding: 20px 24px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
         }
-
+        
+        .logout-btn {
+            width: auto;
+            padding: 8px 16px;
+            background: #dc2626;
+            font-size: 14px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        
+        .book-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .book-info h3 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        
+        .book-info p {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .book-status {
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 8px;
+            background: #ecfdf5;
+            color: #059669;
+        }
+        
+        .borrow-btn {
+            width: auto;
+            padding: 8px 16px;
+            background: #059669;
+            font-size: 14px;
+        }
+        
+        .return-btn {
+            width: auto;
+            padding: 8px 16px;
+            background: #dc2626;
+            font-size: 14px;
+        }
+        
+        .tabs {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 480px;
+            margin: 0 auto;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 12px;
+        }
+        
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            background: none;
+            color: #64748b;
+        }
+        
+        .tab.active {
+            color: #059669;
+        }
+        
+        .content {
+            padding: 24px;
+            padding-bottom: 80px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+        
         .hidden {
             display: none;
         }
     </style>
 </head>
 <body>
-
-    <div class="app-container" data-theme="light">
+    <div class="app">
+        <!-- Login Screen -->
+        <div id="login-screen" class="screen active">
+            <div style="padding: 40px 24px;">
+                <h1>📚 Campus Library</h1>
+                <p class="subtitle">Sign in to access handouts</p>
+                
+                <input type="text" id="login-admission" placeholder="Admission Number">
+                <input type="password" id="login-password" placeholder="Password">
+                <button onclick="login()">Login</button>
+                
+                <div class="switch">
+                    Don't have an account? <span onclick="showRegister()">Create Account</span>
+                </div>
+                <div id="login-message"></div>
+            </div>
+        </div>
         
-        <!-- LOGIN VIEW -->
-        <div class="auth-view" id="login-screen">
-            <div class="auth-header">
-                <span class="logo-icon">📚</span>
-                <h2>Campus Library</h2>
-                <p>Sign in with your student account</p>
-            </div>
-            
-            <form id="login-form" onsubmit="event.preventDefault(); handleLogin();">
-                <div class="form-group">
-                    <label>Admission Number</label>
-                    <input type="text" id="student-admission" placeholder="e.g. 2412101234" required>
+        <!-- Register Screen -->
+        <div id="register-screen" class="screen">
+            <div style="padding: 40px 24px;">
+                <h1>✨ Create Account</h1>
+                <p class="subtitle">Join the library</p>
+                
+                <input type="text" id="reg-admission" placeholder="Admission Number">
+                <input type="text" id="reg-name" placeholder="Full Name">
+                <input type="password" id="reg-password" placeholder="Password (min 6 chars)">
+                <button onclick="register()">Register</button>
+                
+                <div class="switch">
+                    Already have an account? <span onclick="showLogin()">Sign In</span>
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="student-password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="auth-submit-btn" id="login-btn">Login</button>
-            </form>
-            <div class="auth-toggle-link">
-                Don't have an account? <span onclick="toggleAuthScreens('register')">Create Account</span>
+                <div id="register-message"></div>
             </div>
-            <div id="login-message"></div>
         </div>
-
-        <!-- REGISTER VIEW -->
-        <div class="auth-view" id="register-screen" style="display: none;">
-            <div class="auth-header">
-                <span class="logo-icon">✨</span>
-                <h2>Create Account</h2>
-                <p>Register for library access</p>
-            </div>
-            
-            <form id="register-form" onsubmit="event.preventDefault(); handleRegister();">
-                <div class="form-group">
-                    <label>Admission Number</label>
-                    <input type="text" id="reg-admission" placeholder="e.g. 2412101234" required>
-                </div>
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="reg-name" placeholder="Your full name">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="reg-password" placeholder="Minimum 6 characters" required>
-                </div>
-                <button type="submit" class="auth-submit-btn" id="register-btn">Register</button>
-            </form>
-            <div class="auth-toggle-link">
-                Already registered? <span onclick="toggleAuthScreens('login')">Sign In</span>
-            </div>
-            <div id="register-message"></div>
-        </div>
-
-        <!-- DASHBOARD -->
-        <div class="dashboard-view" id="dashboard-screen">
-            <header>
+        
+        <!-- Dashboard -->
+        <div id="dashboard-screen" class="screen">
+            <div class="header">
                 <div>
-                    <h1 id="view-title">Dashboard</h1>
-                    <p>Welcome, <span id="display-name">Student</span> 👋</p>
+                    <h2>Hello, <span id="user-name">Student</span>!</h2>
+                    <small id="user-level"></small>
                 </div>
-                <div style="display: flex; gap: 12px; align-items: center;">
-                    <button class="logout-btn" onclick="handleLogout()">Logout</button>
-                    <div class="user-profile" id="user-initials">ST</div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+            
+            <div class="content">
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Active Handouts</div>
+                        <div class="stat-value" id="active-count">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Status</div>
+                        <div class="stat-value" id="status">✅ Good</div>
+                    </div>
                 </div>
-            </header>
-
-            <div class="search-deck" id="search-deck-panel">
-                <div class="search-container">
-                    <span class="search-icon-marker">🔍</span>
-                    <input type="text" id="search-bar" placeholder="Search handouts..." oninput="filterBooks()">
+                
+                <div id="books-section">
+                    <h3>Available Handouts</h3>
+                    <div id="books-list"></div>
+                </div>
+                
+                <div id="loans-section" class="hidden">
+                    <h3>My Borrowed Handouts</h3>
+                    <div id="loans-list"></div>
                 </div>
             </div>
-
-            <main>
-                <section id="dashboard-pane" class="view-pane active">
-                    <div class="stats-grid">
-                        <div class="stat-widget">
-                            <p class="widget-label">Active Handouts</p>
-                            <p class="widget-value" id="dash-loan-count">0</p>
-                        </div>
-                        <div class="stat-widget">
-                            <p class="widget-label">Reservations</p>
-                            <p class="widget-value" id="dash-reserve-count">0</p>
-                        </div>
-                        <div class="stat-widget full-width">
-                            <div>
-                                <p class="widget-label">Account Standing</p>
-                            </div>
-                            <div class="status-dot-indicator">
-                                <span class="pulse-dot"></span> <span id="account-status">Good Standing</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="announcement-strip" style="background: var(--brand-light); border-radius: 18px; padding: 16px; margin-top: 16px;">
-                        <span style="font-size: 1.3rem;">📢</span>
-                        <div>
-                            <h5 style="color: var(--brand-color);">Welcome to the Library</h5>
-                            <p style="font-size: 0.8rem;">Browse handouts and track your borrowed items.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section id="catalog-pane" class="view-pane">
-                    <h2 class="pane-title">Available Handouts</h2>
-                    <div id="book-feed-target"></div>
-                </section>
-
-                <section id="loans-pane" class="view-pane">
-                    <h2 class="pane-title">My Borrowed Handouts</h2>
-                    <div id="my-vault-target"></div>
-                </section>
-
-                <section id="portal-pane" class="view-pane">
-                    <div class="portal-redirect-box">
-                        <span style="font-size: 3.5rem;">🏫</span>
-                        <h3>Student Portal</h3>
-                        <p>Access your official student portal</p>
-                        <a href="https://myudusok.edu.ng/landing.php" target="_blank" class="portal-launch-btn">
-                            Launch Portal ↗
-                        </a>
-                    </div>
-                </section>
-            </main>
-
-            <nav class="tab-bar">
-                <button class="tab-trigger active" onclick="changeView('dashboard')">
-                    <span>📊</span>
-                    <span>Home</span>
-                </button>
-                <button class="tab-trigger" onclick="changeView('catalog')">
-                    <span>📖</span>
-                    <span>Browse</span>
-                </button>
-                <button class="tab-trigger" onclick="changeView('loans')">
-                    <span>🔖</span>
-                    <span>My Books</span>
-                    <span class="counter-dot" id="shelf-counter">0</span>
-                </button>
-                <button class="tab-trigger" onclick="changeView('portal')">
-                    <span>🏫</span>
-                    <span>Portal</span>
-                </button>
-            </nav>
-        </div>
-
-        <!-- MODAL -->
-        <div class="modal-overlay" id="detail-modal" onclick="closeBookModal()">
-            <div class="modal-drawer" onclick="event.stopPropagation()">
-                <div class="drawer-handle" style="width: 40px; height: 5px; background: var(--card-border); border-radius: 3px; margin: 0 auto 20px;"></div>
-                <div class="modal-book-header" style="display: flex; gap: 20px; align-items: center;">
-                    <div class="large-jacket" style="width: 72px; height: 100px; background: linear-gradient(135deg, var(--spine-gradient-start), var(--spine-gradient-end)); border-radius: 14px; display: flex; justify-content: center; align-items: center; font-size: 2.2rem;" id="modal-jacket">📖</div>
-                    <div>
-                        <h3 id="modal-title" style="color: var(--text-primary);">Book Title</h3>
-                        <p id="modal-creator" style="color: var(--text-secondary);">by Author</p>
-                        <span class="status-pill available" id="modal-status">Available</span>
-                    </div>
-                </div>
-                <p class="modal-synopsis" id="modal-description" style="margin: 20px 0; color: var(--text-secondary); line-height: 1.5;"></p>
-                <div class="modal-actions">
-                    <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
-                    <button class="modal-btn primary" id="modal-action-btn" onclick="checkoutBook()">Borrow Handout</button>
-                </div>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showBooks()">📖 Books</button>
+                <button class="tab" onclick="showLoans()">🔖 My Loans</button>
             </div>
         </div>
-
     </div>
 
     <script>
-        // ========== YOUR SUPABASE CREDENTIALS ==========
+        // Supabase config
         const SUPABASE_URL = 'https://ahldahsnznpfxtffzedu.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFobGRhaHNuem5wZnh0ZmZ6ZWR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzY2MjgsImV4cCI6MjA5NTIxMjYyOH0.ScHI3cNZBiDXYy822AGV1qoEx27M_a_RLBtVmcQSoFQ';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
-        // App state
         let currentUser = null;
         let allBooks = [];
-        let checkedOutBooks = [];
-        let currentBookToCheckout = null;
+        let userLoans = [];
         
         // Helper functions
         function showMessage(elementId, text, type) {
-            const element = document.getElementById(elementId);
-            if (element) {
-                element.innerHTML = text ? `<div class="message ${type}">${text}</div>` : '';
+            const el = document.getElementById(elementId);
+            if (el) {
+                el.innerHTML = text ? `<div class="message ${type}">${text}</div>` : '';
             }
         }
         
-        function setButtonLoading(button, isLoading, originalText) {
-            if (isLoading) {
-                button.disabled = true;
-                button.innerHTML = '<span class="loading-spinner"></span> Loading...';
-            } else {
-                button.disabled = false;
-                button.innerHTML = originalText;
-            }
-        }
-        
-        // ========== REGISTER (SAVES TO SUPABASE) ==========
-        async function handleRegister() {
-            const admissionNumber = document.getElementById('reg-admission').value.trim();
+        async function register() {
+            const admission = document.getElementById('reg-admission').value.trim();
             const name = document.getElementById('reg-name').value.trim();
             const password = document.getElementById('reg-password').value;
-            const registerBtn = document.getElementById('register-btn');
             
-            if (!admissionNumber || !password) {
-                showMessage('register-message', 'Please fill all required fields', 'error');
+            if (!admission || !password) {
+                showMessage('register-message', 'Please fill all fields', 'error');
                 return;
             }
             
@@ -754,105 +340,81 @@
                 return;
             }
             
-            const level = admissionNumber.startsWith('25') ? 100 : 200;
+            const level = admission.startsWith('25') ? 100 : 200;
             const hashedPassword = btoa(password);
-            
-            setButtonLoading(registerBtn, true, 'Register');
             
             try {
                 // Check if user exists
                 const { data: existing } = await supabase
                     .from('users')
                     .select('admission_number')
-                    .eq('admission_number', admissionNumber)
+                    .eq('admission_number', admission)
                     .single();
                 
                 if (existing) {
-                    showMessage('register-message', 'User already exists! Please login.', 'error');
-                    setButtonLoading(registerBtn, false, 'Register');
+                    showMessage('register-message', 'User already exists!', 'error');
                     return;
                 }
                 
-                // ✅ SAVE TO SUPABASE DATABASE
-                const { data: newUser, error } = await supabase
+                // Create user
+                const { error } = await supabase
                     .from('users')
                     .insert([{
-                        admission_number: admissionNumber,
-                        name: name || admissionNumber,
+                        admission_number: admission,
+                        name: name || admission,
                         password: hashedPassword,
                         level: level
-                    }])
-                    .select()
-                    .single();
+                    }]);
                 
                 if (error) throw error;
                 
-                showMessage('register-message', '✅ Account created successfully! Please login.', 'success');
+                showMessage('register-message', '✅ Account created! Please login.', 'success');
                 
-                // Clear form
-                document.getElementById('reg-admission').value = '';
-                document.getElementById('reg-name').value = '';
-                document.getElementById('reg-password').value = '';
-                
-                // Switch to login
                 setTimeout(() => {
-                    toggleAuthScreens('login');
-                    showMessage('register-message', '', '');
+                    showLogin();
+                    document.getElementById('register-message').innerHTML = '';
                 }, 2000);
                 
             } catch (error) {
-                console.error('Registration error:', error);
-                showMessage('register-message', 'Registration failed: ' + error.message, 'error');
-            } finally {
-                setButtonLoading(registerBtn, false, 'Register');
+                showMessage('register-message', 'Error: ' + error.message, 'error');
             }
         }
         
-        // ========== LOGIN (CHECKS SUPABASE) ==========
-        async function handleLogin() {
-            const admissionNumber = document.getElementById('student-admission').value.trim();
-            const password = document.getElementById('student-password').value;
-            const loginBtn = document.getElementById('login-btn');
+        async function login() {
+            const admission = document.getElementById('login-admission').value.trim();
+            const password = document.getElementById('login-password').value;
+            const hashedPassword = btoa(password);
             
-            if (!admissionNumber || !password) {
-                showMessage('login-message', 'Please enter admission number and password', 'error');
+            if (!admission || !password) {
+                showMessage('login-message', 'Please enter credentials', 'error');
                 return;
             }
             
-            const hashedPassword = btoa(password);
-            setButtonLoading(loginBtn, true, 'Login');
-            
             try {
-                // ✅ CHECK CREDENTIALS IN SUPABASE
                 const { data: user, error } = await supabase
                     .from('users')
                     .select('*')
-                    .eq('admission_number', admissionNumber)
+                    .eq('admission_number', admission)
                     .eq('password', hashedPassword)
                     .single();
                 
                 if (error || !user) {
-                    showMessage('login-message', 'Invalid admission number or password', 'error');
-                    setButtonLoading(loginBtn, false, 'Login');
+                    showMessage('login-message', 'Invalid credentials', 'error');
                     return;
                 }
                 
                 currentUser = user;
-                localStorage.setItem('library_user_id', user.id);
+                localStorage.setItem('userId', user.id);
                 
-                // Load books and loans
-                await loadUserData();
-                
-                // Show dashboard
-                mountApplicationWorkspace(admissionNumber);
+                await loadData();
+                showDashboard();
                 
             } catch (error) {
-                showMessage('login-message', 'Login error: ' + error.message, 'error');
-                setButtonLoading(loginBtn, false, 'Login');
+                showMessage('login-message', 'Error: ' + error.message, 'error');
             }
         }
         
-        async function loadUserData() {
+        async function loadData() {
             if (!currentUser) return;
             
             // Load books for user's level
@@ -870,34 +432,33 @@
                 .eq('user_id', currentUser.id)
                 .eq('status', 'active');
             
-            checkedOutBooks = loans || [];
+            userLoans = loans || [];
             
-            // Update counters
-            document.getElementById('shelf-counter').innerText = checkedOutBooks.length;
-            document.getElementById('dash-loan-count').innerText = checkedOutBooks.length;
+            // Update UI
+            document.getElementById('user-name').innerText = currentUser.name || currentUser.admission_number;
+            document.getElementById('user-level').innerText = `${currentUser.level} Level`;
+            document.getElementById('active-count').innerText = userLoans.length;
+            
+            displayBooks();
+            displayLoans();
         }
         
-        async function checkoutBook() {
-            if (!currentBookToCheckout || !currentUser) return;
+        async function borrowBook(book) {
+            if (!currentUser) return;
             
-            const modalBtn = document.getElementById('modal-action-btn');
-            const originalText = modalBtn.innerHTML;
-            setButtonLoading(modalBtn, true, originalText);
+            const dueDate = new Date();
+            dueDate.setDate(dueDate.getDate() + 14);
             
             try {
-                const dueDate = new Date();
-                dueDate.setDate(dueDate.getDate() + 14);
-                
-                // Create loan in Supabase
+                // Create loan
                 const { error: loanError } = await supabase
                     .from('loans')
                     .insert([{
                         user_id: currentUser.id,
-                        book_id: currentBookToCheckout.id,
-                        book_title: currentBookToCheckout.title,
-                        book_code: currentBookToCheckout.course_code,
-                        due_date: dueDate.toISOString(),
-                        status: 'active'
+                        book_id: book.id,
+                        book_title: book.title,
+                        book_code: book.course_code,
+                        due_date: dueDate.toISOString()
                     }]);
                 
                 if (loanError) throw loanError;
@@ -905,20 +466,14 @@
                 // Update available copies
                 await supabase
                     .from('books')
-                    .update({ available_copies: currentBookToCheckout.available_copies - 1 })
-                    .eq('id', currentBookToCheckout.id);
+                    .update({ available_copies: book.available_copies - 1 })
+                    .eq('id', book.id);
                 
-                await loadUserData();
-                populateCatalog(allBooks);
-                buildVaultView();
-                closeBookModal();
-                
-                alert('✅ Handout borrowed successfully! Due in 14 days.');
+                await loadData();
+                alert('✅ Book borrowed successfully!');
                 
             } catch (error) {
                 alert('Error: ' + error.message);
-            } finally {
-                setButtonLoading(modalBtn, false, originalText);
             }
         }
         
@@ -937,10 +492,7 @@
                         .eq('id', bookId);
                 }
                 
-                await loadUserData();
-                populateCatalog(allBooks);
-                buildVaultView();
-                
+                await loadData();
                 alert('✅ Book returned successfully!');
                 
             } catch (error) {
@@ -948,171 +500,107 @@
             }
         }
         
-        // ========== UI FUNCTIONS ==========
-        
-        function mountApplicationWorkspace(admission) {
-            const nameDisplay = currentUser.name || admission;
-            document.getElementById('user-initials').innerText = nameDisplay.substring(0, 2).toUpperCase();
-            document.getElementById('display-name').innerText = nameDisplay;
+        function displayBooks() {
+            const container = document.getElementById('books-list');
+            if (!container) return;
             
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('register-screen').style.display = 'none';
-            document.getElementById('dashboard-screen').style.display = 'flex';
-            
-            populateCatalog(allBooks);
-            buildVaultView();
-            changeView('dashboard');
-        }
-        
-        function populateCatalog(books) {
-            const container = document.getElementById('book-feed-target');
             container.innerHTML = '';
             
-            if (!books || books.length === 0) {
-                container.innerHTML = `<div class="empty-illustration"><span class="symbol">📚</span><p>No handouts available for your level.</p></div>`;
+            allBooks.forEach(book => {
+                const isBorrowed = userLoans.some(loan => loan.book_id === book.id);
+                const available = book.available_copies > 0 && !isBorrowed;
+                
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'book-card';
+                bookDiv.innerHTML = `
+                    <div class="book-info">
+                        <h3>${book.course_code}: ${book.title}</h3>
+                        <p>${book.creator}</p>
+                        <span class="book-status">${isBorrowed ? 'Borrowed' : (book.available_copies + ' copies')}</span>
+                    </div>
+                    ${available ? `<button class="borrow-btn" onclick="borrowBook(${JSON.stringify(book).replace(/"/g, '&quot;')})">Borrow</button>` : ''}
+                `;
+                container.appendChild(bookDiv);
+            });
+            
+            if (allBooks.length === 0) {
+                container.innerHTML = '<div class="loading">No books available for your level</div>';
+            }
+        }
+        
+        function displayLoans() {
+            const container = document.getElementById('loans-list');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (userLoans.length === 0) {
+                container.innerHTML = '<div class="loading">No borrowed books</div>';
                 return;
             }
             
-            books.forEach(book => {
-                const isBorrowed = checkedOutBooks.some(l => l.book_id === book.id);
-                const card = document.createElement('div');
-                card.className = 'library-card';
-                card.innerHTML = `
-                    <div class="book-jacket-spine">${book.icon || '📖'}</div>
-                    <div class="book-details">
-                        <h3>${book.course_code}: ${book.title}</h3>
-                        <p>${book.creator}</p>
-                        <span class="status-pill ${book.available_copies > 0 && !isBorrowed ? 'available' : ''}" style="${book.available_copies === 0 || isBorrowed ? 'background:#fef2f2;color:#dc2626' : ''}">
-                            ${isBorrowed ? 'Already Borrowed' : (book.available_copies > 0 ? `${book.available_copies} copies` : 'Out of Stock')}
-                        </span>
+            userLoans.forEach(loan => {
+                const dueDate = new Date(loan.due_date);
+                const isOverdue = dueDate < new Date();
+                
+                const loanDiv = document.createElement('div');
+                loanDiv.className = 'book-card';
+                loanDiv.innerHTML = `
+                    <div class="book-info">
+                        <h3>${loan.book_code}: ${loan.book_title}</h3>
+                        <p>Due: ${dueDate.toLocaleDateString()} ${isOverdue ? '(Overdue!)' : ''}</p>
                     </div>
-                    <button class="action-control" onclick="${book.available_copies > 0 && !isBorrowed ? `openBookModal(${book.id})` : ''}" 
-                        ${book.available_copies === 0 || isBorrowed ? 'disabled style="opacity:0.5"' : ''}>
-                        ${isBorrowed ? 'Borrowed' : 'View'}
-                    </button>
+                    <button class="return-btn" onclick="returnBook('${loan.id}', ${loan.book_id})">Return</button>
                 `;
-                container.appendChild(card);
+                container.appendChild(loanDiv);
             });
         }
         
-        function openBookModal(bookId) {
-            const book = allBooks.find(b => b.id === bookId);
-            if (!book) return;
-            
-            currentBookToCheckout = book;
-            
-            document.getElementById('modal-jacket').innerText = book.icon || '📖';
-            document.getElementById('modal-title').innerText = `${book.course_code}: ${book.title}`;
-            document.getElementById('modal-creator').innerText = `by ${book.creator}`;
-            document.getElementById('modal-description').innerText = book.description || 'No description available.';
-            document.getElementById('modal-status').innerHTML = `${book.available_copies} copies available`;
-            
-            const overlay = document.getElementById('detail-modal');
-            overlay.style.display = 'block';
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-                document.querySelector('.modal-drawer').style.transform = 'translateY(0)';
-            }, 10);
+        function showBooks() {
+            document.getElementById('books-section').classList.remove('hidden');
+            document.getElementById('loans-section').classList.add('hidden');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            displayBooks();
         }
         
-        async function buildVaultView() {
-            const container = document.getElementById('my-vault-target');
-            container.innerHTML = '';
-            
-            if (checkedOutBooks.length === 0) {
-                container.innerHTML = `<div class="empty-illustration"><span class="symbol">📂</span><p>No borrowed handouts yet.</p></div>`;
-                return;
-            }
-            
-            for (const loan of checkedOutBooks) {
-                const dueDate = new Date(loan.due_date);
-                const isOverdue = dueDate < new Date();
-                const card = document.createElement('div');
-                card.className = 'library-card';
-                card.innerHTML = `
-                    <div class="book-jacket-spine">📖</div>
-                    <div class="book-details">
-                        <h3>${loan.book_code}: ${loan.book_title}</h3>
-                        <div class="loan-deadline">Due: <span style="color: ${isOverdue ? '#dc2626' : '#d97706'}">${dueDate.toLocaleDateString()}</span></div>
-                    </div>
-                    <button class="action-control" onclick="returnBook('${loan.id}', ${loan.book_id})">Return</button>
-                `;
-                container.appendChild(card);
-            }
+        function showLoans() {
+            document.getElementById('books-section').classList.add('hidden');
+            document.getElementById('loans-section').classList.remove('hidden');
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            displayLoans();
         }
         
-        function filterBooks() {
-            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-            const filtered = allBooks.filter(book => 
-                book.title.toLowerCase().includes(searchTerm) ||
-                book.course_code.toLowerCase().includes(searchTerm) ||
-                book.creator.toLowerCase().includes(searchTerm)
-            );
-            populateCatalog(filtered);
+        function showDashboard() {
+            document.getElementById('login-screen').classList.remove('active');
+            document.getElementById('register-screen').classList.remove('active');
+            document.getElementById('dashboard-screen').classList.add('active');
         }
         
-        function changeView(view) {
-            document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
-            
-            const searchPanel = document.getElementById('search-deck-panel');
-            const titleElement = document.getElementById('view-title');
-            
-            if (view === 'dashboard') {
-                document.getElementById('dashboard-pane').classList.add('active');
-                document.querySelector('.tab-trigger').classList.add('active');
-                searchPanel.style.display = 'none';
-                titleElement.innerText = 'Dashboard';
-            } else if (view === 'catalog') {
-                document.getElementById('catalog-pane').classList.add('active');
-                document.querySelectorAll('.tab-trigger')[1].classList.add('active');
-                searchPanel.style.display = 'block';
-                titleElement.innerText = 'Browse Handouts';
-                populateCatalog(allBooks);
-            } else if (view === 'loans') {
-                document.getElementById('loans-pane').classList.add('active');
-                document.querySelectorAll('.tab-trigger')[2].classList.add('active');
-                searchPanel.style.display = 'none';
-                titleElement.innerText = 'My Handouts';
-                buildVaultView();
-            } else if (view === 'portal') {
-                document.getElementById('portal-pane').classList.add('active');
-                document.querySelectorAll('.tab-trigger')[3].classList.add('active');
-                searchPanel.style.display = 'none';
-                titleElement.innerText = 'Student Portal';
-            }
+        function showLogin() {
+            document.getElementById('login-screen').classList.add('active');
+            document.getElementById('register-screen').classList.remove('active');
+            document.getElementById('dashboard-screen').classList.remove('active');
         }
         
-        function closeBookModal() {
-            const overlay = document.getElementById('detail-modal');
-            document.querySelector('.modal-drawer').style.transform = 'translateY(100%)';
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.style.display = 'none', 250);
-            currentBookToCheckout = null;
+        function showRegister() {
+            document.getElementById('login-screen').classList.remove('active');
+            document.getElementById('register-screen').classList.add('active');
+            document.getElementById('dashboard-screen').classList.remove('active');
         }
         
-        function toggleAuthScreens(target) {
-            if (target === 'register') {
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('register-screen').style.display = 'flex';
-            } else {
-                document.getElementById('register-screen').style.display = 'none';
-                document.getElementById('login-screen').style.display = 'flex';
-            }
-        }
-        
-        function handleLogout() {
+        function logout() {
             currentUser = null;
-            localStorage.removeItem('library_user_id');
-            document.getElementById('dashboard-screen').style.display = 'none';
-            document.getElementById('login-screen').style.display = 'flex';
-            document.getElementById('student-admission').value = '';
-            document.getElementById('student-password').value = '';
+            localStorage.removeItem('userId');
+            showLogin();
+            document.getElementById('login-admission').value = '';
+            document.getElementById('login-password').value = '';
         }
         
         // Check for existing session
         async function checkSession() {
-            const userId = localStorage.getItem('library_user_id');
+            const userId = localStorage.getItem('userId');
             if (userId) {
                 const { data: user } = await supabase
                     .from('users')
@@ -1122,15 +610,14 @@
                 
                 if (user) {
                     currentUser = user;
-                    await loadUserData();
-                    mountApplicationWorkspace(user.admission_number);
+                    await loadData();
+                    showDashboard();
                 }
             }
         }
         
-        // Start the app
+        // Start app
         checkSession();
-        
     </script>
 </body>
 </html>
