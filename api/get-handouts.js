@@ -13,7 +13,7 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const { level } = req.query;
-  if (!level) return res.status(400).json({ error: 'Level metric variable missing' });
+  if (!level) return res.status(400).json({ error: 'Target academic course level metric missing' });
 
   try {
     const { data, error } = await supabase
