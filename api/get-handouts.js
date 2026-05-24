@@ -1,30 +1,44 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from '@supabase/supabase-client';
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default async function handler(req, res) {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
 
-  const { level } = req.query;
-  if (!level) return res.status(400).json({ error: 'Target academic course level metric missing' });
+    if (req.method !== 'GET') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
 
-  try {
-    const { data, error } = await supabase
-      .from('handouts')
-      .select('*')
-      .eq('level', parseInt(level))
-      .order('course_code', { ascending: true });
+    // Capture target academic tier filter (?level=100 or ?level=200) from the client application
+    const { level } = req.query;
 
-    if (error) throw error;
-    return res.status(200).json(data);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
+    if (!level) {
+        return res.status(400).json({ message: 'Academic sorting parameter missing.' });
+    }
+
+    try {
+        // Query rows matching the student's level filter from your seeded handouts ledger
+        const { data: handoutsData, error } = await supabase
+            .from('handouts')
+            .select('id, level, course_code, title, creator, classification, icon, link, description')
+            .eq('level', parseInt(level));
+
+        if (error) {
+            return res.status(500).json({ message: 'Failed to retrieve handouts ledger details: ' + error.message });
+        }
+
+        return res.status(200).json(handoutsData || []);
+
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal Server Error: ' + error.message });
+    }
 }
