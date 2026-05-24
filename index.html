@@ -17,6 +17,8 @@
             --brand-light: #ecfdf5;
             --warning-amber: #d97706;
             --warning-light: #fffbeb;
+            --danger-red: #dc2626;
+            --danger-light: #fef2f2;
             --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             --nav-bg: rgba(15, 23, 42, 0.96);
             --nav-text: #94a3b8;
@@ -36,6 +38,8 @@
             --brand-light: rgba(16, 185, 129, 0.15);
             --warning-amber: #f59e0b;
             --warning-light: rgba(245, 158, 11, 0.15);
+            --danger-red: #f87171;
+            --danger-light: rgba(248, 113, 113, 0.15);
             --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             --nav-bg: rgba(15, 23, 42, 0.96);
             --nav-text: #64748b;
@@ -55,6 +59,8 @@
             --brand-light: rgba(52, 211, 153, 0.15);
             --warning-amber: #fbbf24;
             --warning-light: rgba(251, 191, 36, 0.15);
+            --danger-red: #f43f5e;
+            --danger-light: rgba(244, 63, 94, 0.15);
             --pill-shadow: 0 4px 6px -1px rgba(2, 44, 34, 0.5);
             --nav-bg: rgba(2, 44, 34, 0.96);
             --nav-text: #14b8a6;
@@ -97,7 +103,7 @@
             background-color: var(--app-shell);
         }
 
-        /* --- NEW ANIMATED LOADING OVERLAY --- */
+        /* --- ANIMATED LOADING OVERLAY --- */
         .loading-view {
             display: none;
             flex-direction: column;
@@ -540,9 +546,9 @@
             color: var(--brand-color);
         }
 
-        .status-pill.borrowed {
-            background-color: var(--warning-light);
-            color: var(--warning-amber);
+        .status-pill.unavailable {
+            background-color: var(--danger-light);
+            color: var(--danger-red);
         }
 
         .action-control {
@@ -838,7 +844,7 @@
             </form>
         </div>
 
-        <!-- NEW ANIMATED LOADING OVERLAY -->
+        <!-- ANIMATED LOADING OVERLAY -->
         <div class="loading-view" id="loading-screen">
             <div class="spinner-ring"></div>
             <p>Syncing Academic Profile...</p>
@@ -875,7 +881,7 @@
                 <section id="dashboard-pane" class="view-pane active">
                     <div class="stats-grid">
                         <div class="stat-widget">
-                            <p class="widget-label">Books Checked Out</p>
+                            <p class="widget-label">Opened Handouts</p>
                             <p class="widget-value" id="dash-loan-count">0</p>
                         </div>
                         <div class="stat-widget">
@@ -923,7 +929,7 @@
 
                 <!-- Vault View Frame -->
                 <section id="loans-pane" class="view-pane">
-                    <h2 class="pane-title">Your Current Handouts</h2>
+                    <h2 class="pane-title">Opened Handouts History</h2>
                     <div id="my-vault-target"></div>
                 </section>
 
@@ -957,7 +963,7 @@
                     </p>
                     <div class="modal-actions">
                         <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
-                        <button class="modal-btn primary" id="modal-action-btn">Borrow Book</button>
+                        <button class="modal-btn primary" id="modal-action-btn">View Handout</button>
                     </div>
                 </div>
             </div>
@@ -974,7 +980,7 @@
                 </button>
                 <button class="tab-trigger" id="trigger-loans" onclick="changeView('loans')">
                     <span class="icon-gfx">🔖</span>
-                    <span>My Books</span>
+                    <span>History</span>
                     <span class="counter-dot" id="shelf-counter">0</span>
                 </button>
                 <button class="tab-trigger" id="trigger-portal" onclick="changeView('portal')">
@@ -989,12 +995,13 @@
     <script>
         // --- DATA & CORE ENGINE LAYERS ---
 
+        // Added 'link' parameter. Populate the link text string inside each entry to automatically turn it "Available".
         let inventory = [
-            { id: "BK001", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", state: "Available", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
-            { id: "BK002", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", state: "Borrowed", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
-            { id: "BK003", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", state: "Available", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
-            { id: "BK004", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", state: "Available", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
-            { id: "BK005", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", state: "Available", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
+            { id: "BK001", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", link: "https://example.com/handout-ucsc-203.pdf", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
+            { id: "BK002", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
+            { id: "BK003", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "https://example.com/handout-mth-202.pdf", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
+            { id: "BK004", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", link: "", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
+            { id: "BK005", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", link: "", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
         ];
 
         let checkedOutItems = [];
@@ -1089,7 +1096,7 @@
                 document.getElementById('loans-pane').classList.add('active');
                 document.getElementById('trigger-loans').classList.add('active');
                 interactiveDeck.style.display = "none";
-                titleElement.innerText = "My Shelf";
+                titleElement.innerText = "My History";
                 buildVaultView();
             } else if (targetPane === 'portal') {
                 document.getElementById('portal-pane').classList.add('active');
@@ -1114,8 +1121,10 @@
             }
 
             itemsToLoad.forEach(item => {
-                const isReady = item.state === 'Available';
-                const pillClass = isReady ? 'available' : 'borrowed';
+                // Dynamically check if the link attribute has value
+                const hasValidLink = item.link && item.link.trim() !== "";
+                const currentStatus = hasValidLink ? 'Available' : 'Unavailable';
+                const pillClass = hasValidLink ? 'available' : 'unavailable';
                 
                 const frameElement = document.createElement('div');
                 frameElement.className = 'library-card';
@@ -1124,7 +1133,7 @@
                     <div class="book-details">
                         <h3>${item.title}</h3>
                         <p>by ${item.creator}</p>
-                        <span class="status-pill ${pillClass}">${item.state}</span>
+                        <span class="status-pill ${pillClass}">${currentStatus}</span>
                     </div>
                     <button class="action-control" onclick="openBookModal('${item.id}')">
                         View
@@ -1149,18 +1158,21 @@
             const statusBadge = document.getElementById('modal-status');
             const primaryBtn = document.getElementById('modal-action-btn');
             
-            statusBadge.innerText = book.state;
-            statusBadge.className = `status-pill ${book.state === 'Available' ? 'available' : 'borrowed'}`;
+            const hasValidLink = book.link && book.link.trim() !== "";
+            
+            statusBadge.innerText = hasValidLink ? 'Available' : 'Unavailable';
+            statusBadge.className = `status-pill ${hasValidLink ? 'available' : 'unavailable'}`;
 
-            if (book.state === 'Available') {
-                primaryBtn.innerText = "Borrow Book";
+            if (hasValidLink) {
+                primaryBtn.innerText = "View Handout";
                 primaryBtn.disabled = false;
                 primaryBtn.onclick = function() {
                     processCheckout(bookId);
+                    window.open(book.link, '_blank');
                     closeBookModal();
                 };
             } else {
-                primaryBtn.innerText = "Currently Lent Out";
+                primaryBtn.innerText = "Unavailable";
                 primaryBtn.disabled = true;
             }
 
@@ -1197,24 +1209,24 @@
         }
 
         function processCheckout(idIndex) {
-            const recordMatch = inventory.findIndex(target => target.id === idIndex);
+            const recordMatch = inventory.find(target => target.id === idIndex);
             
-            if (recordMatch !== -1 && inventory[recordMatch].state === 'Available') {
-                inventory[recordMatch].state = 'Borrowed';
-                
+            if (recordMatch && recordMatch.link) {
                 const operationalDate = new Date();
-                operationalDate.setDate(operationalDate.getDate() + 14);
                 
-                checkedOutItems.push({
-                    title: inventory[recordMatch].title,
-                    creator: inventory[recordMatch].creator,
-                    icon: inventory[recordMatch].icon,
-                    returnDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                });
+                // Check if already opened to avoid duplicates in history tab
+                const alreadyOpened = checkedOutItems.some(item => item.title === recordMatch.title);
+                if (!alreadyOpened) {
+                    checkedOutItems.push({
+                        title: recordMatch.title,
+                        creator: recordMatch.creator,
+                        icon: recordMatch.icon,
+                        openedDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
+                    });
 
-                document.getElementById('shelf-counter').innerText = checkedOutItems.length;
-                document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
-                filterBooks();
+                    document.getElementById('shelf-counter').innerText = checkedOutItems.length;
+                    document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
+                }
             }
         }
 
@@ -1226,7 +1238,7 @@
                 targetContainer.innerHTML = `
                     <div class="empty-illustration">
                         <span class="symbol">📂</span>
-                        <p>No books checked out.<br>Your virtual shelf is free.</p>
+                        <p>No handouts opened yet.<br>Your viewed documents history will appear here.</p>
                     </div>`;
                 return;
             }
@@ -1239,7 +1251,7 @@
                     <div class="book-details">
                         <h3>${loan.title}</h3>
                         <p>by ${loan.creator}</p>
-                        <div class="loan-deadline">Return before: <span>${loan.returnDate}</span></div>
+                        <div class="loan-deadline">Last opened: <span>${loan.openedDate}</span></div>
                     </div>
                 `;
                 targetContainer.appendChild(cardBlock);
