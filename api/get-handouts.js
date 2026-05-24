@@ -1,4 +1,4 @@
-import { createClient } from '@supabase/supabase-client';
+const { createClient } = require('@supabase/supabase-js');
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
@@ -18,27 +18,25 @@ export default async function handler(req, res) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    // Capture target academic tier filter (?level=100 or ?level=200) from the client application
     const { level } = req.query;
 
     if (!level) {
-        return res.status(400).json({ message: 'Academic sorting parameter missing.' });
+        return res.status(400).json({ message: 'Academic tier level identifier required.' });
     }
 
     try {
-        // Query rows matching the student's level filter from your seeded handouts ledger
         const { data: handoutsData, error } = await supabase
             .from('handouts')
             .select('id, level, course_code, title, creator, classification, icon, link, description')
             .eq('level', parseInt(level));
 
         if (error) {
-            return res.status(500).json({ message: 'Failed to retrieve handouts ledger details: ' + error.message });
+            return res.status(500).json({ message: 'Failed to extract ledger elements: ' + error.message });
         }
 
         return res.status(200).json(handoutsData || []);
 
     } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error: ' + error.message });
+        return res.status(500).json({ message: 'Internal Engine Loop Crash: ' + error.message });
     }
 }
