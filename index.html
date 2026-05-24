@@ -82,7 +82,6 @@
         }
 
         .app-container {
-            background-color: var(--app-shell);
             width: 100%;
             max-width: 480px;
             height: 100vh;
@@ -95,6 +94,44 @@
             overflow: hidden; 
             user-select: none; 
             -webkit-user-select: none;
+            background-color: var(--app-shell);
+        }
+
+        /* --- NEW ANIMATED LOADING OVERLAY --- */
+        .loading-view {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--app-shell);
+            z-index: 150;
+            gap: 24px;
+        }
+
+        .spinner-ring {
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--card-border);
+            border-top-color: var(--brand-color);
+            border-radius: 50%;
+            animation: spin 1s infinite linear;
+        }
+
+        .loading-view p {
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: -0.3px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* --- THEME TOGGLE WIDGET --- */
@@ -772,6 +809,7 @@
 
     <div class="app-container" data-theme="light">
         
+        <!-- MODULE 1: AUTH ENGINES -->
         <div class="login-view" id="login-screen">
             <div class="login-header">
                 <span class="logo-icon">📚</span>
@@ -782,7 +820,15 @@
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="student-admission">Admission Number</label>
-                    <input type="text" id="student-admission" placeholder="UDUS/2026/XXXX" required>
+                    <input 
+                        type="text" 
+                        id="student-admission" 
+                        placeholder="e.g. 2412101234" 
+                        maxlength="10" 
+                        inputmode="numeric" 
+                        pattern="[0-9]*" 
+                        required
+                    >
                 </div>
                 <div class="form-group">
                     <label for="student-password">Password</label>
@@ -792,13 +838,21 @@
             </form>
         </div>
 
+        <!-- NEW ANIMATED LOADING OVERLAY -->
+        <div class="loading-view" id="loading-screen">
+            <div class="spinner-ring"></div>
+            <p>Syncing Academic Profile...</p>
+        </div>
+
+        <!-- MODULE 2: APP CONTROLLER FRAMEWORK -->
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
-                    <h1 id="view-title">Your School Portal</h1>
+                    <h1 id="view-title">Dashboard</h1>
                     <p>Hello, <span id="display-name">Student</span> 👋</p>
                 </div>
                 <div class="header-actions-deck">
+                    <!-- Theme Toggle Controller Interface -->
                     <div class="theme-selector-deck">
                         <button class="theme-btn active" id="theme-light-btn" onclick="setAppTheme('light')" title="White Theme">☀️</button>
                         <button class="theme-btn" id="theme-dark-btn" onclick="setAppTheme('dark')" title="Dark Theme">🌙</button>
@@ -815,8 +869,10 @@
                 </div>
             </div>
 
+            <!-- Content Panel -->
             <main id="main-content-scroll">
-                <section id="dashboard-pane" class="view-pane">
+                <!-- Dashboard Frame View -->
+                <section id="dashboard-pane" class="view-pane active">
                     <div class="stats-grid">
                         <div class="stat-widget">
                             <p class="widget-label">Books Checked Out</p>
@@ -859,17 +915,20 @@
                     </div>
                 </section>
 
+                <!-- Catalog Frame -->
                 <section id="catalog-pane" class="view-pane">
                     <h2 class="pane-title">Available Titles</h2>
                     <div id="book-feed-target"></div>
                 </section>
 
+                <!-- Vault View Frame -->
                 <section id="loans-pane" class="view-pane">
                     <h2 class="pane-title">Your Current Handouts</h2>
                     <div id="my-vault-target"></div>
                 </section>
 
-                <section id="portal-pane" class="view-pane active">
+                <!-- Secure Portal Navigation Frame -->
+                <section id="portal-pane" class="view-pane">
                     <div class="portal-redirect-box">
                         <span class="icon-banner">🏫</span>
                         <h3>UDUSOK Student Portal</h3>
@@ -881,6 +940,7 @@
                 </section>
             </main>
 
+            <!-- Bottom Modal Detail Drawer Overlay -->
             <div class="modal-overlay" id="detail-modal" onclick="closeBookModal()">
                 <div class="modal-drawer" onclick="event.stopPropagation()">
                     <div class="drawer-handle"></div>
@@ -902,8 +962,9 @@
                 </div>
             </div>
 
+            <!-- Menu Navigation Deck Layout -->
             <nav class="tab-bar">
-                <button class="tab-trigger" id="trigger-dashboard" onclick="changeView('dashboard')">
+                <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
                     <span class="icon-gfx">📊</span>
                     <span>Dashboard</span>
                 </button>
@@ -916,7 +977,7 @@
                     <span>My Books</span>
                     <span class="counter-dot" id="shelf-counter">0</span>
                 </button>
-                <button class="tab-trigger active" id="trigger-portal" onclick="changeView('portal')">
+                <button class="tab-trigger" id="trigger-portal" onclick="changeView('portal')">
                     <span class="icon-gfx">🏫</span>
                     <span>Portal</span>
                 </button>
@@ -945,39 +1006,61 @@
             }
         }, { passive: false });
 
+        // Restrict input field to numerical values only natively
+        document.getElementById('student-admission').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
         // Multi-Theme Controller Logic
         function setAppTheme(themeName) {
             const container = document.querySelector('.app-container');
             container.setAttribute('data-theme', themeName);
             
-            // Clear prior active states from toggle dashboard
             document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
             
-            // Reassign context active flag
             if(themeName === 'light') document.getElementById('theme-light-btn').classList.add('active');
             if(themeName === 'dark') document.getElementById('theme-dark-btn').classList.add('active');
             if(themeName === 'dark-green') document.getElementById('theme-green-btn').classList.add('active');
         }
 
-        // Auth Submission Interceptor
+        // Auth Submission Handler with Custom Prefixed Rules
         function handleLogin(event) {
             event.preventDefault();
             
-            const admissionValue = document.getElementById('student-admission').value;
-            // Clean value for display name fallback
-            let cleanName = admissionValue.replace(/[^a-zA-Z0-BA-Z0-9]/g, '');
-            if(cleanName.length > 8) cleanName = cleanName.substring(0, 8);
+            const admissionValue = document.getElementById('student-admission').value.trim();
             
-            document.getElementById('display-name').innerText = admissionValue.toUpperCase();
-            document.getElementById('user-initials').innerText = "AD";
+            // STRICT VALIDATION RULE: Must be exactly 10 characters long AND start with 241210 or 251210
+            const isValidPrefix = admissionValue.startsWith('241210') || admissionValue.startsWith('251210');
+            const isValidLength = admissionValue.length === 10;
 
+            if (!isValidLength || !isValidPrefix) {
+                alert("Invalid Admission Number. Please contact your class rep.");
+                return; // Stop form execution
+            }
+            
+            document.getElementById('display-name').innerText = admissionValue;
+            document.getElementById('user-initials').innerText = "UD";
+
+            // Hide login panel 
             document.getElementById('login-screen').style.opacity = '0';
+            
             setTimeout(() => {
                 document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('dashboard-screen').style.display = 'flex';
-                populateCatalog(inventory);
-                // Dynamically route directly to portal pane upon startup initialization
-                changeView('portal');
+                
+                // Trigger 3-Second Animated Loading Overlay
+                const loadingScreen = document.getElementById('loading-screen');
+                loadingScreen.style.display = 'flex';
+                
+                setTimeout(() => {
+                    // Turn off Loading Screen after exactly 3000ms
+                    loadingScreen.style.display = 'none';
+                    
+                    // Launch App Dashboard View Base
+                    document.getElementById('dashboard-screen').style.display = 'flex';
+                    populateCatalog(inventory);
+                    changeView('dashboard'); // Re-routed back to default Dashboard view
+                }, 3000);
+
             }, 300);
         }
 
