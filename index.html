@@ -307,12 +307,6 @@
             -webkit-overflow-scrolling: touch; 
         }
 
-        /* Custom frame configurations when portal is active */
-        main.no-padding-portal {
-            padding: 0 0 110px 0 !important;
-            overflow: hidden;
-        }
-
         .view-pane {
             display: none;
         }
@@ -537,13 +531,51 @@
             font-weight: 700;
         }
 
-        /* --- PORTAL PANEL EMBED WRAPPER --- */
-        .portal-pane {
-            width: 100%;
-            height: 100%;
+        /* --- PORTAL REDIRECT CARD GRAPHICS --- */
+        .portal-redirect-box {
+            background-color: var(--card-bg);
+            border: 2px dashed var(--card-border);
+            border-radius: 24px;
+            padding: 32px 24px;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: var(--pill-shadow);
+        }
+
+        .portal-redirect-box .icon-banner {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .portal-redirect-box h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .portal-redirect-box p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+
+        .portal-launch-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--brand-color);
+            color: white;
             border: none;
-            background-color: #ffffff;
+            padding: 14px 28px;
             border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
         /* --- DETAILED BOOK MODAL DRAWER --- */
@@ -844,9 +876,16 @@
                     <div id="my-vault-target"></div>
                 </section>
 
-                <!-- School Portal Frame Embed Window -->
-                <section id="portal-pane" class="view-pane" style="height: 100%;">
-                    <iframe class="portal-pane" src="https://my.udusok.edu.ng/index.php" id="portal-frame" title="Your school portal"></iframe>
+                <!-- Cleaned Secure Portal Navigation Frame -->
+                <section id="portal-pane" class="view-pane">
+                    <div class="portal-redirect-box">
+                        <span class="icon-banner">🏫</span>
+                        <h3>UDUSOK Student Portal</h3>
+                        <p>To safely access invoices, courses registration, and result panels, open the secure portal externally.</p>
+                        <a href="https://my.udusok.edu.ng/index.php" target="_blank" class="portal-launch-btn">
+                            Launch Secure Portal ↗
+                        </a>
+                    </div>
                 </section>
             </main>
 
@@ -957,8 +996,6 @@
             const titleElement = document.getElementById('view-title');
             const scrollContainer = document.getElementById('main-content-scroll');
 
-            // Default cleanup changes for portal visibility adjustments
-            scrollContainer.classList.remove('no-padding-portal');
             scrollContainer.scrollTop = 0;
 
             if (targetPane === 'dashboard') {
@@ -982,7 +1019,6 @@
                 document.getElementById('trigger-portal').classList.add('active');
                 interactiveDeck.style.display = "none";
                 titleElement.innerText = "Your School Portal";
-                scrollContainer.classList.add('no-padding-portal');
             }
         }
 
@@ -1103,6 +1139,10 @@
                 document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
                 filterBooks();
             }
+        }
+
+        function function_return_portal() {
+             window.open("https://my.udusok.edu.ng/index.php", "_blank");
         }
 
         function buildVaultView() {
