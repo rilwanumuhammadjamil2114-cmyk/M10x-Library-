@@ -13,7 +13,7 @@
             --card-border: #e2e8f0;
             --text-primary: #0f172a;
             --text-secondary: #64748b;
-            --brand-color: #059669; /* Emerald Green */
+            --brand-color: #059669; 
             --brand-light: #ecfdf5;
             --warning-amber: #d97706;
             --warning-light: #fffbeb;
@@ -103,7 +103,6 @@
             background-color: var(--app-shell);
         }
 
-        /* --- ANIMATED LOADING OVERLAY --- */
         .loading-view {
             display: none;
             flex-direction: column;
@@ -140,7 +139,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* --- THEME TOGGLE WIDGET --- */
         .theme-selector-deck {
             display: flex;
             background-color: var(--card-bg);
@@ -167,7 +165,6 @@
             box-shadow: var(--pill-shadow);
         }
 
-        /* --- LOGIN SCREEN VIEW --- */
         .login-view {
             display: flex;
             flex-direction: column;
@@ -254,7 +251,6 @@
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
-        /* --- MAIN INTERFACE VIEW --- */
         .dashboard-view {
             display: none;
             flex-direction: column;
@@ -366,7 +362,6 @@
             letter-spacing: -0.3px;
         }
 
-        /* --- DASHBOARD VIEW MODULES --- */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -488,7 +483,6 @@
             line-height: 1.4;
         }
 
-        /* --- CATALOG MODULES --- */
         .library-card {
             background: var(--app-shell);
             border: 1px solid var(--card-border);
@@ -574,7 +568,6 @@
             font-weight: 700;
         }
 
-        /* --- PORTAL REDIRECT CARD GRAPHICS --- */
         .portal-redirect-box {
             background-color: var(--card-bg);
             border: 2px dashed var(--card-border);
@@ -621,7 +614,6 @@
             box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
         }
 
-        /* --- DETAILED BOOK MODAL DRAWER --- */
         .modal-overlay {
             position: absolute;
             top: 0;
@@ -740,7 +732,6 @@
             color: var(--text-primary);
         }
 
-        /* --- FIXED FOOTER NAVIGATION --- */
         .tab-bar {
             position: absolute; 
             bottom: 20px;
@@ -815,7 +806,6 @@
 
     <div class="app-container" data-theme="light">
         
-        <!-- MODULE 1: AUTH ENGINES -->
         <div class="login-view" id="login-screen">
             <div class="login-header">
                 <span class="logo-icon">📚</span>
@@ -844,13 +834,11 @@
             </form>
         </div>
 
-        <!-- ANIMATED LOADING OVERLAY -->
         <div class="loading-view" id="loading-screen">
             <div class="spinner-ring"></div>
-            <p>Syncing Academic Profile...</p>
+            <p id="loading-text">Syncing Academic Profile...</p>
         </div>
 
-        <!-- MODULE 2: APP CONTROLLER FRAMEWORK -->
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
@@ -858,11 +846,10 @@
                     <p>Hello, <span id="display-name">Student</span> 👋</p>
                 </div>
                 <div class="header-actions-deck">
-                    <!-- Theme Toggle Controller Interface -->
                     <div class="theme-selector-deck">
-                        <button class="theme-btn active" id="theme-light-btn" onclick="setAppTheme('light')" title="White Theme">☀️</button>
-                        <button class="theme-btn" id="theme-dark-btn" onclick="setAppTheme('dark')" title="Dark Theme">🌙</button>
-                        <button class="theme-btn" id="theme-green-btn" onclick="setAppTheme('dark-green')" title="Dark Green Theme">🌲</button>
+                        <button class="theme-btn active" id="theme-light-btn" onclick="setAppTheme('light')">☀️</button>
+                        <button class="theme-btn" id="theme-dark-btn" onclick="setAppTheme('dark')">🌙</button>
+                        <button class="theme-btn" id="theme-green-btn" onclick="setAppTheme('dark-green')">🌲</button>
                     </div>
                     <div class="user-profile" id="user-initials">UD</div>
                 </div>
@@ -875,9 +862,7 @@
                 </div>
             </div>
 
-            <!-- Content Panel -->
             <main id="main-content-scroll">
-                <!-- Dashboard Frame View -->
                 <section id="dashboard-pane" class="view-pane active">
                     <div class="stats-grid">
                         <div class="stat-widget">
@@ -921,19 +906,16 @@
                     </div>
                 </section>
 
-                <!-- Catalog Frame -->
                 <section id="catalog-pane" class="view-pane">
                     <h2 class="pane-title">Available Titles</h2>
                     <div id="book-feed-target"></div>
                 </section>
 
-                <!-- Vault View Frame -->
                 <section id="loans-pane" class="view-pane">
                     <h2 class="pane-title">Opened Handouts History</h2>
                     <div id="my-vault-target"></div>
                 </section>
 
-                <!-- Secure Portal Navigation Frame -->
                 <section id="portal-pane" class="view-pane">
                     <div class="portal-redirect-box">
                         <span class="icon-banner">🏫</span>
@@ -946,7 +928,6 @@
                 </section>
             </main>
 
-            <!-- Bottom Modal Detail Drawer Overlay -->
             <div class="modal-overlay" id="detail-modal" onclick="closeBookModal()">
                 <div class="modal-drawer" onclick="event.stopPropagation()">
                     <div class="drawer-handle"></div>
@@ -958,9 +939,7 @@
                             <span class="status-pill" id="modal-status">Available</span>
                         </div>
                     </div>
-                    <p class="modal-synopsis" id="modal-description">
-                        This campus literary resource is fully open for physical checkouts or immediate smartphone catalog syncing. Review standard multi-week university returns limits before applying authorization.
-                    </p>
+                    <p class="modal-synopsis" id="modal-description"></p>
                     <div class="modal-actions">
                         <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
                         <button class="modal-btn primary" id="modal-action-btn">View Handout</button>
@@ -968,7 +947,6 @@
                 </div>
             </div>
 
-            <!-- Menu Navigation Deck Layout -->
             <nav class="tab-bar">
                 <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
                     <span class="icon-gfx">📊</span>
@@ -993,115 +971,88 @@
     </div>
 
     <script>
-        // --- MULTI-YEAR DATA REPOSITORIES ---
-
-        // Original dataset for 24... series numbers (200 Level)
-        const inventory24 = [
-            { id: "BK201", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", link: "https://example.com/handout-ucsc-203.pdf", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
-            { id: "BK202", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
-            { id: "BK203", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "https://example.com/handout-mth-202.pdf", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
-            { id: "BK204", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", link: "", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
-            { id: "BK205", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", link: "", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
-        ];
-
-        // New dataset for 25... series numbers (100 Level)
-        const inventory25 = [
-            { id: "BK101", title: "Handout UCSC 102", creator: "Computer Science Dept", classification: "Intro CS", icon: "💻", link: "", desc: "Introduction to computer science concepts, basic system elements, and operational software components." },
-            { id: "BK102", title: "Handout UCSC 122", creator: "Computer Science Dept", classification: "Digital Logic", icon: "💾", link: "", desc: "Foundations of digital electronics, logical gate arrangements, and basic data numeric formatting systems." },
-            { id: "BK103", title: "Handout CMP 102", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Introduction to algorithmic workflows, conditional step designs, and basic syntax processing rules." },
-            { id: "BK104", title: "Handout MTH 102", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "", desc: "Calculus foundations, algebraic transformations, trigonometric rules, and structural math systems." },
-            { id: "BK105", title: "Handout Phy 102", creator: "Physics Faculty", classification: "Physics", icon: "⚡", link: "", desc: "Basic electricity, magnetic field configurations, electrical capacitance, and basic physics mechanics rules." },
-            { id: "BK106", title: "Handout Phy 108", creator: "Physics Faculty", classification: "Lab Physics", icon: "🧪", link: "", desc: "Experimental instructions, physical measurement recording models, and structural error calculation math labs." },
-            { id: "BK107", title: "Handout GST 112", creator: "General Studies Div", classification: "General Studies", icon: "📝", link: "", desc: "Use of English, communications strategy development, basic continuous prose reviews, and logical synthesis." }
-        ];
-
-        // This reference pointer variable changes depending on who logs in
         let activeInventory = []; 
         let checkedOutItems = [];
         let activelyViewedBookId = null;
 
-        document.addEventListener('touchmove', function(e) {
-            if (!e.target.closest('main')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // Restrict input field to numerical values only natively
-        document.getElementById('student-admission').addEventListener('input', function(e) {
+        document.getElementById('student-admission').addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
 
-        // Multi-Theme Controller Logic
         function setAppTheme(themeName) {
-            const container = document.querySelector('.app-container');
-            container.setAttribute('data-theme', themeName);
-            
+            document.querySelector('.app-container').setAttribute('data-theme', themeName);
             document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-            
             if(themeName === 'light') document.getElementById('theme-light-btn').classList.add('active');
             if(themeName === 'dark') document.getElementById('theme-dark-btn').classList.add('active');
             if(themeName === 'dark-green') document.getElementById('theme-green-btn').classList.add('active');
         }
 
-        // Auth Submission Handler with Custom Prefixed Rules
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
-            
             const admissionValue = document.getElementById('student-admission').value.trim();
             
-            // STRICT VALIDATION RULE: Must be exactly 10 characters long AND start with 241210 or 251210
             const isValidPrefix = admissionValue.startsWith('241210') || admissionValue.startsWith('251210');
-            const isValidLength = admissionValue.length === 10;
-
-            if (!isValidLength || !isValidPrefix) {
-                alert("Invalid Admission Number. Please contact your class rep.");
-                return; // Stop form execution
-            }
-
-            // --- REDIRECT LOGIC ---
-            // If user input starts with 2512, assign the 100 level handouts collection
-            if (admissionValue.startsWith('2512')) {
-                activeInventory = inventory25;
-            } else {
-                activeInventory = inventory24;
+            if (!isValidPrefix || admissionValue.length !== 10) {
+                alert("Access Denied: Invalid Admission Number layout pattern.");
+                return;
             }
             
-            document.getElementById('display-name').innerText = admissionValue;
-            document.getElementById('user-initials').innerText = "UD";
+            const targetLevel = admissionValue.startsWith('2512') ? 100 : 200;
 
-            // Hide login panel 
             document.getElementById('login-screen').style.opacity = '0';
-            
-            setTimeout(() => {
+            setTimeout(async () => {
                 document.getElementById('login-screen').style.display = 'none';
-                
-                // Trigger 3-Second Animated Loading Overlay
-                const loadingScreen = document.getElementById('loading-screen');
-                loadingScreen.style.display = 'flex';
-                
-                setTimeout(() => {
-                    // Turn off Loading Screen after exactly 3000ms
-                    loadingScreen.style.display = 'none';
+                document.getElementById('loading-text').innerText = "Verifying Student Payment Record...";
+                document.getElementById('loading-screen').style.display = 'flex';
+
+                try {
+                    // Step 1: Hit backend verification. It creates user on-the-fly if missing!
+                    const verifyResponse = await fetch('/api/verify-login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ admissionNumber: admissionValue })
+                    });
+
+                    const authResult = await verifyResponse.json();
+
+                    if (!verifyResponse.ok) {
+                        alert(authResult.message || "Access blocked.");
+                        resetLoginUI();
+                        return;
+                    }
+
+                    // Step 2: Grab live content metrics directly out of PostgreSQL
+                    document.getElementById('loading-text').innerText = "Syncing Level Handouts Ledger...";
+                    const contentResponse = await fetch(`/api/get-handouts?level=${targetLevel}`);
+                    if (!contentResponse.ok) throw new Error("Database content mapping synchronization failed");
                     
-                    // Launch App Dashboard View Base
+                    activeInventory = await contentResponse.json();
+                    
+                    document.getElementById('display-name').innerText = admissionValue;
+                    document.getElementById('loading-screen').style.display = 'none';
                     document.getElementById('dashboard-screen').style.display = 'flex';
                     populateCatalog(activeInventory);
-                    changeView('dashboard'); // Re-routed back to default Dashboard view
-                }, 3000);
-
+                    changeView('dashboard');
+                    
+                } catch (error) {
+                    console.error(error);
+                    alert("Network architecture fault: Database interface failed to process handshake context.");
+                    resetLoginUI();
+                }
             }, 300);
         }
 
-        // Navigation Engine Layer
-        function changeView(targetPane) {
-            document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
-            document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
+        function resetLoginUI() {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'flex';
+            setTimeout(() => { document.getElementById('login-screen').style.opacity = '1'; }, 10);
+        }
 
+        function changeView(targetPane) {
+            document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-trigger').forEach(b => b.classList.remove('active'));
             const interactiveDeck = document.getElementById('search-deck-panel');
             const titleElement = document.getElementById('view-title');
-            const scrollContainer = document.getElementById('main-content-scroll');
-
-            scrollContainer.scrollTop = 0;
 
             if (targetPane === 'dashboard') {
                 document.getElementById('dashboard-pane').classList.add('active');
@@ -1123,26 +1074,20 @@
                 document.getElementById('portal-pane').classList.add('active');
                 document.getElementById('trigger-portal').classList.add('active');
                 interactiveDeck.style.display = "none";
-                titleElement.innerText = "Your School Portal";
+                titleElement.innerText = "School Portal";
             }
         }
 
-        // Feed compiler rules
         function populateCatalog(itemsToLoad) {
             const container = document.getElementById('book-feed-target');
             container.innerHTML = '';
 
             if(itemsToLoad.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-illustration">
-                        <span class="symbol">🌪️</span>
-                        <p>No titles match your lookup.</p>
-                    </div>`;
+                container.innerHTML = `<div class="empty-illustration"><span class="symbol">🌪️</span><p>No content matches criteria.</p></div>`;
                 return;
             }
 
             itemsToLoad.forEach(item => {
-                // Dynamically check if the link attribute has value
                 const hasValidLink = item.link && item.link.trim() !== "";
                 const currentStatus = hasValidLink ? 'Available' : 'Unavailable';
                 const pillClass = hasValidLink ? 'available' : 'unavailable';
@@ -1150,35 +1095,30 @@
                 const frameElement = document.createElement('div');
                 frameElement.className = 'library-card';
                 frameElement.innerHTML = `
-                    <div class="book-jacket-spine">${item.icon}</div>
+                    <div class="book-jacket-spine">${item.icon || '📖'}</div>
                     <div class="book-details">
                         <h3>${item.title}</h3>
                         <p>by ${item.creator}</p>
                         <span class="status-pill ${pillClass}">${currentStatus}</span>
                     </div>
-                    <button class="action-control" onclick="openBookModal('${item.id}')">
-                        View
-                    </button>
+                    <button class="action-control" onclick="openBookModal('${item.id}')">View</button>
                 `;
                 container.appendChild(frameElement);
             });
         }
 
-        // Immersive Modal Handlers
         function openBookModal(bookId) {
-            const book = activeInventory.find(b => b.id === bookId);
+            const book = activeInventory.find(b => String(b.id) === String(bookId));
             if (!book) return;
 
             activelyViewedBookId = bookId;
-
-            document.getElementById('modal-jacket').innerText = book.icon;
+            document.getElementById('modal-jacket').innerText = book.icon || '📖';
             document.getElementById('modal-title').innerText = book.title;
             document.getElementById('modal-creator').innerText = `by ${book.creator}`;
-            document.getElementById('modal-description').innerText = book.desc || "No extended abstract uploaded for this campus serial.";
+            document.getElementById('modal-description').innerText = book.description || "No summary abstract uploaded.";
             
             const statusBadge = document.getElementById('modal-status');
             const primaryBtn = document.getElementById('modal-action-btn');
-            
             const hasValidLink = book.link && book.link.trim() !== "";
             
             statusBadge.innerText = hasValidLink ? 'Available' : 'Unavailable';
@@ -1198,53 +1138,39 @@
             }
 
             const overlay = document.getElementById('detail-modal');
-            const drawer = overlay.querySelector('.modal-drawer');
-            
             overlay.style.display = 'block';
             setTimeout(() => {
                 overlay.style.opacity = '1';
-                drawer.style.transform = 'translateY(0)';
+                overlay.querySelector('.modal-drawer').style.transform = 'translateY(0)';
             }, 10);
         }
 
         function closeBookModal() {
             const overlay = document.getElementById('detail-modal');
-            const drawer = overlay.querySelector('.modal-drawer');
-            
-            drawer.style.transform = 'translateY(100%)';
+            overlay.querySelector('.modal-drawer').style.transform = 'translateY(100%)';
             overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                activelyViewedBookId = null;
-            }, 250);
+            setTimeout(() => { overlay.style.display = 'none'; }, 250);
         }
 
         function filterBooks() {
-            const expression = document.getElementById('search-bar').value.toLowerCase();
-            const matching = activeInventory.filter(item => 
-                item.title.toLowerCase().includes(expression) || 
-                item.creator.toLowerCase().includes(expression) ||
-                item.classification.toLowerCase().includes(expression)
+            const val = document.getElementById('search-bar').value.toLowerCase();
+            const filtered = activeInventory.filter(i => 
+                i.title.toLowerCase().includes(val) || 
+                i.creator.toLowerCase().includes(val)
             );
-            populateCatalog(matching);
+            populateCatalog(filtered);
         }
 
         function processCheckout(idIndex) {
-            const recordMatch = activeInventory.find(target => target.id === idIndex);
-            
-            if (recordMatch && recordMatch.link) {
-                const operationalDate = new Date();
-                
-                // Check if already opened to avoid duplicates in history tab
-                const alreadyOpened = checkedOutItems.some(item => item.title === recordMatch.title);
-                if (!alreadyOpened) {
+            const match = activeInventory.find(t => String(t.id) === String(idIndex));
+            if (match && match.link) {
+                if (!checkedOutItems.some(i => i.title === match.title)) {
                     checkedOutItems.push({
-                        title: recordMatch.title,
-                        creator: recordMatch.creator,
-                        icon: recordMatch.icon,
-                        openedDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
+                        title: match.title,
+                        creator: match.creator,
+                        icon: match.icon,
+                        openedDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute:'2-digit' })
                     });
-
                     document.getElementById('shelf-counter').innerText = checkedOutItems.length;
                     document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
                 }
@@ -1252,30 +1178,24 @@
         }
 
         function buildVaultView() {
-            const targetContainer = document.getElementById('my-vault-target');
-            targetContainer.innerHTML = '';
-
+            const container = document.getElementById('my-vault-target');
+            container.innerHTML = '';
             if (checkedOutItems.length === 0) {
-                targetContainer.innerHTML = `
-                    <div class="empty-illustration">
-                        <span class="symbol">📂</span>
-                        <p>No handouts opened yet.<br>Your viewed documents history will appear here.</p>
-                    </div>`;
+                container.innerHTML = `<div class="empty-illustration"><span class="symbol">📂</span><p>No document reading history logs recorded yet.</p></div>`;
                 return;
             }
-
             checkedOutItems.forEach(loan => {
-                const cardBlock = document.createElement('div');
-                cardBlock.className = 'library-card';
-                cardBlock.innerHTML = `
-                    <div class="book-jacket-spine">${loan.icon}</div>
+                const b = document.createElement('div');
+                b.className = 'library-card';
+                b.innerHTML = `
+                    <div class="book-jacket-spine">${loan.icon || '📖'}</div>
                     <div class="book-details">
                         <h3>${loan.title}</h3>
                         <p>by ${loan.creator}</p>
-                        <div class="loan-deadline">Last opened: <span>${loan.openedDate}</span></div>
+                        <div class="loan-deadline">Last view: <span>${loan.openedDate}</span></div>
                     </div>
                 `;
-                targetContainer.appendChild(cardBlock);
+                container.appendChild(b);
             });
         }
     </script>
