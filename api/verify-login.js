@@ -1,12 +1,11 @@
-import { createClient } from '@supabase/supabase-client';
+const { createClient } = require('@supabase/supabase-js');
 
-// Initialize the Supabase Client with your Vercel environment variables
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default async function handler(req, res) {
-    // Set proper CORS headers
+    // Enable CORS headers explicitly
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -27,20 +26,18 @@ export default async function handler(req, res) {
     }
 
     try {
-        // --- REGISTRATION PIPELINE ---
+        // --- REGISTRATION ---
         if (action === 'register') {
-            // Check if the student already exists in your student_payments table
             const { data: existingStudent, error: checkError } = await supabase
                 .from('student_payments')
                 .select('admission_number')
                 .eq('admission_number', admissionNumber)
-                .single();
+                .maybeSingle(); // Safe query to prevent collapsing on empty array
 
             if (existingStudent) {
                 return res.status(400).json({ message: 'This admission number is already registered.' });
             }
 
-            // Insert the record into your exact student_payments table layout
             const { error: insertError } = await supabase
                 .from('student_payments')
                 .insert([
@@ -52,25 +49,24 @@ export default async function handler(req, res) {
                 ]);
 
             if (insertError) {
-                return res.status(500).json({ message: 'Database Insertion Error: ' + insertError.message });
+                return res.status(500).json({ message: 'Supabase Insertion Error: ' + insertError.message });
             }
 
             return res.status(200).json({ message: 'Registration successful!', paid: false });
         }
 
-        // --- LOGIN PIPELINE ---
+        // --- LOGIN ---
         if (action === 'login') {
             const { data: student, error: loginError } = await supabase
                 .from('student_payments')
                 .select('admission_number, password, paid')
                 .eq('admission_number', admissionNumber)
-                .single();
+                .maybeSingle();
 
             if (loginError || !student) {
-                return res.status(401).json({ message: 'Admission number not found. Please create an account.' });
+                return res.status(401).json({ message: 'Admission number not found.' });
             }
 
-            // Plain-text credential matching for the student access portal
             if (student.password !== password) {
                 return res.status(401).json({ message: 'Incorrect account password.' });
             }
@@ -82,9 +78,9 @@ export default async function handler(req, res) {
             });
         }
 
-        return res.status(400).json({ message: 'Invalid payload execution parameter status.' });
+        return res.status(400).json({ message: 'Invalid action configuration parameter.' });
 
     } catch (error) {
-        return res.status(500).json({ message: 'System Server Failure: ' + error.message });
+        return res.status(500).json({ message: 'Server Process Fault: ' + error.message });
     }
 }
