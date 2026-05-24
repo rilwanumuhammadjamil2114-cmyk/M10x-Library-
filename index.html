@@ -864,7 +864,7 @@
                         <button class="theme-btn" id="theme-dark-btn" onclick="setAppTheme('dark')" title="Dark Theme">🌙</button>
                         <button class="theme-btn" id="theme-green-btn" onclick="setAppTheme('dark-green')" title="Dark Green Theme">🌲</button>
                     </div>
-                    <div class="user-profile" id="user-initials">ST</div>
+                    <div class="user-profile" id="user-initials">UD</div>
                 </div>
             </header>
 
@@ -993,17 +993,30 @@
     </div>
 
     <script>
-        // --- DATA & CORE ENGINE LAYERS ---
+        // --- MULTI-YEAR DATA REPOSITORIES ---
 
-        // Added 'link' parameter. Populate the link text string inside each entry to automatically turn it "Available".
-        let inventory = [
-            { id: "BK001", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", link: "https://example.com/handout-ucsc-203.pdf", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
-            { id: "BK002", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
-            { id: "BK003", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "https://example.com/handout-mth-202.pdf", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
-            { id: "BK004", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", link: "", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
-            { id: "BK005", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", link: "", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
+        // Original dataset for 24... series numbers (200 Level)
+        const inventory24 = [
+            { id: "BK201", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", link: "https://example.com/handout-ucsc-203.pdf", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
+            { id: "BK202", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
+            { id: "BK203", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "https://example.com/handout-mth-202.pdf", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
+            { id: "BK204", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", link: "", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
+            { id: "BK205", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", link: "", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
         ];
 
+        // New dataset for 25... series numbers (100 Level)
+        const inventory25 = [
+            { id: "BK101", title: "Handout UCSC 102", creator: "Computer Science Dept", classification: "Intro CS", icon: "💻", link: "", desc: "Introduction to computer science concepts, basic system elements, and operational software components." },
+            { id: "BK102", title: "Handout UCSC 122", creator: "Computer Science Dept", classification: "Digital Logic", icon: "💾", link: "", desc: "Foundations of digital electronics, logical gate arrangements, and basic data numeric formatting systems." },
+            { id: "BK103", title: "Handout CMP 102", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", link: "", desc: "Introduction to algorithmic workflows, conditional step designs, and basic syntax processing rules." },
+            { id: "BK104", title: "Handout MTH 102", creator: "Mathematics Faculty", classification: "Math", icon: "📐", link: "", desc: "Calculus foundations, algebraic transformations, trigonometric rules, and structural math systems." },
+            { id: "BK105", title: "Handout Phy 102", creator: "Physics Faculty", classification: "Physics", icon: "⚡", link: "", desc: "Basic electricity, magnetic field configurations, electrical capacitance, and basic physics mechanics rules." },
+            { id: "BK106", title: "Handout Phy 108", creator: "Physics Faculty", classification: "Lab Physics", icon: "🧪", link: "", desc: "Experimental instructions, physical measurement recording models, and structural error calculation math labs." },
+            { id: "BK107", title: "Handout GST 112", creator: "General Studies Div", classification: "General Studies", icon: "📝", link: "", desc: "Use of English, communications strategy development, basic continuous prose reviews, and logical synthesis." }
+        ];
+
+        // This reference pointer variable changes depending on who logs in
+        let activeInventory = []; 
         let checkedOutItems = [];
         let activelyViewedBookId = null;
 
@@ -1044,6 +1057,14 @@
                 alert("Invalid Admission Number. Please contact your class rep.");
                 return; // Stop form execution
             }
+
+            // --- REDIRECT LOGIC ---
+            // If user input starts with 2512, assign the 100 level handouts collection
+            if (admissionValue.startsWith('2512')) {
+                activeInventory = inventory25;
+            } else {
+                activeInventory = inventory24;
+            }
             
             document.getElementById('display-name').innerText = admissionValue;
             document.getElementById('user-initials').innerText = "UD";
@@ -1064,7 +1085,7 @@
                     
                     // Launch App Dashboard View Base
                     document.getElementById('dashboard-screen').style.display = 'flex';
-                    populateCatalog(inventory);
+                    populateCatalog(activeInventory);
                     changeView('dashboard'); // Re-routed back to default Dashboard view
                 }, 3000);
 
@@ -1145,7 +1166,7 @@
 
         // Immersive Modal Handlers
         function openBookModal(bookId) {
-            const book = inventory.find(b => b.id === bookId);
+            const book = activeInventory.find(b => b.id === bookId);
             if (!book) return;
 
             activelyViewedBookId = bookId;
@@ -1200,7 +1221,7 @@
 
         function filterBooks() {
             const expression = document.getElementById('search-bar').value.toLowerCase();
-            const matching = inventory.filter(item => 
+            const matching = activeInventory.filter(item => 
                 item.title.toLowerCase().includes(expression) || 
                 item.creator.toLowerCase().includes(expression) ||
                 item.classification.toLowerCase().includes(expression)
@@ -1209,7 +1230,7 @@
         }
 
         function processCheckout(idIndex) {
-            const recordMatch = inventory.find(target => target.id === idIndex);
+            const recordMatch = activeInventory.find(target => target.id === idIndex);
             
             if (recordMatch && recordMatch.link) {
                 const operationalDate = new Date();
