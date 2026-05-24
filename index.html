@@ -838,6 +838,7 @@
 
     <div class="app-container" data-theme="light">
         
+        <!-- LOGIN VIEW -->
         <div class="auth-view" id="login-screen">
             <div class="auth-header">
                 <span class="logo-icon">📚</span>
@@ -861,6 +862,7 @@
             </div>
         </div>
 
+        <!-- CREATE ACCOUNT VIEW -->
         <div class="auth-view" id="register-screen" style="display: none;">
             <div class="auth-header">
                 <span class="logo-icon">✨</span>
@@ -884,11 +886,13 @@
             </div>
         </div>
 
+        <!-- LOADING VIEW -->
         <div class="loading-view" id="loading-screen">
             <div class="spinner-ring"></div>
             <p id="loading-text">Configuring Secure Environment...</p>
         </div>
 
+        <!-- APP MAIN SYSTEM DISPLAY -->
         <div class="dashboard-view" id="dashboard-screen">
             <header>
                 <div>
@@ -978,6 +982,7 @@
                 </section>
             </main>
 
+            <!-- INTERACTIVE POPUP DRAWER MODAL -->
             <div class="modal-overlay" id="detail-modal" onclick="closeBookModal()">
                 <div class="modal-drawer" onclick="event.stopPropagation()">
                     <div class="drawer-handle"></div>
@@ -997,6 +1002,7 @@
                 </div>
             </div>
 
+            <!-- PRIMARY FOOTER MENU BAR -->
             <nav class="tab-bar">
                 <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
                     <span class="icon-gfx">📊</span>
@@ -1090,7 +1096,7 @@
 
             } catch (err) {
                 console.error(err);
-                alert("Network Fault: Remote endpoint rejected system payload creation registry step.");
+                alert("Registration Error Details: " + err.message + "\nCheck if the route /api/verify-login exists.");
                 resetAuthUI();
             }
         }
@@ -1131,7 +1137,7 @@
                 
             } catch (error) {
                 console.error(error);
-                alert("Database Handshake Failure: Error establishing session state values.");
+                alert("Login Handshake Details: " + error.message + "\nEnsure you are running on Vercel or a local dev server, not opening index.html directly.");
                 resetAuthUI();
             }
         }
