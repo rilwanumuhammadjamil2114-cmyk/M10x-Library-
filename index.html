@@ -1,725 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CMP chapter 2 of 4 library</title>
-    <!-- Font Awesome 6 (free) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus App</title>
 
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(145deg, #e9f3e6 0%, #c8dbc1 100%);
-            padding: 1rem;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
 
-        /* main white card */
-        .auth-card {
-            background-color: #ffffff;
-            width: 100%;
-            max-width: 650px;
-            padding: 2rem 2rem 1rem 2rem;
-            border-radius: 36px 36px 28px 28px;
-            box-shadow: 0 25px 40px -12px rgba(0, 51, 0, 0.35);
-            border: 1px solid #c0ddb5;
-        }
+body{
+    margin:0;
+    background:#f2f2f2;
+}
 
-        /* library header - now without icon, text changed */
-        .library-header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.2rem;
-        }
+/* ===== APP PAGES SYSTEM ===== */
+.page{
+    display:none;
+    min-height:100vh;
+    width:100%;
+    flex-direction:column;
+}
 
-        .library-header h1 {
-            font-size: 2.1rem;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            text-align: center;
-            background: linear-gradient(130deg, #154f26, #246b3b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 2px 5px #b8d9b0;
-            margin: 0;
-            line-height: 1.2;
-            border-bottom: 2px dotted #98c0a0;
-            padding-bottom: 0.2rem;
-        }
+.active{
+    display:flex;
+}
 
-        .header-hint {
-            font-size: 0.95rem;
-            color: #347a45;
-            margin-top: 6px;
-            background: #f0f9ec;
-            padding: 0.2rem 1.2rem;
-            border-radius: 40px;
-            display: inline-block;
-        }
+/* LOGIN CENTER ONLY */
+#loginPage{
+    justify-content:center;
+    align-items:center;
+}
 
-        /* tab switcher (visible only when not logged in) */
-        .tab-container {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1.5rem 0 1.8rem 0;
-            background: #e5f2e5;
-            padding: 0.4rem;
-            border-radius: 50px;
-        }
-        .tab {
-            flex: 1;
-            text-align: center;
-            padding: 0.7rem 0.2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: 0.15s;
-            color: #1d5e2b;
-            border: 1px solid transparent;
-        }
-        .tab.active {
-            background: white;
-            color: #0f481f;
-            box-shadow: 0 6px 12px #b7d9b7;
-            border: 1px solid #a7c9a7;
-            font-weight: 700;
-        }
-        .tab i {
-            margin-right: 6px;
-        }
+/* LOGIN BOX */
+.login-box{
+    width:90%;
+    max-width:380px;
+    background:white;
+    padding:28px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
 
-        /* forms */
-        .form-panel {
-            display: none;
-        }
-        .form-panel.active-panel {
-            display: block;
-        }
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
 
-        .input-group {
-            margin-bottom: 1.3rem;
-        }
+/* ===== HOME ===== */
+#homePage{
+    flex-direction:column;
+    min-height:100vh;
+}
 
-        .input-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: #0f3b1e;
-        }
-        .input-label i {
-            color: #1f6e3b;
-            width: 20px;
-        }
+/* ===== NAV (LIGHT GREEN) ===== */
+.nav{
+    display:flex;
+    background:#ecfdf5;
+    border-bottom:1px solid #d1fae5;
+}
 
-        .input-field {
-            width: 100%;
-            padding: 0.85rem 1.2rem;
-            background-color: white;
-            border: 2px solid #9fc0a5;
-            border-radius: 28px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.15s;
-            color: #1a3a24;
-        }
-        .input-field:focus {
-            border-color: #1d6e32;
-            box-shadow: 0 0 0 4px rgba(45, 125, 70, 0.2);
-        }
+.tab{
+    flex:1;
+    padding:12px 0;
+    border:none;
+    background:transparent;
+    color:#065f46;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    cursor:pointer;
+}
 
-        .double-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .double-row .input-group {
-            flex: 1 1 160px;
-        }
+.tab:hover{
+    background:#d1fae5;
+}
 
-        .action-btn {
-            background-color: #1d542d;
-            color: white;
-            width: 100%;
-            padding: 1rem;
-            border: none;
-            border-radius: 40px;
-            font-size: 1.2rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 1rem 0 0.5rem 0;
-            cursor: pointer;
-            box-shadow: 0 14px 18px -8px #1b4f29;
-            transition: 0.15s;
-            border: 1px solid #c4e6c4;
-        }
-        .action-btn:hover {
-            background-color: #0f421f;
-            transform: translateY(-2px);
-        }
+.tab.active{
+    background:#10b981;
+    color:white;
+}
 
-        /* dashboard panel */
-        .dashboard-panel {
-            display: none;
-            margin-top: 0.5rem;
-        }
-        .dashboard-panel.active-panel {
-            display: block;
-        }
+/* CONTENT */
+#content{
+    flex:1;
+    padding:16px;
+    overflow-y:auto;
+}
 
-        .welcome-card {
-            background: #eaf6e9;
-            border-radius: 30px;
-            padding: 1.5rem 1.5rem 1rem 1.5rem;
-            margin-bottom: 1.8rem;
-            border: 2px solid #9fc6a5;
-            box-shadow: inset 0 2px 6px white;
-        }
-        .personal-welcome {
-            font-size: 1.2rem;
-            color: #1c4b2d;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .personal-welcome i {
-            color: #1c4b2d;
-        }
-        .cmp-heading {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #1b562b;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 0.5rem;
-        }
-        .cmp-heading i {
-            font-size: 2.2rem;
-            color: #1c4b2d;
-        }
-        .dashboard-stats {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            margin: 1.5rem 0 1rem;
-        }
-        .stat-box {
-            background: white;
-            border-radius: 30px;
-            padding: 1rem 1.5rem;
-            flex: 1 1 120px;
-            text-align: center;
-            border: 1px solid #c0e0c0;
-            box-shadow: 0 4px 8px #c8ddc8;
-        }
-        .stat-box i {
-            font-size: 1.8rem;
-            color: #1c4b2d;
-            margin-bottom: 0.3rem;
-        }
+/* CARDS */
+.card{
+    background:white;
+    margin:12px 0;
+    padding:16px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
 
-        /* records container */
-        .records-section {
-            background: #f4faf2;
-            border-radius: 28px;
-            padding: 1.3rem 1.2rem 1rem 1.2rem;
-            border: 1px solid #b1d3b6;
-            margin-top: 1rem;
-        }
-        .records-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 0.8rem;
-            color: #1b562b;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        .records-header i {
-            background: #1c4b2d;
-            color: white;
-            padding: 6px 10px;
-            border-radius: 30px;
-            cursor: pointer;
-            border: 1px solid white;
-        }
-        .record-item {
-            background: white;
-            border-radius: 40px;
-            padding: 0.7rem 1rem;
-            margin-bottom: 10px;
-            border-left: 6px solid #1c4b2d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-        }
-        .record-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 16px;
-            color: #1f4429;
-        }
-        .record-info strong {
-            color: #0b4a1f;
-            min-width: 70px;
-        }
-        .delete-icon {
-            color: #a54836;
-            background: #ffe6e1;
-            padding: 8px 10px;
-            border-radius: 30px;
-            cursor: pointer;
-            border: 1px solid #f3bfb0;
-        }
-        .delete-icon:hover {
-            background: #d32f2f;
-            color: white;
-        }
-        .no-records {
-            color: #6a9072;
-            font-style: italic;
-            padding: 0.5rem;
-            text-align: center;
-        }
+/* SUPPORT */
+.support-box{
+    width:90%;
+    max-width:380px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
 
-        /* message area */
-        .message {
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            text-align: center;
-            padding: 0.4rem;
-            border-radius: 40px;
-        }
-        .success-msg {
-            background: #d9f0da;
-            color: #115f27;
-        }
-        .error-msg {
-            background: #ffe6e1;
-            color: #a3321d;
-        }
+.account{
+    background:#f3f4f6;
+    padding:14px;
+    border-radius:10px;
+    font-size:20px;
+    font-weight:bold;
+    margin:12px 0;
+}
 
-        /* logout button */
-        .logout-btn {
-            background-color: #c94f4f;
-            box-shadow: 0 10px 14px -8px #a14545;
-            margin-top: 0.5rem;
-        }
-        .logout-btn:hover {
-            background-color: #b13b3b;
-        }
+.timer{
+    font-size:20px;
+    font-weight:bold;
+    color:#10b981;
+    margin:10px 0;
+}
 
-        /* ===== FOOTER BAR with 4 boxes – all book‑themed icons ===== */
-        .footer-bar {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            background: #1c4b2d;
-            margin: 2rem -2rem -1rem -2rem;
-            padding: 0.8rem 0.5rem;
-            border-radius: 0 0 36px 36px;
-            border-top: 3px solid #b7e0b7;
-            color: white;
-            gap: 0.3rem;
-            flex-wrap: wrap;
-        }
+/* BUTTONS */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
 
-        .footer-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            cursor: pointer;
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            transition: 0.1s;
-            min-width: 80px;
-            border: 1px solid transparent;
-            background: transparent;
-        }
+.copy-btn{
+    background:#10b981;
+    color:white;
+    margin-top:10px;
+}
 
-        .footer-item i {
-            font-size: 1.8rem;
-            color: #e8ffe8;
-            filter: drop-shadow(0 2px 4px #0e3b1a);
-        }
+.pay-btn{
+    background:#111;
+    color:white;
+    margin-top:10px;
+}
 
-        .footer-item span {
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 0.3px;
-            color: #f0fff0;
-            text-align: center;
-        }
-
-        .footer-item:hover {
-            background: #316f44;
-            border: 1px solid #a5d6a5;
-            transform: translateY(-3px);
-        }
-
-        .footer-item.active-footer {
-            background: #0e3b1e;
-            border: 1px solid #d0ffd0;
-            box-shadow: inset 0 0 0 2px #b5e6b5;
-        }
-    </style>
+/* TOAST */
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    display:none;
+    font-size:13px;
+}
+</style>
 </head>
+
 <body>
-<div class="auth-card">
-    <!-- library header – now "CMP chapter 2 of 4 library" without icon -->
-    <div class="library-header">
-        <h1>CMP chapter 2 of 4 library</h1>
-        <span class="header-hint" id="globalHint"><i class="fa-regular fa-bookmark"></i> sign in / create account</span>
-    </div>
 
-    <!-- tab switcher (visible only when not logged in) -->
-    <div id="tabContainer" class="tab-container">
-        <div class="tab active" id="tabSignup" onclick="switchPanel('signup')"><i class="fa-regular fa-pen-to-square"></i> sign up</div>
-        <div class="tab" id="tabLogin" onclick="switchPanel('login')"><i class="fa-regular fa-id-card"></i> log in</div>
-    </div>
+<!-- LOGIN -->
+<div id="loginPage" class="page active">
+<div class="login-box">
 
-    <!-- SIGNUP PANEL -->
-    <div id="signupPanel" class="form-panel active-panel">
-        <form id="signupForm" onsubmit="event.preventDefault(); signupUser();">
-            <div class="double-row">
-                <div class="input-group">
-                    <span class="input-label"><i class="fas fa-id-card"></i> Admission No.</span>
-                    <input class="input-field" type="text" id="signupAdmission" placeholder="e.g., AD2025-178" required>
-                </div>
-                <div class="input-group">
-                    <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
-                    <input class="input-field" type="password" id="signupPasskey" placeholder="min 4 chars" required minlength="4">
-                </div>
-            </div>
-            <button class="action-btn" type="submit"><i class="fa-regular fa-floppy-disk"></i> create account → store</button>
-        </form>
-    </div>
+<h2>Campus Login</h2>
 
-    <!-- LOGIN PANEL -->
-    <div id="loginPanel" class="form-panel">
-        <form id="loginForm" onsubmit="event.preventDefault(); loginUser();">
-            <div class="input-group">
-                <span class="input-label"><i class="fas fa-id-card"></i> Admission number</span>
-                <input class="input-field" type="text" id="loginAdmission" placeholder="your admission" required>
-            </div>
-            <div class="input-group">
-                <span class="input-label"><i class="fas fa-lock"></i> Passkey</span>
-                <input class="input-field" type="password" id="loginPasskey" placeholder="••••••••" required>
-            </div>
-            <button class="action-btn" type="submit"><i class="fa-regular fa-id-card"></i> log in → verify</button>
-        </form>
-    </div>
+<input id="admission"
+placeholder="Admission Number"
+maxlength="10"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-    <!-- DASHBOARD PANEL (visible only after login) -->
-    <div id="dashboardPanel" class="dashboard-panel">
-        <div class="welcome-card">
-            <!-- Personalized welcome with admission number -->
-            <div class="personal-welcome" id="personalWelcome">
-                <i class="fa-regular fa-hand-wave"></i> Welcome, <span id="welcomeAdmission">User</span>!
-            </div>
-            <!-- CMP heading (still has icon, can be removed if desired) -->
-            <div class="cmp-heading">
-                <i class="fa-solid fa-book-open"></i> CMP chapter 2 of 4 library
-            </div>
-            <div class="dashboard-stats">
-                <div class="stat-box">
-                    <i class="fa-regular fa-id-card"></i>
-                    <div><strong id="dashboardAdmission">---</strong></div>
-                    <div style="font-size:0.8rem;">admission</div>
-                </div>
-                <div class="stat-box">
-                    <i class="fa-regular fa-calendar"></i>
-                    <div><strong id="dashboardSince">---</strong></div>
-                    <div style="font-size:0.8rem;">member since</div>
-                </div>
-            </div>
-            <button class="action-btn logout-btn" onclick="logout()"><i class="fa-regular fa-arrow-left-from-bracket"></i> log out</button>
-        </div>
+<input type="password" placeholder="Password">
 
-        <!-- user list -->
-        <div id="dashboardHome" class="records-section">
-            <div class="records-header">
-                <span><i class="fa-regular fa-hard-drive"></i> all registered users</span>
-                <i class="fas fa-rotate-right" onclick="renderDashboardRecords()" title="refresh"></i>
-            </div>
-            <div id="dashboardRecordsContainer"></div>
-        </div>
-    </div>
+<button onclick="login()" style="background:#10b981;color:white;">
+Login
+</button>
 
-    <!-- message area for feedback -->
-    <div id="authMessage" class="message"></div>
-
-    <!-- ===== FOOTER BAR with 4 boxes – all book icons ===== -->
-    <div class="footer-bar">
-        <div class="footer-item" onclick="handleFooterClick('dashboard')">
-            <i class="fa-solid fa-book-open"></i>
-            <span>DASHBOARD</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('hd')">
-            <i class="fa-solid fa-book"></i>
-            <span>HD</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('pq')">
-            <i class="fa-solid fa-book-bookmark"></i>
-            <span>PQ</span>
-        </div>
-        <div class="footer-item" onclick="handleFooterClick('courses')">
-            <i class="fa-solid fa-books"></i>
-            <span>COURSES</span>
-        </div>
-    </div>
+</div>
 </div>
 
+<!-- HOME -->
+<div id="homePage" class="page">
+
+<div class="nav">
+<button class="tab active" onclick="switchTab(0);showHandouts()">📚 Handouts</button>
+<button class="tab" onclick="switchTab(1);showPortal()">🏫 Portal</button>
+<button class="tab" onclick="switchTab(2);showSupport()">💚 Support</button>
+</div>
+
+<div id="content"></div>
+
+</div>
+
+<div id="toast"></div>
+
 <script>
-    (function() {
-        // ---------- state ----------
-        let currentUser = null; // { id, admission, passkey, timestamp }
 
-        // Initialize storage
-        if (!localStorage.getItem('m10xUsers')) {
-            localStorage.setItem('m10xUsers', JSON.stringify([]));
-        }
+const supportAmount = 550;
+let timerInterval;
 
-        // DOM elements
-        const tabContainer = document.getElementById('tabContainer');
-        const signupPanel = document.getElementById('signupPanel');
-        const loginPanel = document.getElementById('loginPanel');
-        const dashboardPanel = document.getElementById('dashboardPanel');
-        const tabSignup = document.getElementById('tabSignup');
-        const tabLogin = document.getElementById('tabLogin');
-        const authMessage = document.getElementById('authMessage');
-        const globalHint = document.getElementById('globalHint');
+/* LOGIN */
+function login(){
 
-        // dashboard elements
-        const welcomeAdmission = document.getElementById('welcomeAdmission');
-        const dashboardAdmission = document.getElementById('dashboardAdmission');
-        const dashboardSince = document.getElementById('dashboardSince');
-        const dashboardRecordsContainer = document.getElementById('dashboardRecordsContainer');
+const adm=document.getElementById("admission").value.trim();
 
-        // ---------- helper functions ----------
-        function clearMessage() {
-            authMessage.innerHTML = '';
-            authMessage.className = 'message';
-        }
+if(adm.length===10 &&
+(adm.startsWith("2412")||adm.startsWith("2512"))
+){
 
-        function showMessage(text, isSuccess = true) {
-            authMessage.innerHTML = text;
-            authMessage.className = isSuccess ? 'message success-msg' : 'message error-msg';
-        }
+document.getElementById("loginPage").classList.remove("active");
+document.getElementById("homePage").classList.add("active");
 
-        function escapeHtml(str) {
-            if (!str) return '';
-            return String(str).replace(/[&<>"]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                if (m === '"') return '&quot;';
-                return m;
-            });
-        }
+showSupport();
+switchTab(2);
 
-        // Render dashboard records
-        window.renderDashboardRecords = function() {
-            if (!currentUser) return;
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            if (!users.length) {
-                dashboardRecordsContainer.innerHTML = '<div class="no-records"><i class="fa-regular fa-folder-open"></i> no users yet</div>';
-                return;
-            }
-            const sorted = [...users].reverse();
-            let html = '';
-            sorted.forEach(entry => {
-                const adm = escapeHtml(entry.admission || '');
-                const maskedPass = entry.passkey ? '•'.repeat(Math.min(entry.passkey.length, 8)) : '';
-                const time = entry.timestamp || '';
-                const isCurrent = currentUser && entry.id === currentUser.id;
-                const highlightStyle = isCurrent ? 'background: #d9f0da; border-left-color: #0b4a1f;' : '';
-                html += `<div class="record-item" style="${highlightStyle}" data-id="${entry.id}">
-                    <div class="record-info">
-                        <span><strong>adm:</strong> ${adm} ${isCurrent ? ' (you)' : ''}</span>
-                        <span><strong>key:</strong> ${maskedPass}</span>
-                        <span style="font-size:0.7rem; color:#567f5e;">${time}</span>
-                    </div>
-                    <div class="delete-icon" onclick="deleteRecord('${entry.id}')" title="delete"><i class="fa-regular fa-trash-can"></i></div>
-                </div>`;
-            });
-            dashboardRecordsContainer.innerHTML = html;
-        };
+}else{
+toast("Invalid Admission Number");
+}
 
-        // Update UI based on login state
-        function updateUIForUser() {
-            if (currentUser) {
-                tabContainer.style.display = 'none';
-                signupPanel.classList.remove('active-panel');
-                loginPanel.classList.remove('active-panel');
-                dashboardPanel.classList.add('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-circle-user"></i> dashboard · logged in';
+}
 
-                // Set welcome message and stats
-                welcomeAdmission.textContent = currentUser.admission;
-                dashboardAdmission.textContent = currentUser.admission;
-                dashboardSince.textContent = currentUser.timestamp ? currentUser.timestamp.split(',')[0] : 'just now';
+/* TAB */
+function switchTab(i){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab")[i].classList.add("active");
+}
 
-                renderDashboardRecords();
-            } else {
-                tabContainer.style.display = 'flex';
-                dashboardPanel.classList.remove('active-panel');
-                globalHint.innerHTML = '<i class="fa-regular fa-bookmark"></i> sign in / create account';
-                switchPanel('signup');
-            }
-            clearMessage();
-        }
+/* TOAST */
+function toast(msg){
+const t=document.getElementById("toast");
+t.innerText=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2000);
+}
 
-        // ---------- signup ----------
-        window.signupUser = function() {
-            const admission = document.getElementById('signupAdmission').value.trim();
-            const passkey = document.getElementById('signupPasskey').value.trim();
+/* HANDOUTS */
+function showHandouts(){
+clearInterval(timerInterval);
 
-            if (!admission || !passkey) {
-                showMessage('❌ Both admission number and passkey are required.', false);
-                return;
-            }
-            if (passkey.length < 4) {
-                showMessage('❌ Passkey must be at least 4 characters.', false);
-                return;
-            }
+document.getElementById("content").innerHTML=`
+<div class="card">CMP 202</div>
+<div class="card">UCSC 203</div>
 
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const newEntry = {
-                id: Date.now() + '-' + Math.random().toString(36).substr(2, 8),
-                admission: admission,
-                passkey: passkey,
-                timestamp: new Date().toLocaleString()
-            };
-            users.push(newEntry);
-            localStorage.setItem('m10xUsers', JSON.stringify(users));
+<div class="card" onclick="openENT211()" style="background:#ecfdf5;">
+📘 ENT 211 - Lecture Notes
+</div>
 
-            document.getElementById('signupAdmission').value = '';
-            document.getElementById('signupPasskey').value = '';
+<div class="card">IFT 212</div>
+<div class="card">MTH 202</div>
+`;
+}
 
-            if (currentUser) {
-                renderDashboardRecords();
-            }
-            showMessage('✅ Signup successful! You can now log in.', true);
-        };
+/* OPEN ENT 211 PDF */
+function openENT211(){
+window.location.href =
+"https://www.dropbox.com/scl/fi/q0es2cb90nl0xmfttjk3a/GST_211_Lecture_Notes_Second_Semester_2025-2026_110743.pdf?rlkey=6ds48bysphofspvfoozhhly69&st=hxi8qi61&dl=1";
+}
 
-        // ---------- login ----------
-        window.loginUser = function() {
-            const admission = document.getElementById('loginAdmission').value.trim();
-            const passkey = document.getElementById('loginPasskey').value.trim();
+/* PORTAL */
+function showPortal(){
+clearInterval(timerInterval);
 
-            if (!admission || !passkey) {
-                showMessage('❌ Enter both admission number and passkey.', false);
-                return;
-            }
+document.getElementById("content").innerHTML=`
+<div class="card">
+<h3>University Portal</h3>
+<a href="https://myudusok.edu.ng/landing.php" target="_self">
+<button style="background:#10b981;color:white;">Open Portal</button>
+</a>
+</div>
+`;
+}
 
-            const users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const matchedUser = users.find(user => user.admission === admission && user.passkey === passkey);
+/* SUPPORT */
+function showSupport(){
 
-            if (matchedUser) {
-                currentUser = { ...matchedUser };
-                updateUIForUser();
-                document.getElementById('loginAdmission').value = '';
-                document.getElementById('loginPasskey').value = '';
-            } else {
-                showMessage('❌ No matching user. Check admission & passkey, or sign up.', false);
-            }
-        };
+clearInterval(timerInterval);
 
-        // ---------- logout ----------
-        window.logout = function() {
-            currentUser = null;
-            updateUIForUser();
-            showMessage('👋 Logged out successfully.', true);
-        };
+let time = 60;
 
-        // ---------- delete record ----------
-        window.deleteRecord = function(id) {
-            let users = JSON.parse(localStorage.getItem('m10xUsers')) || [];
-            const userToDelete = users.find(u => u.id == id);
-            if (currentUser && userToDelete && userToDelete.id === currentUser.id) {
-                if (!confirm('You are about to delete YOUR OWN account. You will be logged out. Continue?')) {
-                    return;
-                }
-                users = users.filter(entry => entry.id != id);
-                localStorage.setItem('m10xUsers', JSON.stringify(users));
-                currentUser = null;
-                updateUIForUser();
-                showMessage('Your account was deleted.', true);
-                return;
-            }
+document.getElementById("content").innerHTML=`
+<div class="support-box">
 
-            users = users.filter(entry => entry.id != id);
-            localStorage.setItem('m10xUsers', JSON.stringify(users));
+<h2>💚 Support Tech</h2>
 
-            if (currentUser) {
-                const stillExists = users.find(u => u.id === currentUser.id);
-                if (!stillExists) {
-                    currentUser = null;
-                    updateUIForUser();
-                    showMessage('Your session ended (account deleted elsewhere).', false);
-                } else {
-                    renderDashboardRecords();
-                }
-            }
-            clearMessage();
-        };
+<div class="account">₦${supportAmount}</div>
 
-        // ---------- switch panel (signup/login) ----------
-        window.switchPanel = function(panel) {
-            if (currentUser) return;
-            if (panel === 'signup') {
-                signupPanel.classList.add('active-panel');
-                loginPanel.classList.remove('active-panel');
-                tabSignup.classList.add('active');
-                tabLogin.classList.remove('active');
-            } else {
-                loginPanel.classList.add('active-panel');
-                signupPanel.classList.remove('active-panel');
-                tabLogin.classList.add('active');
-                tabSignup.classList.remove('active');
-            }
-            clearMessage();
-        };
+<p><b>Access Bank</b></p>
+<p><b>1920126069</b></p>
 
-        // ---------- footer click handler (requires login) ----------
-        window.handleFooterClick = function(section) {
-            if (!currentUser) {
-                showMessage('🔒 Please log in to use footer features.', false);
-                return;
-            }
-            // For demo, just show which section was clicked
-            let displayName = section.toUpperCase();
-            if (section === 'courses') displayName = 'COURSES';
-            showMessage(`📌 ${displayName} section – feature placeholder.`, true);
-        };
+<div class="timer" id="timer">01:00</div>
 
-        // initial state
-        switchPanel('signup');
-    })();
+<button class="copy-btn" onclick="copyAcc()">
+Copy Account Number
+</button>
+
+<button class="pay-btn" onclick="paid()">
+I Have Paid
+</button>
+
+</div>
+`;
+
+const timer=document.getElementById("timer");
+
+timerInterval=setInterval(()=>{
+
+let m=Math.floor(time/60);
+let s=time%60;
+if(s<10)s="0"+s;
+
+timer.innerText=`0${m}:${s}`;
+
+time--;
+
+if(time<0){
+clearInterval(timerInterval);
+timer.innerText="00:00";
+}
+
+},1000);
+
+}
+
+/* COPY */
+function copyAcc(){
+navigator.clipboard.writeText("1920126069");
+toast("Account Copied");
+}
+
+/* PAID */
+function paid(){
+toast("Payment recorded (demo)");
+}
+
 </script>
+
 </body>
 </html>
