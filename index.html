@@ -1,1250 +1,354 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Modern Campus Library App</title>
-    <style>
-        /* --- MULTI-THEME DESIGN SYSTEM --- */
-        :root, [data-theme="light"] {
-            --bg-canvas: #f1f5f9;
-            --app-shell: #ffffff;
-            --card-bg: #f8fafc;
-            --card-border: #e2e8f0;
-            --text-primary: #0f172a;
-            --text-secondary: #64748b;
-            --brand-color: #059669; /* Emerald Green */
-            --brand-light: #ecfdf5;
-            --warning-amber: #d97706;
-            --warning-light: #fffbeb;
-            --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            --nav-bg: rgba(15, 23, 42, 0.96);
-            --nav-text: #94a3b8;
-            --spine-gradient-start: #f8fafc;
-            --spine-gradient-end: #e2e8f0;
-            --spine-border: #cbd5e1;
-        }
-
-        [data-theme="dark"] {
-            --bg-canvas: #0f172a;
-            --app-shell: #1e293b;
-            --card-bg: #334155;
-            --card-border: #475569;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --brand-color: #10b981;
-            --brand-light: rgba(16, 185, 129, 0.15);
-            --warning-amber: #f59e0b;
-            --warning-light: rgba(245, 158, 11, 0.15);
-            --pill-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            --nav-bg: rgba(15, 23, 42, 0.96);
-            --nav-text: #64748b;
-            --spine-gradient-start: #334155;
-            --spine-gradient-end: #1e293b;
-            --spine-border: #475569;
-        }
-
-        [data-theme="dark-green"] {
-            --bg-canvas: #022c22;
-            --app-shell: #064e3b;
-            --card-bg: #115e59;
-            --card-border: #134e4a;
-            --text-primary: #ccfbf1;
-            --text-secondary: #2dd4bf;
-            --brand-color: #34d399;
-            --brand-light: rgba(52, 211, 153, 0.15);
-            --warning-amber: #fbbf24;
-            --warning-light: rgba(251, 191, 36, 0.15);
-            --pill-shadow: 0 4px 6px -1px rgba(2, 44, 34, 0.5);
-            --nav-bg: rgba(2, 44, 34, 0.96);
-            --nav-text: #14b8a6;
-            --spine-gradient-start: #115e59;
-            --spine-gradient-end: #064e3b;
-            --spine-border: #134e4a;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-            -webkit-tap-highlight-color: transparent; 
-            transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
-        }
-
-        body {
-            background-color: var(--bg-canvas);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            overflow: hidden; 
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            position: fixed; 
-            top: 0;
-            bottom: 0;
-            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
-            user-select: none; 
-            -webkit-user-select: none;
-            background-color: var(--app-shell);
-        }
-
-        /* --- NEW ANIMATED LOADING OVERLAY --- */
-        .loading-view {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--app-shell);
-            z-index: 150;
-            gap: 24px;
-        }
-
-        .spinner-ring {
-            width: 60px;
-            height: 60px;
-            border: 5px solid var(--card-border);
-            border-top-color: var(--brand-color);
-            border-radius: 50%;
-            animation: spin 1s infinite linear;
-        }
-
-        .loading-view p {
-            color: var(--text-primary);
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: -0.3px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* --- THEME TOGGLE WIDGET --- */
-        .theme-selector-deck {
-            display: flex;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 4px;
-            border-radius: 12px;
-            gap: 4px;
-        }
-
-        .theme-btn {
-            background: none;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            padding: 6px 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .theme-btn.active {
-            background-color: var(--brand-color);
-            box-shadow: var(--pill-shadow);
-        }
-
-        /* --- LOGIN SCREEN VIEW --- */
-        .login-view {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 40px 32px;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--app-shell);
-            z-index: 100;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 36px;
-        }
-
-        .login-header .logo-icon {
-            font-size: 3.5rem;
-            display: block;
-            margin-bottom: 12px;
-        }
-
-        .login-header h2 {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -0.8px;
-        }
-
-        .login-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-top: 6px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            outline: none;
-            user-select: text; 
-            -webkit-user-select: text;
-        }
-
-        .form-group input:focus {
-            border-color: var(--brand-color);
-            background-color: var(--app-shell);
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
-        }
-
-        .login-submit-btn {
-            width: 100%;
-            padding: 16px;
-            background-color: var(--brand-color);
-            color: white;
-            border: none;
-            border-radius: 14px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-        }
-
-        /* --- MAIN INTERFACE VIEW --- */
-        .dashboard-view {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        header {
-            padding: 32px 24px 16px 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-shrink: 0; 
-        }
-
-        header h1 {
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: -0.8px;
-            color: var(--text-primary);
-        }
-
-        header p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .header-actions-deck {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .user-profile {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, #34d399, #059669);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-weight: 700;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2);
-        }
-
-        .search-deck {
-            padding: 0 24px 20px 24px;
-            display: none; 
-            flex-shrink: 0;
-        }
-
-        .search-container {
-            position: relative;
-        }
-
-        #search-bar {
-            width: 100%;
-            padding: 14px 16px 14px 44px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            color: var(--text-primary);
-            font-size: 0.95rem;
-            font-weight: 500;
-            outline: none;
-            user-select: text;
-            -webkit-user-select: text;
-        }
-
-        #search-bar:focus {
-            background-color: var(--app-shell);
-            border-color: var(--brand-color);
-            box-shadow: 0 0 0 4px rgba(5, 150, 105, 0.1);
-        }
-
-        .search-icon-marker {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1rem;
-            opacity: 0.5;
-        }
-
-        main {
-            flex: 1;
-            padding: 0 24px 110px 24px; 
-            overflow-y: auto; 
-            -webkit-overflow-scrolling: touch; 
-        }
-
-        .view-pane {
-            display: none;
-        }
-
-        .view-pane.active {
-            display: block;
-        }
-
-        .pane-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 16px;
-            color: var(--text-primary);
-            letter-spacing: -0.3px;
-        }
-
-        /* --- DASHBOARD VIEW MODULES --- */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .stat-widget {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 18px;
-            box-shadow: var(--pill-shadow);
-        }
-
-        .stat-widget .widget-label {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-
-        .stat-widget .widget-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-top: 6px;
-        }
-
-        .stat-widget.full-width {
-            grid-column: span 2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .status-dot-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--brand-color);
-            background-color: var(--brand-light);
-            padding: 6px 12px;
-            border-radius: 12px;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--brand-color);
-            border-radius: 50%;
-        }
-
-        .chart-visualizer {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border-radius: 24px;
-            padding: 20px;
-            color: white;
-            margin-bottom: 24px;
-        }
-
-        .chart-visualizer h4 {
-            font-size: 0.9rem;
-            font-weight: 700;
-            opacity: 0.8;
-            margin-bottom: 14px;
-        }
-
-        .bar-chart-row {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            height: 80px;
-            padding: 0 10px;
-        }
-
-        .chart-bar {
-            width: 32px;
-            background: linear-gradient(to top, var(--brand-color), #34d399);
-            border-radius: 6px 6px 0 0;
-        }
-
-        .chart-labels {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 10px 0 10px;
-            font-size: 0.7rem;
-            color: #94a3b8;
-            font-weight: 600;
-        }
-
-        .announcement-strip {
-            background-color: var(--warning-light);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            padding: 16px;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .announcement-strip span.icon {
-            font-size: 1.3rem;
-        }
-
-        .announcement-strip div h5 {
-            font-size: 0.9rem;
-            color: var(--warning-amber);
-            font-weight: 700;
-        }
-
-        .announcement-strip div p {
-            font-size: 0.8rem;
-            color: var(--text-primary);
-            margin-top: 2px;
-            line-height: 1.4;
-        }
-
-        /* --- CATALOG MODULES --- */
-        .library-card {
-            background: var(--app-shell);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 14px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            box-shadow: var(--pill-shadow);
-        }
-
-        .book-jacket-spine {
-            width: 52px;
-            height: 74px;
-            background: linear-gradient(135deg, var(--spine-gradient-start), var(--spine-gradient-end));
-            border: 1px solid var(--spine-border);
-            border-radius: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.4rem;
-            box-shadow: 2px 4px 8px rgba(15, 23, 42, 0.06);
-        }
-
-        .book-details {
-            flex: 1;
-        }
-
-        .book-details h3 {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 2px;
-            line-height: 1.3;
-        }
-
-        .book-details p {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.7rem;
-            font-weight: 700;
-        }
-
-        .status-pill.available {
-            background-color: var(--brand-light);
-            color: var(--brand-color);
-        }
-
-        .status-pill.borrowed {
-            background-color: var(--warning-light);
-            color: var(--warning-amber);
-        }
-
-        .action-control {
-            background-color: var(--card-bg);
-            color: var(--text-primary);
-            border: 1px solid var(--card-border);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .loan-deadline {
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        
-        .loan-deadline span {
-            color: var(--warning-amber);
-            font-weight: 700;
-        }
-
-        /* --- PORTAL REDIRECT CARD GRAPHICS --- */
-        .portal-redirect-box {
-            background-color: var(--card-bg);
-            border: 2px dashed var(--card-border);
-            border-radius: 24px;
-            padding: 32px 24px;
-            text-align: center;
-            margin-top: 20px;
-            box-shadow: var(--pill-shadow);
-        }
-
-        .portal-redirect-box .icon-banner {
-            font-size: 3.5rem;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .portal-redirect-box h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .portal-redirect-box p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.5;
-            margin-bottom: 24px;
-        }
-
-        .portal-launch-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background-color: var(--brand-color);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 16px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-        }
-
-        /* --- DETAILED BOOK MODAL DRAWER --- */
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(4px);
-            -webkit-backdrop-filter: blur(4px);
-            z-index: 200;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .modal-drawer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: var(--app-shell);
-            border-radius: 32px 32px 0 0;
-            padding: 32px 24px 40px 24px;
-            box-shadow: 0 -10px 25px rgba(15, 23, 42, 0.1);
-            transform: translateY(100%);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .drawer-handle {
-            width: 40px;
-            height: 5px;
-            background-color: var(--card-border);
-            border-radius: 3px;
-            align-self: center;
-            margin-bottom: -4px;
-        }
-
-        .modal-book-header {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .modal-book-header .large-jacket {
-            width: 72px;
-            height: 100px;
-            background: linear-gradient(135deg, var(--spine-gradient-start), var(--spine-gradient-end));
-            border: 1px solid var(--spine-border);
-            border-radius: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2.2rem;
-            box-shadow: 2px 6px 12px rgba(15, 23, 42, 0.08);
-        }
-
-        .modal-book-info h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: -0.4px;
-            line-height: 1.3;
-        }
-
-        .modal-book-info p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-            margin-top: 2px;
-            margin-bottom: 8px;
-        }
-
-        .modal-synopsis {
-            font-size: 0.88rem;
-            line-height: 1.5;
-            color: var(--text-secondary);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 16px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            text-align: center;
-        }
-
-        .modal-btn.primary {
-            background-color: var(--brand-color);
-            color: white;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
-        }
-
-        .modal-btn.primary:disabled {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-secondary);
-            box-shadow: none;
-            cursor: not-allowed;
-        }
-
-        .modal-btn.secondary {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            color: var(--text-primary);
-        }
-
-        /* --- FIXED FOOTER NAVIGATION --- */
-        .tab-bar {
-            position: absolute; 
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 94%;
-            max-width: 450px;
-            height: 68px;
-            background-color: var(--nav-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 6px;
-            box-shadow: var(--pill-shadow);
-            z-index: 99; 
-        }
-
-        .tab-bar .tab-trigger {
-            background: none;
-            border: none;
-            color: var(--nav-text);
-            font-size: 0.72rem;
-            font-weight: 700;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            width: 80px;
-            position: relative;
-        }
-
-        .tab-bar .tab-trigger .icon-gfx {
-            font-size: 1.2rem;
-        }
-
-        .tab-bar .tab-trigger.active {
-            color: #34d399;
-        }
-
-        .counter-dot {
-            position: absolute;
-            top: -4px;
-            right: 12px;
-            background-color: #34d399;
-            color: #0f172a;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 8px;
-            font-weight: 800;
-        }
-
-        .empty-illustration {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-top: 80px;
-            font-size: 0.9rem;
-        }
-
-        .empty-illustration .symbol {
-            font-size: 3rem;
-            display: block;
-            margin-bottom: 12px;
-            opacity: 0.4;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus App</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f2f2f2;
+}
+
+/* ===== APP PAGES SYSTEM ===== */
+.page{
+    display:none;
+    min-height:100vh;
+    width:100%;
+    flex-direction:column;
+}
+
+.active{
+    display:flex;
+}
+
+/* LOGIN CENTER ONLY */
+#loginPage{
+    justify-content:center;
+    align-items:center;
+}
+
+/* LOGIN BOX */
+.login-box{
+    width:90%;
+    max-width:380px;
+    background:white;
+    padding:28px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
+
+/* ===== HOME ===== */
+#homePage{
+    flex-direction:column;
+    min-height:100vh;
+}
+
+/* ===== NAV (LIGHT GREEN) ===== */
+.nav{
+    display:flex;
+    background:#ecfdf5;
+    border-bottom:1px solid #d1fae5;
+}
+
+.tab{
+    flex:1;
+    padding:12px 0;
+    border:none;
+    background:transparent;
+    color:#065f46;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    cursor:pointer;
+}
+
+.tab:hover{
+    background:#d1fae5;
+}
+
+.tab.active{
+    background:#10b981;
+    color:white;
+}
+
+/* CONTENT */
+#content{
+    flex:1;
+    padding:16px;
+    overflow-y:auto;
+}
+
+/* CARDS */
+.card{
+    background:white;
+    margin:12px 0;
+    padding:16px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+/* SUPPORT */
+.support-box{
+    width:90%;
+    max-width:380px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
+
+.account{
+    background:#f3f4f6;
+    padding:14px;
+    border-radius:10px;
+    font-size:20px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.timer{
+    font-size:20px;
+    font-weight:bold;
+    color:#10b981;
+    margin:10px 0;
+}
+
+/* BUTTONS */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.copy-btn{
+    background:#10b981;
+    color:white;
+    margin-top:10px;
+}
+
+.pay-btn{
+    background:#111;
+    color:white;
+    margin-top:10px;
+}
+
+/* TOAST */
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    display:none;
+    font-size:13px;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="app-container" data-theme="light">
-        
-        <!-- MODULE 1: AUTH ENGINES -->
-        <div class="login-view" id="login-screen">
-            <div class="login-header">
-                <span class="logo-icon">📚</span>
-                <h2>Campus Library</h2>
-                <p>Sign in with your student dashboard account</p>
-            </div>
-            
-            <form id="login-form" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="student-admission">Admission Number</label>
-                    <input 
-                        type="text" 
-                        id="student-admission" 
-                        placeholder="e.g. 2412101234" 
-                        maxlength="10" 
-                        inputmode="numeric" 
-                        pattern="[0-9]*" 
-                        required
-                    >
-                </div>
-                <div class="form-group">
-                    <label for="student-password">Password</label>
-                    <input type="password" id="student-password" placeholder="••••••••" required>
-                </div>
-                <button type="submit" class="login-submit-btn">Authorize Account</button>
-            </form>
-        </div>
+<!-- LOGIN -->
+<div id="loginPage" class="page active">
+<div class="login-box">
 
-        <!-- NEW ANIMATED LOADING OVERLAY -->
-        <div class="loading-view" id="loading-screen">
-            <div class="spinner-ring"></div>
-            <p>Syncing Academic Profile...</p>
-        </div>
+<h2>Campus Login</h2>
 
-        <!-- MODULE 2: APP CONTROLLER FRAMEWORK -->
-        <div class="dashboard-view" id="dashboard-screen">
-            <header>
-                <div>
-                    <h1 id="view-title">Dashboard</h1>
-                    <p>Hello, <span id="display-name">Student</span> 👋</p>
-                </div>
-                <div class="header-actions-deck">
-                    <!-- Theme Toggle Controller Interface -->
-                    <div class="theme-selector-deck">
-                        <button class="theme-btn active" id="theme-light-btn" onclick="setAppTheme('light')" title="White Theme">☀️</button>
-                        <button class="theme-btn" id="theme-dark-btn" onclick="setAppTheme('dark')" title="Dark Theme">🌙</button>
-                        <button class="theme-btn" id="theme-green-btn" onclick="setAppTheme('dark-green')" title="Dark Green Theme">🌲</button>
-                    </div>
-                    <div class="user-profile" id="user-initials">ST</div>
-                </div>
-            </header>
+<input id="admission"
+placeholder="Admission Number"
+maxlength="10"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-            <div class="search-deck" id="search-deck-panel">
-                <div class="search-container">
-                    <span class="search-icon-marker">🔍</span>
-                    <input type="text" id="search-bar" placeholder="Titles, creators, or keywords..." oninput="filterBooks()">
-                </div>
-            </div>
+<input type="password" placeholder="Password">
 
-            <!-- Content Panel -->
-            <main id="main-content-scroll">
-                <!-- Dashboard Frame View -->
-                <section id="dashboard-pane" class="view-pane active">
-                    <div class="stats-grid">
-                        <div class="stat-widget">
-                            <p class="widget-label">Books Checked Out</p>
-                            <p class="widget-value" id="dash-loan-count">0</p>
-                        </div>
-                        <div class="stat-widget">
-                            <p class="widget-label">Reservations</p>
-                            <p class="widget-value">0</p>
-                        </div>
-                        <div class="stat-widget full-width">
-                            <div>
-                                <p class="widget-label">Account Standing</p>
-                            </div>
-                            <div class="status-dot-indicator">
-                                <span class="pulse-dot"></span> Active
-                            </div>
-                        </div>
-                    </div>
+<button onclick="login()" style="background:#10b981;color:white;">
+Login
+</button>
 
-                    <div class="chart-visualizer">
-                        <h4>Library Visits (Weekly Analysis)</h4>
-                        <div class="bar-chart-row">
-                            <div class="chart-bar" style="height: 40%;"></div>
-                            <div class="chart-bar" style="height: 75%;"></div>
-                            <div class="chart-bar" style="height: 90%;"></div>
-                            <div class="chart-bar" style="height: 25%;"></div>
-                            <div class="chart-bar" style="height: 60%;"></div>
-                        </div>
-                        <div class="chart-labels">
-                            <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span>
-                        </div>
-                    </div>
+</div>
+</div>
 
-                    <div class="announcement-strip">
-                        <span class="icon">📢</span>
-                        <div>
-                            <h5>Midterm Hours Update</h5>
-                            <p>Starting next Monday, the main library wings will remain open 24/7 for study groups.</p>
-                        </div>
-                    </div>
-                </section>
+<!-- HOME -->
+<div id="homePage" class="page">
 
-                <!-- Catalog Frame -->
-                <section id="catalog-pane" class="view-pane">
-                    <h2 class="pane-title">Available Titles</h2>
-                    <div id="book-feed-target"></div>
-                </section>
+<div class="nav">
+<button class="tab active" onclick="switchTab(0);showHandouts()">📚 Handouts</button>
+<button class="tab" onclick="switchTab(1);showPortal()">🏫 Portal</button>
+<button class="tab" onclick="switchTab(2);showSupport()">💚 Support</button>
+</div>
 
-                <!-- Vault View Frame -->
-                <section id="loans-pane" class="view-pane">
-                    <h2 class="pane-title">Your Current Handouts</h2>
-                    <div id="my-vault-target"></div>
-                </section>
+<div id="content"></div>
 
-                <!-- Secure Portal Navigation Frame -->
-                <section id="portal-pane" class="view-pane">
-                    <div class="portal-redirect-box">
-                        <span class="icon-banner">🏫</span>
-                        <h3>UDUSOK Student Portal</h3>
-                        <p>To safely access invoices, courses registration, and result panels, open the secure portal externally.</p>
-                        <a href="https://my.udusok.edu.ng/index.php" target="_blank" class="portal-launch-btn">
-                            Launch Secure Portal ↗
-                        </a>
-                    </div>
-                </section>
-            </main>
+</div>
 
-            <!-- Bottom Modal Detail Drawer Overlay -->
-            <div class="modal-overlay" id="detail-modal" onclick="closeBookModal()">
-                <div class="modal-drawer" onclick="event.stopPropagation()">
-                    <div class="drawer-handle"></div>
-                    <div class="modal-book-header">
-                        <div class="large-jacket" id="modal-jacket">📖</div>
-                        <div class="modal-book-info">
-                            <h3 id="modal-title">Book Title</h3>
-                            <p id="modal-creator">by Author Name</p>
-                            <span class="status-pill" id="modal-status">Available</span>
-                        </div>
-                    </div>
-                    <p class="modal-synopsis" id="modal-description">
-                        This campus literary resource is fully open for physical checkouts or immediate smartphone catalog syncing. Review standard multi-week university returns limits before applying authorization.
-                    </p>
-                    <div class="modal-actions">
-                        <button class="modal-btn secondary" onclick="closeBookModal()">Cancel</button>
-                        <button class="modal-btn primary" id="modal-action-btn">Borrow Book</button>
-                    </div>
-                </div>
-            </div>
+<div id="toast"></div>
 
-            <!-- Menu Navigation Deck Layout -->
-            <nav class="tab-bar">
-                <button class="tab-trigger active" id="trigger-dashboard" onclick="changeView('dashboard')">
-                    <span class="icon-gfx">📊</span>
-                    <span>Dashboard</span>
-                </button>
-                <button class="tab-trigger" id="trigger-catalog" onclick="changeView('catalog')">
-                    <span class="icon-gfx">📖</span>
-                    <span>Discover</span>
-                </button>
-                <button class="tab-trigger" id="trigger-loans" onclick="changeView('loans')">
-                    <span class="icon-gfx">🔖</span>
-                    <span>My Books</span>
-                    <span class="counter-dot" id="shelf-counter">0</span>
-                </button>
-                <button class="tab-trigger" id="trigger-portal" onclick="changeView('portal')">
-                    <span class="icon-gfx">🏫</span>
-                    <span>Portal</span>
-                </button>
-            </nav>
-        </div>
+<script>
 
-    </div>
+const supportAmount = 550;
+let timerInterval;
 
-    <script>
-        // --- DATA & CORE ENGINE LAYERS ---
+/* LOGIN */
+function login(){
 
-        let inventory = [
-            { id: "BK001", title: "Handout UCSC 203", creator: "Computer Science Dept", classification: "Core CS", icon: "💻", state: "Available", desc: "Advanced systems development guidelines, structured computer components architectures, and enterprise engineering applications." },
-            { id: "BK002", title: "Handout CMP 202", creator: "Data Systems Faculty", classification: "Programming", icon: "🤖", state: "Borrowed", desc: "Object-oriented programming mechanics, advanced algorithmic design rules, and systematic troubleshooting code workflows." },
-            { id: "BK003", title: "Handout MTH 202", creator: "Mathematics Faculty", classification: "Math", icon: "📐", state: "Available", desc: "Linear algebra theorems, multivariate calculus modeling, and foundational numerical computational equations." },
-            { id: "BK004", title: "Handout IFT 212", creator: "Information Tech Div", classification: "Networks", icon: "🌐", state: "Available", desc: "Data transmission infrastructure protocols, web system configurations, and modern network security frameworks." },
-            { id: "BK005", title: "Handout ENT 211", creator: "Business & Management", classification: "Business", icon: "💼", state: "Available", desc: "Foundational strategies for entrepreneurial venture execution, asset allocation, scaling structures, and market research metrics." }
-        ];
+const adm=document.getElementById("admission").value.trim();
 
-        let checkedOutItems = [];
-        let activelyViewedBookId = null;
+if(adm.length===10 &&
+(adm.startsWith("2412")||adm.startsWith("2512"))
+){
 
-        document.addEventListener('touchmove', function(e) {
-            if (!e.target.closest('main')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
+document.getElementById("loginPage").classList.remove("active");
+document.getElementById("homePage").classList.add("active");
 
-        // Restrict input field to numerical values only natively
-        document.getElementById('student-admission').addEventListener('input', function(e) {
-            this.value = this.value.replace(/[^0-9]/g, '');
-        });
+showSupport();
+switchTab(2);
 
-        // Multi-Theme Controller Logic
-        function setAppTheme(themeName) {
-            const container = document.querySelector('.app-container');
-            container.setAttribute('data-theme', themeName);
-            
-            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-            
-            if(themeName === 'light') document.getElementById('theme-light-btn').classList.add('active');
-            if(themeName === 'dark') document.getElementById('theme-dark-btn').classList.add('active');
-            if(themeName === 'dark-green') document.getElementById('theme-green-btn').classList.add('active');
-        }
+}else{
+toast("Invalid Admission Number");
+}
 
-        // Auth Submission Handler with Custom Prefixed Rules
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const admissionValue = document.getElementById('student-admission').value.trim();
-            
-            // STRICT VALIDATION RULE: Must be exactly 10 characters long AND start with 241210 or 251210
-            const isValidPrefix = admissionValue.startsWith('241210') || admissionValue.startsWith('251210');
-            const isValidLength = admissionValue.length === 10;
+}
 
-            if (!isValidLength || !isValidPrefix) {
-                alert("Invalid Admission Number. Please contact your class rep.");
-                return; // Stop form execution
-            }
-            
-            document.getElementById('display-name').innerText = admissionValue;
-            document.getElementById('user-initials').innerText = "UD";
+/* TAB */
+function switchTab(i){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab")[i].classList.add("active");
+}
 
-            // Hide login panel 
-            document.getElementById('login-screen').style.opacity = '0';
-            
-            setTimeout(() => {
-                document.getElementById('login-screen').style.display = 'none';
-                
-                // Trigger 3-Second Animated Loading Overlay
-                const loadingScreen = document.getElementById('loading-screen');
-                loadingScreen.style.display = 'flex';
-                
-                setTimeout(() => {
-                    // Turn off Loading Screen after exactly 3000ms
-                    loadingScreen.style.display = 'none';
-                    
-                    // Launch App Dashboard View Base
-                    document.getElementById('dashboard-screen').style.display = 'flex';
-                    populateCatalog(inventory);
-                    changeView('dashboard'); // Re-routed back to default Dashboard view
-                }, 3000);
+/* TOAST */
+function toast(msg){
+const t=document.getElementById("toast");
+t.innerText=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2000);
+}
 
-            }, 300);
-        }
+/* HANDOUTS */
+function showHandouts(){
+clearInterval(timerInterval);
 
-        // Navigation Engine Layer
-        function changeView(targetPane) {
-            document.querySelectorAll('.view-pane').forEach(pane => pane.classList.remove('active'));
-            document.querySelectorAll('.tab-trigger').forEach(btn => btn.classList.remove('active'));
+document.getElementById("content").innerHTML=`
+<div class="card">CMP 202</div>
+<div class="card">UCSC 203</div>
 
-            const interactiveDeck = document.getElementById('search-deck-panel');
-            const titleElement = document.getElementById('view-title');
-            const scrollContainer = document.getElementById('main-content-scroll');
+<div class="card" onclick="openENT211()" style="background:#ecfdf5;">
+📘 ENT 211 - Lecture Notes
+</div>
 
-            scrollContainer.scrollTop = 0;
+<div class="card">IFT 212</div>
+<div class="card">MTH 202</div>
+`;
+}
 
-            if (targetPane === 'dashboard') {
-                document.getElementById('dashboard-pane').classList.add('active');
-                document.getElementById('trigger-dashboard').classList.add('active');
-                interactiveDeck.style.display = "none";
-                titleElement.innerText = "Dashboard";
-            } else if (targetPane === 'catalog') {
-                document.getElementById('catalog-pane').classList.add('active');
-                document.getElementById('trigger-catalog').classList.add('active');
-                interactiveDeck.style.display = "block";
-                titleElement.innerText = "Discover";
-            } else if (targetPane === 'loans') {
-                document.getElementById('loans-pane').classList.add('active');
-                document.getElementById('trigger-loans').classList.add('active');
-                interactiveDeck.style.display = "none";
-                titleElement.innerText = "My Shelf";
-                buildVaultView();
-            } else if (targetPane === 'portal') {
-                document.getElementById('portal-pane').classList.add('active');
-                document.getElementById('trigger-portal').classList.add('active');
-                interactiveDeck.style.display = "none";
-                titleElement.innerText = "Your School Portal";
-            }
-        }
+/* OPEN ENT 211 PDF */
+function openENT211(){
+window.location.href =
+"https://www.dropbox.com/scl/fi/q0es2cb90nl0xmfttjk3a/GST_211_Lecture_Notes_Second_Semester_2025-2026_110743.pdf?rlkey=6ds48bysphofspvfoozhhly69&st=hxi8qi61&dl=1";
+}
 
-        // Feed compiler rules
-        function populateCatalog(itemsToLoad) {
-            const container = document.getElementById('book-feed-target');
-            container.innerHTML = '';
+/* PORTAL */
+function showPortal(){
+clearInterval(timerInterval);
 
-            if(itemsToLoad.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-illustration">
-                        <span class="symbol">🌪️</span>
-                        <p>No titles match your lookup.</p>
-                    </div>`;
-                return;
-            }
+document.getElementById("content").innerHTML=`
+<div class="card">
+<h3>University Portal</h3>
+<a href="https://myudusok.edu.ng/landing.php" target="_self">
+<button style="background:#10b981;color:white;">Open Portal</button>
+</a>
+</div>
+`;
+}
 
-            itemsToLoad.forEach(item => {
-                const isReady = item.state === 'Available';
-                const pillClass = isReady ? 'available' : 'borrowed';
-                
-                const frameElement = document.createElement('div');
-                frameElement.className = 'library-card';
-                frameElement.innerHTML = `
-                    <div class="book-jacket-spine">${item.icon}</div>
-                    <div class="book-details">
-                        <h3>${item.title}</h3>
-                        <p>by ${item.creator}</p>
-                        <span class="status-pill ${pillClass}">${item.state}</span>
-                    </div>
-                    <button class="action-control" onclick="openBookModal('${item.id}')">
-                        View
-                    </button>
-                `;
-                container.appendChild(frameElement);
-            });
-        }
+/* SUPPORT */
+function showSupport(){
 
-        // Immersive Modal Handlers
-        function openBookModal(bookId) {
-            const book = inventory.find(b => b.id === bookId);
-            if (!book) return;
+clearInterval(timerInterval);
 
-            activelyViewedBookId = bookId;
+let time = 60;
 
-            document.getElementById('modal-jacket').innerText = book.icon;
-            document.getElementById('modal-title').innerText = book.title;
-            document.getElementById('modal-creator').innerText = `by ${book.creator}`;
-            document.getElementById('modal-description').innerText = book.desc || "No extended abstract uploaded for this campus serial.";
-            
-            const statusBadge = document.getElementById('modal-status');
-            const primaryBtn = document.getElementById('modal-action-btn');
-            
-            statusBadge.innerText = book.state;
-            statusBadge.className = `status-pill ${book.state === 'Available' ? 'available' : 'borrowed'}`;
+document.getElementById("content").innerHTML=`
+<div class="support-box">
 
-            if (book.state === 'Available') {
-                primaryBtn.innerText = "Borrow Book";
-                primaryBtn.disabled = false;
-                primaryBtn.onclick = function() {
-                    processCheckout(bookId);
-                    closeBookModal();
-                };
-            } else {
-                primaryBtn.innerText = "Currently Lent Out";
-                primaryBtn.disabled = true;
-            }
+<h2>💚 Support Tech</h2>
 
-            const overlay = document.getElementById('detail-modal');
-            const drawer = overlay.querySelector('.modal-drawer');
-            
-            overlay.style.display = 'block';
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-                drawer.style.transform = 'translateY(0)';
-            }, 10);
-        }
+<div class="account">₦${supportAmount}</div>
 
-        function closeBookModal() {
-            const overlay = document.getElementById('detail-modal');
-            const drawer = overlay.querySelector('.modal-drawer');
-            
-            drawer.style.transform = 'translateY(100%)';
-            overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.style.display = 'none';
-                activelyViewedBookId = null;
-            }, 250);
-        }
+<p><b>Access Bank</b></p>
+<p><b>1920126069</b></p>
 
-        function filterBooks() {
-            const expression = document.getElementById('search-bar').value.toLowerCase();
-            const matching = inventory.filter(item => 
-                item.title.toLowerCase().includes(expression) || 
-                item.creator.toLowerCase().includes(expression) ||
-                item.classification.toLowerCase().includes(expression)
-            );
-            populateCatalog(matching);
-        }
+<div class="timer" id="timer">01:00</div>
 
-        function processCheckout(idIndex) {
-            const recordMatch = inventory.findIndex(target => target.id === idIndex);
-            
-            if (recordMatch !== -1 && inventory[recordMatch].state === 'Available') {
-                inventory[recordMatch].state = 'Borrowed';
-                
-                const operationalDate = new Date();
-                operationalDate.setDate(operationalDate.getDate() + 14);
-                
-                checkedOutItems.push({
-                    title: inventory[recordMatch].title,
-                    creator: inventory[recordMatch].creator,
-                    icon: inventory[recordMatch].icon,
-                    returnDate: operationalDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-                });
+<button class="copy-btn" onclick="copyAcc()">
+Copy Account Number
+</button>
 
-                document.getElementById('shelf-counter').innerText = checkedOutItems.length;
-                document.getElementById('dash-loan-count').innerText = checkedOutItems.length;
-                filterBooks();
-            }
-        }
+<button class="pay-btn" onclick="paid()">
+I Have Paid
+</button>
 
-        function buildVaultView() {
-            const targetContainer = document.getElementById('my-vault-target');
-            targetContainer.innerHTML = '';
+</div>
+`;
 
-            if (checkedOutItems.length === 0) {
-                targetContainer.innerHTML = `
-                    <div class="empty-illustration">
-                        <span class="symbol">📂</span>
-                        <p>No books checked out.<br>Your virtual shelf is free.</p>
-                    </div>`;
-                return;
-            }
+const timer=document.getElementById("timer");
 
-            checkedOutItems.forEach(loan => {
-                const cardBlock = document.createElement('div');
-                cardBlock.className = 'library-card';
-                cardBlock.innerHTML = `
-                    <div class="book-jacket-spine">${loan.icon}</div>
-                    <div class="book-details">
-                        <h3>${loan.title}</h3>
-                        <p>by ${loan.creator}</p>
-                        <div class="loan-deadline">Return before: <span>${loan.returnDate}</span></div>
-                    </div>
-                `;
-                targetContainer.appendChild(cardBlock);
-            });
-        }
-    </script>
+timerInterval=setInterval(()=>{
+
+let m=Math.floor(time/60);
+let s=time%60;
+if(s<10)s="0"+s;
+
+timer.innerText=`0${m}:${s}`;
+
+time--;
+
+if(time<0){
+clearInterval(timerInterval);
+timer.innerText="00:00";
+}
+
+},1000);
+
+}
+
+/* COPY */
+function copyAcc(){
+navigator.clipboard.writeText("1920126069");
+toast("Account Copied");
+}
+
+/* PAID */
+function paid(){
+toast("Payment recorded (demo)");
+}
+
+</script>
+
 </body>
 </html>
