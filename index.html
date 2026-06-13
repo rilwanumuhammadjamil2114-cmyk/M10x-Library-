@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus App</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    margin:0;
+    background:#f2f2f2;
+}
+
+/* ===== APP PAGES SYSTEM ===== */
+.page{
+    display:none;
+    min-height:100vh;
+    width:100%;
+    flex-direction:column;
+}
+
+.active{
+    display:flex;
+}
+
+/* LOGIN CENTER ONLY */
+#loginPage{
+    justify-content:center;
+    align-items:center;
+}
+
+/* LOGIN BOX */
+.login-box{
+    width:90%;
+    max-width:380px;
+    background:white;
+    padding:28px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:1px solid #ddd;
+    border-radius:6px;
+}
+
+/* ===== HOME ===== */
+#homePage{
+    flex-direction:column;
+    min-height:100vh;
+}
+
+/* ===== NAV (LIGHT GREEN) ===== */
+.nav{
+    display:flex;
+    background:#ecfdf5;
+    border-bottom:1px solid #d1fae5;
+}
+
+.tab{
+    flex:1;
+    padding:12px 0;
+    border:none;
+    background:transparent;
+    color:#065f46;
+    font-size:13px;
+    font-weight:600;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    cursor:pointer;
+}
+
+.tab:hover{
+    background:#d1fae5;
+}
+
+.tab.active{
+    background:#10b981;
+    color:white;
+}
+
+/* CONTENT */
+#content{
+    flex:1;
+    padding:16px;
+    overflow-y:auto;
+}
+
+/* CARDS */
+.card{
+    background:white;
+    margin:12px 0;
+    padding:16px;
+    border-radius:10px;
+    box-shadow:0 0 5px rgba(0,0,0,0.08);
+    cursor:pointer;
+}
+
+/* SUPPORT */
+.support-box{
+    width:90%;
+    max-width:380px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:14px;
+    text-align:center;
+    box-shadow:0 0 15px rgba(0,0,0,0.15);
+}
+
+.account{
+    background:#f3f4f6;
+    padding:14px;
+    border-radius:10px;
+    font-size:20px;
+    font-weight:bold;
+    margin:12px 0;
+}
+
+.timer{
+    font-size:20px;
+    font-weight:bold;
+    color:#10b981;
+    margin:10px 0;
+}
+
+/* BUTTONS */
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.copy-btn{
+    background:#10b981;
+    color:white;
+    margin-top:10px;
+}
+
+.pay-btn{
+    background:#111;
+    color:white;
+    margin-top:10px;
+}
+
+/* TOAST */
+#toast{
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#111;
+    color:white;
+    padding:10px 14px;
+    border-radius:8px;
+    display:none;
+    font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="page active">
+<div class="login-box">
+
+<h2>Campus Login</h2>
+
+<input id="admission"
+placeholder="Admission Number"
+maxlength="10"
+oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
+<input type="password" placeholder="Password">
+
+<button onclick="login()" style="background:#10b981;color:white;">
+Login
+</button>
+
+</div>
+</div>
+
+<!-- HOME -->
+<div id="homePage" class="page">
+
+<div class="nav">
+<button class="tab active" onclick="switchTab(0);showHandouts()">📚 Handouts</button>
+<button class="tab" onclick="switchTab(1);showPortal()">🏫 Portal</button>
+<button class="tab" onclick="switchTab(2);showSupport()">💚 Support</button>
+</div>
+
+<div id="content"></div>
+
+</div>
+
+<div id="toast"></div>
+
+<script>
+
+const supportAmount = 550;
+let timerInterval;
+
+/* LOGIN */
+function login(){
+
+const adm=document.getElementById("admission").value.trim();
+
+if(adm.length===10 &&
+(adm.startsWith("2412")||adm.startsWith("2512"))
+){
+
+document.getElementById("loginPage").classList.remove("active");
+document.getElementById("homePage").classList.add("active");
+
+showSupport();
+switchTab(2);
+
+}else{
+toast("Invalid Admission Number");
+}
+
+}
+
+/* TAB */
+function switchTab(i){
+document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+document.querySelectorAll(".tab")[i].classList.add("active");
+}
+
+/* TOAST */
+function toast(msg){
+const t=document.getElementById("toast");
+t.innerText=msg;
+t.style.display="block";
+setTimeout(()=>t.style.display="none",2000);
+}
+
+/* HANDOUTS */
+function showHandouts(){
+clearInterval(timerInterval);
+
+document.getElementById("content").innerHTML=`
+<div class="card">CMP 202</div>
+<div class="card">UCSC 203</div>
+
+<div class="card" onclick="openENT211()" style="background:#ecfdf5;">
+📘 ENT 211 - Lecture Notes
+</div>
+
+<div class="card">IFT 212</div>
+<div class="card">MTH 202</div>
+`;
+}
+
+/* OPEN ENT 211 PDF */
+function openENT211(){
+window.location.href =
+"https://www.dropbox.com/scl/fi/q0es2cb90nl0xmfttjk3a/GST_211_Lecture_Notes_Second_Semester_2025-2026_110743.pdf?rlkey=6ds48bysphofspvfoozhhly69&st=hxi8qi61&dl=1";
+}
+
+/* PORTAL */
+function showPortal(){
+clearInterval(timerInterval);
+
+document.getElementById("content").innerHTML=`
+<div class="card">
+<h3>University Portal</h3>
+<a href="https://myudusok.edu.ng/landing.php" target="_self">
+<button style="background:#10b981;color:white;">Open Portal</button>
+</a>
+</div>
+`;
+}
+
+/* SUPPORT */
+function showSupport(){
+
+clearInterval(timerInterval);
+
+let time = 60;
+
+document.getElementById("content").innerHTML=`
+<div class="support-box">
+
+<h2>💚 Support Tech</h2>
+
+<div class="account">₦${supportAmount}</div>
+
+<p><b>Access Bank</b></p>
+<p><b>1920126069</b></p>
+
+<div class="timer" id="timer">01:00</div>
+
+<button class="copy-btn" onclick="copyAcc()">
+Copy Account Number
+</button>
+
+<button class="pay-btn" onclick="paid()">
+I Have Paid
+</button>
+
+</div>
+`;
+
+const timer=document.getElementById("timer");
+
+timerInterval=setInterval(()=>{
+
+let m=Math.floor(time/60);
+let s=time%60;
+if(s<10)s="0"+s;
+
+timer.innerText=`0${m}:${s}`;
+
+time--;
+
+if(time<0){
+clearInterval(timerInterval);
+timer.innerText="00:00";
+}
+
+},1000);
+
+}
+
+/* COPY */
+function copyAcc(){
+navigator.clipboard.writeText("1920126069");
+toast("Account Copied");
+}
+
+/* PAID */
+function paid(){
+toast("Payment recorded (demo)");
+}
+
+</script>
+
+</body>
+</html>
